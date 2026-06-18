@@ -2,8 +2,10 @@ import { BookMarked, BowArrow, Star, Sword, UtilityPole } from "lucide-react";
 import { Weapon } from "../generated/prisma/client";
 import { JSX } from "react/jsx-runtime";
 
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+
 async function getWeapons(): Promise<Weapon[]> {
-  const res = await fetch("http://localhost:3000/api/weapons", {
+  const res = await fetch(`${baseUrl}/api/weapons`, {
     cache: "no-store",
   });
 

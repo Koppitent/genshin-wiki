@@ -1,7 +1,9 @@
 import CharacterClient from "../components/CharacterClient";
 
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+
 async function getCharacters() {
-  const res = await fetch("http://localhost:3000/api/characters", {
+  const res = await fetch(`${baseUrl}/api/characters`, {
     cache: "no-store",
   });
 

@@ -10,42 +10,24 @@ const prisma = new PrismaClient({
   adapter,
 });
 
-const weaponsData: Prisma.WeaponCreateInput[] = [
+const weaponsTypeData: Prisma.WeaponTypeCreateInput[] = [
   {
-    name: "SuperWeapon",
-		description: "A super powerful weapon.",
-    type: "Sword",
-    rarity: 5,
-    baseAttack: 100,
-  },
-	{
-		name: "BasicBow",
-		description: "A basic bow for beginners.",
-		type: "Bow",
-		rarity: 4,
-		baseAttack: 20,
-	}
-];
-
-const charactersData: Prisma.CharacterCreateInput[] = [
-  {
-    name: "SuperCharacter",
-    description: "A super powerful character.",
-    element: "Pyro",
-    rarity: 5,
-    baseAttack: 100,
+    name: "Sword",
   },
   {
-    name: "BasicCharacter",
-    description: "A basic character for beginners.",
-    element: "Hydro",
-    rarity: 4,
-    baseAttack: 20,
+    name: "Bow",
+  },
+  {
+    name: "Polearm",
   },
 ];
 
 export async function main() {
-  
+  for (const weaponType of weaponsTypeData) {
+    await prisma.weaponType.create({
+      data: weaponType,
+    });
+  }
 }
 
 main();

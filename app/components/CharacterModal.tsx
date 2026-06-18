@@ -23,7 +23,19 @@ export default function CharacterModal({
       <div className="bg-[var(--background)] border border-gray-600 p-6 rounded w-[400px]">
         <CharacterForm
           mode={mode}
-          character={character}
+          character={{
+						id: character?.id ?? undefined,
+            name: character?.name ?? "",
+            description: character?.description ?? "",
+            element: character?.element ?? "",
+            imageUrl:
+              character?.imageUrl ??
+              "",
+            weaponTypeId:
+              character?.weaponTypeId ?? "cmqjtl5xy0000d8fwtf2owtdh",
+            rarity: character?.rarity ?? 5,
+            baseAttack: character?.baseAttack ?? 0,
+          }}
           onClose={() => onClose()}
           onSuccess={() => onClose()}
         />

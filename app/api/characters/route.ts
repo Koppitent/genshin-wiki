@@ -8,8 +8,41 @@ export async function POST(request: Request) {
       name: body.name,
 			description: body.description,
 			element: body.element,
+			imageUrl: body.imageUrl,
+			weaponType: {
+				connect: {
+					id: body.weaponTypeId,
+				}
+			},
 			rarity: Number(body.rarity),
 			baseAttack: Number(body.baseAttack),
+    },
+  });
+
+  return Response.json(character);
+}
+
+export async function PUT(request: Request) {
+  const body = await request.json();
+
+	if (!body.id) {
+    throw new Error("Missing character id for update");
+  }
+
+  const character = await prisma.character.update({
+    where: { id: body.id },
+    data: {
+      name: body.name,
+      description: body.description,
+      element: body.element,
+      rarity: Number(body.rarity),
+      baseAttack: Number(body.baseAttack),
+			imageUrl: body.imageUrl,
+      weaponType: {
+        connect: {
+          id: body.weaponTypeId,
+        },
+      },
     },
   });
 
@@ -19,6 +52,9 @@ export async function POST(request: Request) {
 export async function GET() {
   const characters = (
     await prisma.character.findMany({
+			include: {
+				weaponType: true,
+			},
       orderBy: {
         name: "asc",
       },

@@ -14,7 +14,7 @@ export default function CharacterActions({ character, onOpenEditModal }: Props) 
 
   async function handleDelete() {
     const res = await fetch(
-      `http://localhost:3000/api/characters/${character.id}`,
+      `/api/characters/${character.id}`,
       {
         method: "DELETE",
       },

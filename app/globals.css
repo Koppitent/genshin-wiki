@@ -8,6 +8,22 @@
 	--button-bg-hover: #487E84;
 }
 
+.rarity-5 {
+  background: linear-gradient(
+    to top,
+    rgba(204, 164, 105, 1) 0%,   /* unten: 100% opacity */
+    rgba(140, 83, 76, 0.6) 100%  /* oben: 80% opacity */
+  );
+}
+
+.rarity-4 {
+  background: linear-gradient(
+    to top,
+    rgba(168, 85, 247, 1) 0%,
+    rgba(76, 29, 149, 0.8) 100%
+  );
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

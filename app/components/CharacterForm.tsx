@@ -1,29 +1,53 @@
 "use client";
 
-import { SyntheticEvent, useState } from "react";
+import { SyntheticEvent, useEffect, useState } from "react";
 import { CharacterCreateInput } from "../generated/prisma/models";
 import { useRouter } from "next/navigation";
 
 type Props = {
   mode: "create" | "edit";
-  character?: CharacterCreateInput;
+  character?: CharacterFormType;
   onSuccess?: () => void;
   onClose?: () => void;
 };
 
-const emptyCharacter: CharacterCreateInput = {
-  name: "",
-  description: "",
-  element: "",
-  rarity: 5,
-  baseAttack: 0,
+type CharacterFormType = {
+	id?: string;
+  name: string;
+  description: string;
+  element: string;
+  imageUrl: string;
+  weaponTypeId: string | null;
+  rarity: number;
+  baseAttack: number;
 };
 
 export default function CharacterForm({ mode, character: characterProp, onSuccess, onClose }: Props) {
 	const router = useRouter();
+	const [weaponTypes, setWeaponTypes] = useState<
+    { id: string; name: string }[]
+  >([]);
+	const [uploading, setUploading] = useState(false);
 
-  async function createCharacter(character: CharacterCreateInput) {
-    const res = await fetch("http://localhost:3000/api/characters", {
+	useEffect(() => {
+    loadWeaponTypes();
+  }, []);
+
+	async function loadWeaponTypes() {
+		const res = await fetch("/api/weaponType");
+
+		if (!res.ok) {
+			throw new Error("Failed to load weapon types");
+		}
+
+		const data = await res.json();
+		setWeaponTypes(data);
+	}
+
+  async function createCharacter(character: CharacterFormType) {
+		console.log("Cerating char", character);
+		
+    const res = await fetch("/api/characters", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -38,8 +62,8 @@ export default function CharacterForm({ mode, character: characterProp, onSucces
     return res.json();
   }
 
-	async function updateCharacter(character: CharacterCreateInput) {
-    const res = await fetch("http://localhost:3000/api/characters", {
+	async function updateCharacter(character: CharacterFormType) {
+    const res = await fetch("/api/characters", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -54,15 +78,15 @@ export default function CharacterForm({ mode, character: characterProp, onSucces
     return res.json();
   }
 	
-  const [character, setCharacter] = useState<CharacterCreateInput>(
-    characterProp ?? emptyCharacter,
+  const [character, setCharacter] = useState<CharacterFormType>(
+    characterProp!,
   );
 
   async function handleSubmit(e: SyntheticEvent) {
     e.preventDefault();
 
-		if(character.name.trim() === "" || character.element.trim() === "") {
-			alert("Name und Element sind erforderlich!");
+		if(character.name.trim() === "" || character.element.trim() === "" || character.weaponTypeId === null) {
+			alert("Name, Element und Waffenart sind erforderlich!");
 			return;
 		}
 
@@ -81,6 +105,31 @@ export default function CharacterForm({ mode, character: characterProp, onSucces
     onClose?.();
     router.refresh();
 		console.log("created successfully");	
+  }
+
+	async function handleImageUpload(file: File) {
+		setUploading(true);
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const res = await fetch("/api/upload", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!res.ok) {
+      alert("Upload failed");
+			setUploading(false);
+      return;
+    }
+
+    const data = await res.json();
+
+    setCharacter((prev) => ({
+      ...prev,
+      imageUrl: data.imageUrl,
+    }));
+		setUploading(false);
   }
 
   return (
@@ -123,16 +172,63 @@ export default function CharacterForm({ mode, character: characterProp, onSucces
 
         <select
           className="border p-2"
+          value={character.weaponTypeId ?? ""}
+          onChange={(e) =>
+            setCharacter({
+              ...character,
+              weaponTypeId: e.target.value || null,
+            })
+          }
+        >
+          <option value="">-- Waffenart auswählen --</option>
+          {weaponTypes.map((weaponType) => (
+            <option key={weaponType.id} value={weaponType.id}>
+              {weaponType.name}
+            </option>
+          ))}
+        </select>
+
+        <div className="flex flex-col gap-2 border p-2">
+          <label className="text-sm">Character Image</label>
+
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) handleImageUpload(file);
+            }}
+          />
+
+          {uploading && <p>Uploading...</p>}
+
+          {character.imageUrl && (
+            <img
+              src={character.imageUrl}
+              alt="Preview"
+              className="w-24 h-24 object-cover rounded-md border"
+            />
+          )}
+        </div>
+
+        <select
+          className="border p-2"
           value={character.rarity}
           onChange={(e) =>
-            setCharacter({ ...character, rarity: parseInt(e.target.value) || 5 })
+            setCharacter({
+              ...character,
+              rarity: parseInt(e.target.value) || 5,
+            })
           }
         >
           <option value="5">5</option>
           <option value="4">4</option>
         </select>
 
-        <button type="submit" className="bg-green-500 text-white p-2 rounded cursor-pointer hover:bg-green-600">
+        <button
+          type="submit"
+          className="bg-green-500 text-white p-2 rounded cursor-pointer hover:bg-green-600"
+        >
           Speichern
         </button>
       </form>
