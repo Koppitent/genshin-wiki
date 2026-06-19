@@ -13,6 +13,9 @@ export default function CharacterActions({ character, onOpenEditModal }: Props) 
   const router = useRouter();
 
   async function handleDelete() {
+		if(!confirm(`Möchtest du ${character.name} wirklich löschen?`)) {
+			return;
+		}
     const res = await fetch(
       `/api/characters/${character.id}`,
       {
@@ -31,17 +34,17 @@ export default function CharacterActions({ character, onOpenEditModal }: Props) 
   return (
     <>
       <button
-        className="text-white p-2 rounded-2xl cursor-pointer hover:bg-gray-600"
+        className="text-white p-[1rem] rounded-2xl cursor-pointer hover:bg-gray-600"
         onClick={handleDelete}
       >
-        <Trash2 size={16} />
+        <Trash2 size={20} />
       </button>
 
       <button
-        className="text-white p-2 rounded-2xl cursor-pointer hover:bg-gray-600"
+        className="text-white p-[1rem] rounded-2xl cursor-pointer hover:bg-gray-600"
         onClick={() => onOpenEditModal(character)}
       >
-        <PencilLine size={16} />
+        <PencilLine size={20} />
       </button>
     </>
   );

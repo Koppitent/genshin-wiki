@@ -55,9 +55,12 @@ export async function GET() {
 			include: {
 				weaponType: true,
 			},
-      orderBy: {
-        name: "asc",
+      orderBy: [{
+				rarity: "desc",
       },
+			{
+				name: "asc",
+			}],
     })
   );
   return Response.json(characters);

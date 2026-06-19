@@ -2,18 +2,23 @@
 
 import { useState } from "react";
 import CharacterModal from "../components/CharacterModal";
-import { Star } from "lucide-react";
-import CharacterActions from "./CharacterActions";
+import { ChevronDown, Grip, LayoutList } from "lucide-react";
 import { Character, Prisma } from "../generated/prisma/client";
+import CharacterListTable from "./CharacterListTable";
+import CharacterListIcons from "./CharacterListIcons";
 
 type Props = {
   characters: CharacterWithWeaponType[];
 };
 
-type UIState =
-  | { open: false }
-  | { open: true; mode: "create" }
-  | { open: true; mode: "edit"; character: Character };
+type TableState = "table" | "iconlist";
+
+type Filters = {
+  searchName: string;
+  weaponTypeName: string;
+  rarity?: number;
+	element?: string;
+};
 
 export type CharacterWithWeaponType = Prisma.CharacterGetPayload<{
   include: {
@@ -21,12 +26,39 @@ export type CharacterWithWeaponType = Prisma.CharacterGetPayload<{
   };
 }>;
 
-export default function CharacterClient({ characters }: Props) {
-  const [uiState, setUiState] = useState<UIState>({ open: false });
+type UIState =
+	| { open: false }
+	| { open: true; mode: "create" }
+	| { open: true; mode: "edit"; character: Character };
 
-	function formatRarity(rarity: number) {
-    return `rarity-${rarity}`;
-  }
+export default function CharacterClient({ characters }: Props) {
+	const [tableState, setTableState] = useState<TableState>("iconlist");
+	const [uiState, setUiState] = useState<UIState>({ open: false });
+	const [filters, setFilters] = useState<Filters>({
+		searchName: "",
+		weaponTypeName: "",
+		rarity: undefined,
+		element: undefined,
+	});
+
+	const filteredCharacters = characters.filter((c) => {
+    const matchesSearch = c.name
+      .toLowerCase()
+      .includes(filters.searchName.toLowerCase());
+
+    const matchesWeapon =
+      !filters.weaponTypeName || c.weaponType?.name.toLowerCase() === filters.weaponTypeName.toLowerCase();
+
+    const matchesRarity = !filters.rarity || c.rarity === filters.rarity;
+
+    const matchesElement = !filters.element || c.element === filters.element;
+
+    return matchesSearch && matchesWeapon && matchesRarity && matchesElement;
+  });
+
+	const toggleTableState = () => {
+    setTableState((prev) => (prev === "table" ? "iconlist" : "table"));
+  };
 
   return (
     <div className="flex flex-col items-center justify-center gap-4">
@@ -34,62 +66,131 @@ export default function CharacterClient({ characters }: Props) {
         Alle Charaktere aus Genshin Impact:
       </h1>
 
-      {characters.length === 0 ? (
-        <p className="text-gray-500">Keine Charaktere gefunden.</p>
-      ) : (
-        <table className="w-[60vw]">
-          <thead>
-            <tr className="text-left bg-[var(--foreground)] text-white">
-              <th className="px-4 py-2">Name</th>
-              <th className="px-4 py-2">Element</th>
-              <th className="px-4 py-2">Waffe</th>
-              <th className="px-4 py-2">Seltenheit</th>
-              <th className="px-4 py-2">Aktionen</th>
-            </tr>
-          </thead>
-          <tbody>
-            {characters.map((character) => (
-              <tr
-                key={character.id}
-                className="bg-[#4C5454] hover:bg-[#424C4C] cursor-pointer"
+      <div className="flex flex-col w-[60vw]">
+        <div className="flex justify-between bg-[var(--foreground)] h-[4rem] border-t-2 border-[#5A6363]  rounded-t">
+          <div className="flex items-center gap-[0.5rem] ml-[1rem]">
+            <input
+              type="text"
+              placeholder="Charaktere suchen..."
+              className="bg-[#3d4747] border-none rounded text-white px-4 py-2 focus:outline-none"
+              value={filters.searchName}
+              onChange={(e) =>
+                setFilters((prev) => ({ ...prev, searchName: e.target.value }))
+              }
+            />
+
+            <div className="relative">
+              <select
+                name=""
+                id=""
+                value={filters.element}
+                onChange={(e) =>
+                  setFilters((prev) => ({ ...prev, element: e.target.value }))
+                }
+                className="appearance-none bg-[#3d4747] border-none rounded text-white px-4 py-2 pr-10 focus:outline-none cursor-pointer"
               >
-                <td className="px-4 py-2 flex flex-col items-center gap-2">
-                  <img
-                    src={character.imageUrl}
-                    alt={character.name}
-                    className={`w-[5rem] h-[5rem] object-cover rounded-md border border-gray-600 hover:scale-105 transition-transform duration-200 ${formatRarity(character.rarity)}`}
-                  />
-                  <p className="font-bold text-lg">{character.name}</p>
-                </td>
-                <td className="px-4 py-2">
-                  {characterElementMap[character.element.toLowerCase()] ??
-                    character.element}
-                </td>
-                <td className="px-4 py-2">
-                  {character.weaponType.name || "Nicht verfügbar"}
-                </td>
-                <td className="px-4 py-2">
-                  <div className="flex items-center gap-1">
-                    {Array.from({ length: character.rarity }, (_, i) => (
-                      <span key={i}>
-                        <Star size={16} fill="#FFD700" color="#FFD700" />
-                      </span>
-                    ))}
-                  </div>
-                </td>
-                <td className="px-4 py-2">
-                  <CharacterActions
-                    character={character}
-                    onOpenEditModal={(character) => {
-                      setUiState({ open: true, mode: "edit", character });
-                    }}
-                  />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+                <option value="">Alle Elemente</option>
+                <option value="pyro">Pyro</option>
+                <option value="hydro">Hydro</option>
+                <option value="anemo">Anemo</option>
+                <option value="electro">Electro</option>
+                <option value="dendro">Dendro</option>
+                <option value="cryo">Cryo</option>
+                <option value="geo">Geo</option>
+              </select>
+
+              {/* custom arrow */}
+              <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-gray-300">
+                <ChevronDown size={18} />
+              </div>
+            </div>
+
+            <div className="relative">
+              <select
+                name=""
+                id=""
+                value={filters.rarity}
+                onChange={(e) =>
+                  setFilters((prev) => ({
+                    ...prev,
+                    rarity: e.target.value
+                      ? parseInt(e.target.value)
+                      : undefined,
+                  }))
+                }
+                className="appearance-none bg-[#3d4747] border-none rounded text-white px-4 py-2 pr-10 focus:outline-none cursor-pointer"
+              >
+                <option value="">Alle Seltenheiten</option>
+                <option value="5">5 Sterne</option>
+                <option value="4">4 Sterne</option>
+              </select>
+
+              {/* custom arrow */}
+              <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-gray-300">
+                <ChevronDown size={18} />
+              </div>
+            </div>
+
+            <div className="relative">
+              <select
+                name=""
+                id=""
+                value={filters.weaponTypeName}
+                onChange={(e) =>
+                  setFilters((prev) => ({
+                    ...prev,
+                    weaponTypeName: e.target.value,
+                  }))
+                }
+                className="appearance-none bg-[#3d4747] border-none rounded text-white px-4 py-2 pr-10 focus:outline-none cursor-pointer"
+              >
+                <option value="">Alle Waffentypen</option>
+                <option value="sword">Schwert</option>
+                <option value="catalyst">Katalysator</option>
+                <option value="polearm">Stangenwaffe</option>
+                <option value="bow">Bogen</option>
+                <option value="claymore">Claymore</option>
+              </select>
+
+              {/* custom arrow */}
+              <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-gray-300">
+                <ChevronDown size={18} />
+              </div>
+            </div>
+          </div>
+          <div className="flex items-center gap-[0.5rem] mr-[1rem]">
+            <button
+              onClick={toggleTableState}
+              className="hover:bg-gray-600 p-[0.5rem] rounded-2xl cursor-pointer"
+            >
+              {tableState === "table" ? (
+                <Grip size={20} />
+              ) : (
+                <LayoutList size={20} />
+              )}
+            </button>
+          </div>
+        </div>
+
+        {filteredCharacters.length === 0 ? (
+          <p className="text-gray-500 text-lg flex justify-center min-h-[10rem] items-center">
+            Keine Charaktere gefunden.
+          </p>
+        ) : (
+          <>
+            {tableState === "table" ? (
+              <CharacterListTable
+                characters={filteredCharacters}
+                onOpenEditModal={(character) =>
+                  setUiState({ open: true, mode: "edit", character })
+                }
+              />
+            ) : (
+              <CharacterListIcons characters={filteredCharacters} />
+            )}
+          </>
+        )}
+      </div>
 
       <button
         onClick={() => {
@@ -109,13 +210,3 @@ export default function CharacterClient({ characters }: Props) {
     </div>
   );
 }
-
-const characterElementMap: Record<string, string> = {
-  pyro: "Pyro",
-  hydro: "Hydro",
-  anemo: "Anemo",
-  electro: "Electro",
-	dendro: "Dendro",
-	cryo: "Cryo",
-	geo: "Geo",
-};
