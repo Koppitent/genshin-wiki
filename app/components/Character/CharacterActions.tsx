@@ -2,7 +2,7 @@
 
 import { Trash2, PencilLine } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { Character } from "../generated/prisma/client";
+import { Character } from "../../generated/prisma/client";
 
 type Props = {
   character: Character,

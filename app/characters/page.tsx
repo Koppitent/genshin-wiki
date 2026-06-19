@@ -1,4 +1,4 @@
-import CharacterClient from "../components/CharacterClient";
+import CharacterClient from "../components/Character/CharacterClient";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 

@@ -8,7 +8,7 @@ import { CharacterWithWeaponType } from "./CharacterClient";
 import { weaponIcons } from "@/lib/weapons";
 import { Star } from "lucide-react";
 import { useState } from "react";
-import { Character } from "../generated/prisma/client";
+import { Character } from "../../generated/prisma/client";
 
 type Props = {
 	characters: CharacterWithWeaponType[];

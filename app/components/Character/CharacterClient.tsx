@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import CharacterModal from "../components/CharacterModal";
+import CharacterModal from "./CharacterModal";
 import { ChevronDown, Grip, LayoutList } from "lucide-react";
-import { Character, Prisma } from "../generated/prisma/client";
+import { Character, Prisma } from "../../generated/prisma/client";
 import CharacterListTable from "./CharacterListTable";
 import CharacterListIcons from "./CharacterListIcons";
 

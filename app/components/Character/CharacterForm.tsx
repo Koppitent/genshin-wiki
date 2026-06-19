@@ -1,7 +1,6 @@
 "use client";
 
 import { SyntheticEvent, useEffect, useState } from "react";
-import { CharacterCreateInput } from "../generated/prisma/models";
 import { useRouter } from "next/navigation";
 
 type Props = {

@@ -1,7 +1,7 @@
 "use client";
 
 import CharacterForm from "./CharacterForm";
-import { Character } from "../generated/prisma/client";
+import { Character } from "../../generated/prisma/client";
 
 type CharacterModalProps = {
   open: boolean;

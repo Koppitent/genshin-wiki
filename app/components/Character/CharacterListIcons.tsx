@@ -1,7 +1,6 @@
 "use client";
 
 import { elementIcons } from "@/lib/elements";
-import { Character } from "../generated/prisma/client";
 import { CharacterWithWeaponType } from "./CharacterClient";
 import CharacterIcon from "./CharacterIcon";
 
@@ -14,6 +13,7 @@ export default function CharacterListIcons({ characters }: Props) {
     <div className="grid grid-cols-10 gap-4 p-4 bg-[#4C5454]">
       {characters.map((character) => (
         <CharacterIcon
+					key={character.id}
           charachter={{
             name: character.name,
             element: character.element as keyof typeof elementIcons,

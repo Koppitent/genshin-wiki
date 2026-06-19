@@ -7,7 +7,36 @@ export async function POST(request: Request) {
     data: {
       name: body.name,
 			description: body.description,
-      type: body.type,
+			weaponType: {
+				connect: {
+					id: body.weaponTypeId,
+				},
+			},
+			imageUrl: body.imageUrl,
+      rarity: Number(body.rarity),
+      baseAttack: Number(body.baseAttack),
+    },
+  });
+
+  return Response.json(weapon);
+}
+
+export async function PUT(request: Request) {
+  const body = await request.json();
+
+  const weapon = await prisma.weapon.update({
+    where: {
+      id: body.id,
+    },
+    data: {
+      name: body.name,
+      description: body.description,
+      weaponType: {
+        connect: {
+          id: body.weaponTypeId,
+        },
+      },
+      imageUrl: body.imageUrl,
       rarity: Number(body.rarity),
       baseAttack: Number(body.baseAttack),
     },
