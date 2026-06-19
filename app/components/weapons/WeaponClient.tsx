@@ -1,14 +1,14 @@
 "use client";
 
+import { Prisma } from "@/app/generated/prisma/client";
+import { LayoutGrid, LayoutList, ChevronDown } from "lucide-react";
 import { useState } from "react";
-import CharacterModal from "./CharacterModal";
-import { ChevronDown, Grip, LayoutGrid, LayoutList } from "lucide-react";
-import { Character, Prisma } from "../../generated/prisma/client";
-import CharacterListTable from "./CharacterListTable";
-import CharacterListIcons from "./CharacterListIcons";
+import WeaponListTable from "./WeaponListTable";
+import WeaponListIcons from "./WeaponListIcon";
+import WeaponModal from "./WeaponModal";
 
 type Props = {
-  characters: CharacterWithWeaponType[];
+  weapons: WeaponWithWeaponType[];
 };
 
 type TableState = "table" | "iconlist";
@@ -17,53 +17,50 @@ type Filters = {
   searchName: string;
   weaponTypeName: string;
   rarity?: number;
-	element?: string;
 };
 
-export type CharacterWithWeaponType = Prisma.CharacterGetPayload<{
+type UIState =
+  | { open: false }
+  | { open: true; mode: "create" }
+  | { open: true; mode: "edit"; weapon: WeaponWithWeaponType };
+
+export type WeaponWithWeaponType = Prisma.WeaponGetPayload<{
   include: {
     weaponType: true;
   };
 }>;
 
-type UIState =
-	| { open: false }
-	| { open: true; mode: "create" }
-	| { open: true; mode: "edit"; character: Character };
+export function WeaponClient({ weapons }: Props) {
+  const [tableState, setTableState] = useState<TableState>("iconlist");
+  const [uiState, setUiState] = useState<UIState>({ open: false });
+  const [filters, setFilters] = useState<Filters>({
+    searchName: "",
+    weaponTypeName: "",
+    rarity: undefined,
+  });
 
-export default function CharacterClient({ characters }: Props) {
-	const [tableState, setTableState] = useState<TableState>("iconlist");
-	const [uiState, setUiState] = useState<UIState>({ open: false });
-	const [filters, setFilters] = useState<Filters>({
-		searchName: "",
-		weaponTypeName: "",
-		rarity: undefined,
-		element: undefined,
-	});
-
-	const filteredCharacters = characters.filter((c) => {
-    const matchesSearch = c.name
+	const filteredWeapons = weapons.filter((w) => {
+    const matchesSearch = w.name
       .toLowerCase()
       .includes(filters.searchName.toLowerCase());
 
     const matchesWeapon =
-      !filters.weaponTypeName || c.weaponType?.name.toLowerCase() === filters.weaponTypeName.toLowerCase();
+      !filters.weaponTypeName ||
+      w.weaponType?.name.toLowerCase() === filters.weaponTypeName.toLowerCase();
 
-    const matchesRarity = !filters.rarity || c.rarity === filters.rarity;
+    const matchesRarity = !filters.rarity || w.rarity === filters.rarity;
 
-    const matchesElement = !filters.element || c.element === filters.element;
-
-    return matchesSearch && matchesWeapon && matchesRarity && matchesElement;
+    return matchesSearch && matchesWeapon && matchesRarity;
   });
 
-	const toggleTableState = () => {
+  const toggleTableState = () => {
     setTableState((prev) => (prev === "table" ? "iconlist" : "table"));
   };
 
   return (
     <div className="w-[60%] mx-auto">
       <h1 className="text-4xl font-bold mt-5 mb-5">
-        Alle Charaktere aus Genshin Impact:
+        Alle Waffen aus Genshin Impact:
       </h1>
 
       <div className="flex flex-col">
@@ -71,39 +68,13 @@ export default function CharacterClient({ characters }: Props) {
           <div className="flex items-center gap-[0.5rem] ml-[1rem]">
             <input
               type="text"
-              placeholder="Charaktere suchen..."
+              placeholder="Waffen suchen..."
               className="bg-[#3d4747] border-none rounded text-white px-4 py-2 focus:outline-none"
               value={filters.searchName}
               onChange={(e) =>
                 setFilters((prev) => ({ ...prev, searchName: e.target.value }))
               }
             />
-
-            <div className="relative">
-              <select
-                name=""
-                id=""
-                value={filters.element}
-                onChange={(e) =>
-                  setFilters((prev) => ({ ...prev, element: e.target.value }))
-                }
-                className="appearance-none bg-[#3d4747] border-none rounded text-white px-4 py-2 pr-10 focus:outline-none cursor-pointer"
-              >
-                <option value="">Alle Elemente</option>
-                <option value="pyro">Pyro</option>
-                <option value="hydro">Hydro</option>
-                <option value="anemo">Anemo</option>
-                <option value="electro">Electro</option>
-                <option value="dendro">Dendro</option>
-                <option value="cryo">Cryo</option>
-                <option value="geo">Geo</option>
-              </select>
-
-              {/* custom arrow */}
-              <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-gray-300">
-                <ChevronDown size={18} />
-              </div>
-            </div>
 
             <div className="relative">
               <select
@@ -123,6 +94,7 @@ export default function CharacterClient({ characters }: Props) {
                 <option value="">Alle Seltenheiten</option>
                 <option value="5">5 Sterne</option>
                 <option value="4">4 Sterne</option>
+                <option value="3">3 Sterne</option>
               </select>
 
               {/* custom arrow */}
@@ -180,30 +152,30 @@ export default function CharacterClient({ characters }: Props) {
           </div>
         </div>
 
-        {filteredCharacters.length === 0 ? (
+        {filteredWeapons.length === 0 ? (
           <p className="text-gray-500 text-lg flex justify-center min-h-[10rem] items-center bg-[#4C5454] border-t-2 border-[#5A6363]">
-            Keine Charaktere gefunden.
+            Keine Waffen gefunden.
           </p>
         ) : (
           <>
             {tableState === "table" ? (
-              <CharacterListTable
-                characters={filteredCharacters}
-                onOpenEditModal={(character) =>
-                  setUiState({ open: true, mode: "edit", character })
+              <WeaponListTable
+                weapons={filteredWeapons}
+                onOpenEditModal={(weapon) =>
+                  setUiState({ open: true, mode: "edit", weapon })
                 }
               />
             ) : (
-              <CharacterListIcons characters={filteredCharacters} />
+              <WeaponListIcons weapons={filteredWeapons} />
             )}
           </>
         )}
       </div>
 
-      <CharacterModal
+      <WeaponModal
         open={uiState.open}
         mode={uiState.open ? uiState.mode : "create"}
-        character={"character" in uiState ? uiState.character : undefined}
+        weapon={"weapon" in uiState ? uiState.weapon : undefined}
         onClose={() => setUiState({ open: false })}
       />
     </div>

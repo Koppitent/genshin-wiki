@@ -45,9 +45,31 @@ export async function PUT(request: Request) {
   return Response.json(weapon);
 }
 
+
+export async function DELETE(req: Request) {
+  const body = await req.json();
+
+  if (!body.id) {
+    throw new Error("Missing character id for update");
+  }
+
+  await prisma.weapon.delete({
+    where: {
+      id: body.id,
+    },
+  });
+
+  return Response.json({
+    success: true,
+  });
+}
+
 export async function GET() {
 	const weapons = (
     await prisma.weapon.findMany({
+			include: {
+				weaponType: true,
+			},
       orderBy: {
         name: "asc",
       },
