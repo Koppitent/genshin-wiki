@@ -6,16 +6,19 @@ export async function POST(request: Request) {
   const character = await prisma.character.create({
     data: {
       name: body.name,
-			description: body.description,
-			element: body.element,
-			imageUrl: body.imageUrl,
-			weaponType: {
-				connect: {
-					id: body.weaponTypeId,
-				}
-			},
-			rarity: Number(body.rarity),
-			baseAttack: Number(body.baseAttack),
+      description: body.description,
+      element: body.element,
+      imageUrl: body.imageUrl,
+      weaponType: {
+        connect: {
+          id: body.weaponTypeId,
+        },
+      },
+      region: body.regionId
+        ? { connect: { id: body.regionId } }
+        : { disconnect: true },
+      rarity: Number(body.rarity),
+      baseAttack: Number(body.baseAttack),
     },
   });
 
@@ -37,12 +40,15 @@ export async function PUT(request: Request) {
       element: body.element,
       rarity: Number(body.rarity),
       baseAttack: Number(body.baseAttack),
-			imageUrl: body.imageUrl,
+      imageUrl: body.imageUrl,
       weaponType: {
         connect: {
           id: body.weaponTypeId,
         },
       },
+      region: body.regionId
+        ? { connect: { id: body.regionId } }
+        : { disconnect: true },
     },
   });
 
@@ -54,6 +60,7 @@ export async function GET() {
     await prisma.character.findMany({
 			include: {
 				weaponType: true,
+				region: true,
 			},
       orderBy: [{
 				rarity: "desc",

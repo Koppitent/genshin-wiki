@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { elementIcons } from "@/lib/elements";
 import { weaponIcons } from "@/lib/weapons";
 import { Star } from "lucide-react";
 import { WeaponWithWeaponType } from "./WeaponClient";
@@ -23,8 +22,8 @@ export default function WeaponListTable({
         <thead>
           <tr className="text-left bg-[var(--foreground)] text-white">
             <th className="px-4 py-2">Name</th>
-            <th className="px-4 py-2">Element</th>
             <th className="px-4 py-2">Waffe</th>
+						<th className="px-4 py-2">Base ATK</th>
             <th className="px-4 py-2">Seltenheit</th>
             <th className="px-4 py-2">Aktionen</th>
           </tr>
@@ -51,26 +50,14 @@ export default function WeaponListTable({
                     alt={weapon.weaponType.name}
                     width={35}
                     height={35}
-                  />
-                  {weapon.weaponType.name || "Nicht verfügbar"}
-                </div>
-              </td>
-              <td className="px-4 py-2">
-                <div className="flex items-center gap-2">
-                  <Image
-                    src={
-                      weaponIcons[
-                        weapon.weaponType.name.toLowerCase() as keyof typeof weaponIcons
-                      ]
-                    }
-                    alt={weapon.weaponType.name}
-                    width={35}
-                    height={35}
                     className="brightness-200"
                   />
                   {weapon.weaponType.name || "Nicht verfügbar"}
                 </div>
               </td>
+							<td className="px-4 py-2">
+								{weapon.baseAttack || "Nicht verfügbar"}
+							</td>
               <td className="px-4 py-2">
                 <div className="flex items-center gap-1">
                   {Array.from({ length: weapon.rarity }, (_, i) => (

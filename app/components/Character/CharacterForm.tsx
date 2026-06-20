@@ -2,34 +2,30 @@
 
 import { SyntheticEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { CharacterWithWeaponType } from "./CharacterClient";
+import { Region } from "@/app/generated/prisma/client";
 
 type Props = {
   mode: "create" | "edit";
-  character?: CharacterFormType;
+  character?: CharacterWithWeaponType;
   onSuccess?: () => void;
   onClose?: () => void;
 };
 
-type CharacterFormType = {
-	id?: string;
-  name: string;
-  description: string;
-  element: string;
-  imageUrl: string;
-  weaponTypeId: string | null;
-  rarity: number;
-  baseAttack: number;
-};
-
 export default function CharacterForm({ mode, character: characterProp, onSuccess, onClose }: Props) {
+
 	const router = useRouter();
 	const [weaponTypes, setWeaponTypes] = useState<
     { id: string; name: string }[]
+  >([]);
+	const [regions, setRegions] = useState<
+    Region[]
   >([]);
 	const [uploading, setUploading] = useState(false);
 
 	useEffect(() => {
     loadWeaponTypes();
+    loadRegion();
   }, []);
 
 	async function loadWeaponTypes() {
@@ -43,7 +39,18 @@ export default function CharacterForm({ mode, character: characterProp, onSucces
 		setWeaponTypes(data);
 	}
 
-  async function createCharacter(character: CharacterFormType) {
+	async function loadRegion() {
+    const res = await fetch("/api/regions");
+
+    if (!res.ok) {
+      throw new Error("Failed to load region");
+    }
+
+    const data = await res.json();
+    setRegions(data);
+  }
+
+  async function createCharacter(character: CharacterWithWeaponType) {
 		console.log("Cerating char", character);
 		
     const res = await fetch("/api/characters", {
@@ -61,7 +68,7 @@ export default function CharacterForm({ mode, character: characterProp, onSucces
     return res.json();
   }
 
-	async function updateCharacter(character: CharacterFormType) {
+	async function updateCharacter(character: CharacterWithWeaponType) {
     const res = await fetch("/api/characters", {
       method: "PUT",
       headers: {
@@ -77,14 +84,21 @@ export default function CharacterForm({ mode, character: characterProp, onSucces
     return res.json();
   }
 	
-  const [character, setCharacter] = useState<CharacterFormType>(
-    characterProp!,
+  const [character, setCharacter] = useState<CharacterWithWeaponType>(
+    characterProp || {
+			name: "",
+			description: "",
+			element: "",
+			imageUrl: "",
+			rarity: 5,
+			weaponTypeId: "",
+		} as CharacterWithWeaponType,
   );
 
   async function handleSubmit(e: SyntheticEvent) {
     e.preventDefault();
 
-		if(character.name.trim() === "" || character.element.trim() === "" || character.weaponTypeId === null) {
+		if(character.name.trim() === "" || character.element.trim() === "" || character.weaponTypeId.trim() === "") {
 			alert("Name, Element und Waffenart sind erforderlich!");
 			return;
 		}
@@ -175,7 +189,7 @@ export default function CharacterForm({ mode, character: characterProp, onSucces
           onChange={(e) =>
             setCharacter({
               ...character,
-              weaponTypeId: e.target.value || null,
+              weaponTypeId: e.target.value || "",
             })
           }
         >
@@ -183,6 +197,24 @@ export default function CharacterForm({ mode, character: characterProp, onSucces
           {weaponTypes.map((weaponType) => (
             <option key={weaponType.id} value={weaponType.id}>
               {weaponType.name}
+            </option>
+          ))}
+        </select>
+
+        <select
+          className="border p-2"
+          value={character.regionId ?? ""}
+          onChange={(e) =>
+            setCharacter({
+              ...character,
+              regionId: e.target.value || "",
+            })
+          }
+        >
+          <option value="">-- Region auswählen --</option>
+          {regions.map((region) => (
+            <option key={region.id} value={region.id}>
+              {region.name}
             </option>
           ))}
         </select>

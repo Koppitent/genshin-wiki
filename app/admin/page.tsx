@@ -1,4 +1,4 @@
-import ParameterPage from "../components/ParameterPage";
+import ParameterPage from "../components/admin/ParameterPage";
 
 export default async function AdminPage() {
 	return (

@@ -2,11 +2,11 @@
 
 import { Trash2, PencilLine } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { Character } from "../../generated/prisma/client";
+import { CharacterWithWeaponType } from "./CharacterClient";
 
 type Props = {
-  character: Character,
-	onOpenEditModal: (character: Character) => void,
+  character: CharacterWithWeaponType,
+	onOpenEditModal: (character: CharacterWithWeaponType) => void,
 };
 
 export default function CharacterActions({ character, onOpenEditModal }: Props) {

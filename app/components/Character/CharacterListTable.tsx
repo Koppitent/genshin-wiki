@@ -7,12 +7,11 @@ import CharacterIcon from "./CharacterIcon";
 import { CharacterWithWeaponType } from "./CharacterClient";
 import { weaponIcons } from "@/lib/weapons";
 import { Star } from "lucide-react";
-import { useState } from "react";
 import { Character } from "../../generated/prisma/client";
 
 type Props = {
 	characters: CharacterWithWeaponType[];
-	onOpenEditModal: (character: Character) => void,
+	onOpenEditModal: (character: CharacterWithWeaponType) => void,
 };
 
 export default function CharacterListTable({ characters, onOpenEditModal }: Props) {

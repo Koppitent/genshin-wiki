@@ -6,6 +6,8 @@ import { ChevronDown, Grip, LayoutGrid, LayoutList } from "lucide-react";
 import { Character, Prisma } from "../../generated/prisma/client";
 import CharacterListTable from "./CharacterListTable";
 import CharacterListIcons from "./CharacterListIcons";
+import Modal from "../Modal";
+import CharacterForm from "./CharacterForm";
 
 type Props = {
   characters: CharacterWithWeaponType[];
@@ -29,7 +31,7 @@ export type CharacterWithWeaponType = Prisma.CharacterGetPayload<{
 type UIState =
 	| { open: false }
 	| { open: true; mode: "create" }
-	| { open: true; mode: "edit"; character: Character };
+	| { open: true; mode: "edit"; character: CharacterWithWeaponType };
 
 export default function CharacterClient({ characters }: Props) {
 	const [tableState, setTableState] = useState<TableState>("iconlist");
@@ -72,7 +74,7 @@ export default function CharacterClient({ characters }: Props) {
             <input
               type="text"
               placeholder="Charaktere suchen..."
-              className="bg-[#3d4747] border-none rounded text-white px-4 py-2 focus:outline-none"
+              className="bg-[var(--background)] focus:bg-[#3d4747] border-none rounded text-white px-4 py-2 focus:outline-none"
               value={filters.searchName}
               onChange={(e) =>
                 setFilters((prev) => ({ ...prev, searchName: e.target.value }))
@@ -200,11 +202,17 @@ export default function CharacterClient({ characters }: Props) {
         )}
       </div>
 
-      <CharacterModal
+      <Modal
         open={uiState.open}
-        mode={uiState.open ? uiState.mode : "create"}
-        character={"character" in uiState ? uiState.character : undefined}
         onClose={() => setUiState({ open: false })}
+        children={
+          <CharacterForm
+            mode={uiState.open ? uiState.mode : "create"}
+            character={"character" in uiState ? uiState.character : undefined}
+            onClose={() => setUiState({ open: false })}
+            onSuccess={() => setUiState({ open: false })}
+          />
+        }
       />
     </div>
   );

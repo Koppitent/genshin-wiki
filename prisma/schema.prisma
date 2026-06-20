@@ -35,12 +35,24 @@ model Character {
 	rarity      Int				//1-5 stars
 	element     String 		//Anemo, Geo, Electro, Dendro, Hydro, Pyro, Cryo
 
+	regionId    String?
+	region 			Region? @relation(fields: [regionId], references: [id])
+
 	imageUrl    String
 
 	weaponTypeId String
   weaponType   WeaponType @relation(fields: [weaponTypeId], references: [id])
 
 	baseAttack  Float
+}
+
+model Region {
+	id   				String @id @default(cuid())
+	name 				String
+	imageUrl 		String
+	description String
+
+	characters Character[]
 }
 
 model WeaponType {

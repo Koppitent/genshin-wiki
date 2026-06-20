@@ -69,7 +69,7 @@ export function WeaponClient({ weapons }: Props) {
             <input
               type="text"
               placeholder="Waffen suchen..."
-              className="bg-[#3d4747] border-none rounded text-white px-4 py-2 focus:outline-none"
+              className="bg-[var(--background)] focus:bg-[#3d4747] border-none rounded text-white px-4 py-2 focus:outline-none"
               value={filters.searchName}
               onChange={(e) =>
                 setFilters((prev) => ({ ...prev, searchName: e.target.value }))
