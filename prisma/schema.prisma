@@ -24,7 +24,8 @@ model Weapon {
 	weaponTypeId String
   weaponType   WeaponType @relation(fields: [weaponTypeId], references: [id])
 
-	baseAttack  Float
+	releaseVersion 	Float @default(1.0)
+	baseAttack  		Float
 }
 
 model Character {
@@ -43,7 +44,8 @@ model Character {
 	weaponTypeId String
   weaponType   WeaponType @relation(fields: [weaponTypeId], references: [id])
 
-	baseAttack  Float
+	releaseVersion 	Float @default(1.0)
+	baseAttack  		Float
 }
 
 model Region {

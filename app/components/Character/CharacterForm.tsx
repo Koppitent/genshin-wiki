@@ -256,6 +256,22 @@ export default function CharacterForm({ mode, character: characterProp, onSucces
           <option value="4">4</option>
         </select>
 
+				<label htmlFor="releaseVersion" className="text-sm -mb-3">
+          Version: {character.releaseVersion.toFixed(1)}
+        </label>
+        <input
+          placeholder="Release Version"
+          className="border mb-2"
+					type="range"
+          min="1.0"
+          max="7.0"
+          step="0.1"
+          value={character.releaseVersion}
+          onChange={(e) =>
+            setCharacter({ ...character, releaseVersion: parseFloat(e.target.value) || 1.0 })
+          }
+        />
+
         <button
           type="submit"
           className="bg-green-500 text-white p-2 rounded cursor-pointer hover:bg-green-600"

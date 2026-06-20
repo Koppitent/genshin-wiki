@@ -3,7 +3,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-	--hover-color: #A89B9D;
+	--hover-color: #374151;
 	--button-bg: #347383;
 	--button-bg-hover: #487E84;
 }
@@ -41,8 +41,10 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #272B2B;
-    --foreground: #131616;
+    /* --background: #272B2B;
+    --foreground: #131616; */
+		--background: #374151; /* gray-700 */
+  	--foreground: #1f2937; /* gray-800 */
 		--text-color: #E9ECEC;
   }
 }

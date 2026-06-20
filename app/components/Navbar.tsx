@@ -1,4 +1,4 @@
-import { Home, Sword, User } from "lucide-react";
+import { BadgeQuestionMark, Home, Sword, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -48,8 +48,17 @@ const Navbar = () => {
             </li>
           </Link>
           <Link
+            href="/genshindle"
+            className="hover:bg-[var(--hover-color)] transition-colors flex items-center"
+          >
+            <li className="flex items-center p-3 gap-1">
+              <BadgeQuestionMark />
+              Genshindle
+            </li>
+          </Link>
+          <Link
             href="/admin"
-            className="hover:bg-[#0E0E0E] text-[#D91B24] hover:text-[#761F21] transition-colors flex items-center ml-auto"
+            className="hover:bg-[var(--hover-color)] text-[#D91B24] hover:text-[#761F21] transition-colors flex items-center ml-auto"
           >
             <li className="flex items-center p-3 gap-1">
               <User />

@@ -19,6 +19,7 @@ export async function POST(request: Request) {
         : { disconnect: true },
       rarity: Number(body.rarity),
       baseAttack: Number(body.baseAttack),
+			releaseVersion: body.releaseVersion,
     },
   });
 
@@ -49,6 +50,7 @@ export async function PUT(request: Request) {
       region: body.regionId
         ? { connect: { id: body.regionId } }
         : { disconnect: true },
+			releaseVersion: body.releaseVersion,
     },
   });
 
