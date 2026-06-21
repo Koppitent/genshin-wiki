@@ -64,3 +64,29 @@ model WeaponType {
 	weapons  Weapon[]
   characters Character[]
 }
+
+model ArtifactSet {
+	id          					String   @id @default(cuid())
+
+	name        					String
+	setBonusDescription4 	String
+	setBonusDescription2 	String
+	rarity      					Int				//3-5 stars
+
+	artifacts   					Artifact[]
+
+	imageUrl    					String
+}
+
+model Artifact {
+	id          String   @id @default(cuid())
+
+	name        String
+	description String
+	rarity      Int				//3-5 stars
+
+	artifactSetId String
+	artifactSet   ArtifactSet @relation(fields: [artifactSetId], references: [id])
+
+	imageUrl    String
+}

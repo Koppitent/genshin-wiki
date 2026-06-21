@@ -1,14 +1,20 @@
 "use client";
 
 import { Prisma } from "@/app/generated/prisma/client";
-import { LayoutGrid, LayoutList, ChevronDown } from "lucide-react";
+import { LayoutGrid, LayoutList, ChevronDown, Star } from "lucide-react";
 import { useState } from "react";
-import WeaponListTable from "./WeaponListTable";
-import WeaponListIcons from "./WeaponListIcon";
-import WeaponModal from "./WeaponModal";
+import IconList from "../IconList";
+import WeaponIcon from "./WeaponIcon";
+import TableList from "../TableList";
+import Image from "next/image";
+import { weaponIcons } from "@/lib/weapons";
+import WeaponActions from "./WeaponActions";
+import Modal from "../Modal";
+import WeaponForm from "./WeaponForm";
+import { WeaponFull } from "@/lib/weapons/weaponServiceClient";
 
 type Props = {
-  weapons: WeaponWithWeaponType[];
+  weapons: WeaponFull[];
 };
 
 type TableState = "table" | "iconlist";
@@ -22,13 +28,7 @@ type Filters = {
 type UIState =
   | { open: false }
   | { open: true; mode: "create" }
-  | { open: true; mode: "edit"; weapon: WeaponWithWeaponType };
-
-export type WeaponWithWeaponType = Prisma.WeaponGetPayload<{
-  include: {
-    weaponType: true;
-  };
-}>;
+  | { open: true; mode: "edit"; weapon: WeaponFull };
 
 export function WeaponClient({ weapons }: Props) {
   const [tableState, setTableState] = useState<TableState>("iconlist");
@@ -39,7 +39,7 @@ export function WeaponClient({ weapons }: Props) {
     rarity: undefined,
   });
 
-	const filteredWeapons = weapons.filter((w) => {
+  const filteredWeapons = weapons.filter((w) => {
     const matchesSearch = w.name
       .toLowerCase()
       .includes(filters.searchName.toLowerCase());
@@ -137,7 +137,7 @@ export function WeaponClient({ weapons }: Props) {
               }}
               className="bg-blue-500 text-white px-4 py-2 rounded cursor-pointer hover:bg-blue-600"
             >
-              Charakter erstellen
+              Waffe erstellen
             </button>
             <button
               onClick={toggleTableState}
@@ -159,24 +159,93 @@ export function WeaponClient({ weapons }: Props) {
         ) : (
           <>
             {tableState === "table" ? (
-              <WeaponListTable
-                weapons={filteredWeapons}
-                onOpenEditModal={(weapon) =>
-                  setUiState({ open: true, mode: "edit", weapon })
-                }
+              <TableList
+                items={filteredWeapons}
+                columns={[
+                  {
+                    name: "Name",
+                    render: (weapon) => (
+                      <div className="flex flex-col items-center gap-2">
+                        <WeaponIcon weapon={weapon} />
+                      </div>
+                    ),
+                    sizePercent: 20,
+                  },
+                  {
+                    name: "Waffe",
+                    render: (weapon) => (
+                      <div className="flex items-center gap-2">
+                        <Image
+                          src={
+                            weaponIcons[
+                              weapon.weaponType.name.toLowerCase() as keyof typeof weaponIcons
+                            ]
+                          }
+                          alt={weapon.weaponType.name}
+                          width={35}
+                          height={35}
+                          className="brightness-200"
+                        />
+                        {weapon.weaponType.name || "Nicht verfügbar"}
+                      </div>
+                    ),
+                    sizePercent: 20,
+                  },
+                  {
+                    name: "Base ATK",
+                    render: (weapon) => (
+                      <>{weapon.baseAttack || "Nicht verfügbar"}</>
+                    ),
+                    sizePercent: 20,
+                  },
+                  {
+                    name: "Seltenheit",
+                    render: (weapon) => (
+                      <div className="flex items-center gap-1">
+                        {Array.from({ length: weapon.rarity }, (_, i) => (
+                          <span key={i}>
+                            <Star size={20} fill="#FFD700" color="#FFD700" />
+                          </span>
+                        ))}
+                      </div>
+                    ),
+                    sizePercent: 20,
+                  },
+                  {
+                    name: "Aktionen",
+                    render: (weapon) => (
+                      <WeaponActions
+                        weapon={weapon}
+                        onOpenEditModal={(weapon) => {
+                          setUiState({ open: true, mode: "edit", weapon });
+                        }}
+                      />
+                    ),
+                    sizePercent: 20,
+                  },
+                ]}
               />
             ) : (
-              <WeaponListIcons weapons={filteredWeapons} />
+              <IconList
+                items={filteredWeapons}
+                render={(weapon) => <WeaponIcon weapon={weapon} />}
+              />
             )}
           </>
         )}
       </div>
 
-      <WeaponModal
+      <Modal
         open={uiState.open}
-        mode={uiState.open ? uiState.mode : "create"}
-        weapon={"weapon" in uiState ? uiState.weapon : undefined}
         onClose={() => setUiState({ open: false })}
+        children={
+          <WeaponForm
+            mode={uiState.open ? uiState.mode : "create"}
+            weaponProp={"weapon" in uiState ? uiState.weapon : undefined}
+            onClose={() => setUiState({ open: false })}
+            onSuccess={() => setUiState({ open: false })}
+          />
+        }
       />
     </div>
   );

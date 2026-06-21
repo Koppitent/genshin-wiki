@@ -1,61 +1,49 @@
 import { useEffect, useState } from "react";
 import { Check, PencilLine, Trash2 } from "lucide-react";
+import { WeaponType } from "@/app/generated/prisma/client";
+import { createWeaponType, deleteWeaponType, getWeaponTypes, updateWeaponType } from "@/lib/weapontypes/weapontypeServiceClient";
 
-type HasId = { id: string; name: string };
-
-type Props<T extends HasId> = {
-  endpoint: string;
-  title: string;
-};
-
-export default function ParameterBlock<T extends HasId>({
-  endpoint,
-  title,
-}: Props<T>) {
-  const [items, setItems] = useState<T[]>([]);
+export default function WeaponBlock() {
+  const [items, setItems] = useState<WeaponType[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editValue, setEditValue] = useState("");
 
   useEffect(() => {
-    fetch(`/api/${endpoint}`)
-      .then((res) => res.json())
+		getWeaponTypes()
       .then(setItems);
-  }, [endpoint]);
+  }, []);
 
-	function handleSubmit(name: string) {
-		if(!name.trim()) {
-			alert("Name darf nicht leer sein");
-			return;
-		}
+  function handleSubmit(name: string) {
+    if (!name.trim()) {
+      alert("Name darf nicht leer sein");
+      return;
+    }
 
-		create(name);
-	}
+    create(name);
+  }
 
   function create(name: string) {
-    fetch(`/api/${endpoint}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name }),
-    })
-      .then((res) => res.json())
+		createWeaponType({name: name})
+			.then((res) => res.json())
       .then((newItem) => setItems((prev) => [...prev, newItem]));
   }
 
   function remove(id: string) {
-    fetch(`/api/${endpoint}`, {
-      method: "DELETE",
-      body: JSON.stringify({ id }),
-    }).then(() => {
-      setItems((prev) => prev.filter((i) => i.id !== id));
-    });
+		if(!confirm("Bist du sicher, dass du diese Waffenart löschen möchtest?")) {
+			return;
+		}
+
+		deleteWeaponType(id).then((res) => {
+			if(res.success) {
+				setItems((prev) => prev.filter((i) => i.id !== id));
+			} else {
+				alert(res.message);
+			}
+		});
   }
 
   async function saveEdit(id: string) {
-    const res = await fetch(`/api/${endpoint}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id, name: editValue }),
-    });
+    const res = await updateWeaponType({ id, name: editValue })
 
     const updated = await res.json();
 
@@ -64,20 +52,20 @@ export default function ParameterBlock<T extends HasId>({
     setEditingId(null);
   }
 
-  function startEdit(item: T) {
+  function startEdit(item: WeaponType) {
     setEditingId(item.id);
     setEditValue(item.name);
   }
 
   return (
     <div className="flex flex-col border rounded w-[20vw] bg-[var(--foreground)] p-2 min-h-[40vh]">
-      <h1 className="text-2xl font-bold mb-4">{title}</h1>
+      <h1 className="text-2xl font-bold mb-4">Waffenarten</h1>
 
       {/* CREATE */}
       <div className="mb-4 flex items-center gap-2">
         <input
           placeholder="Neuer Eintrag"
-          className="flex-1 p-2 rounded bg-[var(--background)] focus:bg-[#3d4747] focus:outline-none"
+          className="flex-1 p-2 rounded bg-[#3d4747] focus:bg-[#5a6b6b] focus:outline-none"
           id="create-input"
         />
         <Check
@@ -97,9 +85,14 @@ export default function ParameterBlock<T extends HasId>({
         const isEditing = editingId === item.id;
 
         return (
-          <div key={item.id} className="flex items-center border p-2 mb-2 gap-1">
+          <div
+            key={item.id}
+            className="flex items-center border p-2 mb-2 gap-1"
+          >
             <input
-              className="flex-1"
+              className={`flex-1 p-1 focus:outline-none rounded ${
+                isEditing ? "bg-gray-700" : "bg-transparent"
+              }`}
               value={isEditing ? editValue : item.name}
               disabled={!isEditing}
               onChange={(e) => setEditValue(e.target.value)}

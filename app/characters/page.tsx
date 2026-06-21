@@ -1,17 +1,7 @@
-import CharacterClient from "../components/Character/CharacterClient";
-
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-
-async function getCharacters() {
-  const res = await fetch(`${baseUrl}/api/characters`, {
-    cache: "no-store",
-  });
-
-  return res.json();
-}
+import { getCharactersService } from "@/lib/characters/charachterService";
+import CharacterClient from "../components/character/CharacterClient";
 
 export default async function CharactersPage() {
-  const characters = await getCharacters();
-
+  const characters = await getCharactersService();
   return <CharacterClient characters={characters} />;
 }

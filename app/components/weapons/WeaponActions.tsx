@@ -1,12 +1,12 @@
 "use client";
 
+import { deleteWeapon, WeaponFull } from "@/lib/weapons/weaponServiceClient";
 import { Trash2, PencilLine } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { WeaponWithWeaponType } from "./WeaponClient";
 
 type Props = {
-  weapon: WeaponWithWeaponType;
-  onOpenEditModal: (weapon: WeaponWithWeaponType) => void;
+  weapon: WeaponFull;
+  onOpenEditModal: (weapon: WeaponFull) => void;
 };
 
 export default function WeaponActions({
@@ -19,15 +19,13 @@ export default function WeaponActions({
     if (!confirm(`Möchtest du ${weapon.name} wirklich löschen?`)) {
       return;
     }
-    const res = await fetch(`/api/weapons/${weapon.id}`, {
-      method: "DELETE",
-    });
+    
+		const res = await deleteWeapon(weapon.id);
 
-    if (!res.ok) {
-      alert("Löschen fehlgeschlagen");
+    if (!res.success) {
+      alert(res.message);
       return;
     }
-
     router.refresh();
   }
 

@@ -1,4 +1,4 @@
-import { BadgeQuestionMark, Home, Sword, User } from "lucide-react";
+import { BadgeQuestionMark, Feather, Home, Sword, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -45,6 +45,15 @@ const Navbar = () => {
             <li className="flex items-center p-3 gap-1">
               <User />
               Figuren
+            </li>
+          </Link>
+          <Link
+            href="/artifacts"
+            className="hover:bg-[var(--hover-color)] transition-colors flex items-center"
+          >
+            <li className="flex items-center p-3 gap-1">
+              <Feather />
+              Artefakte
             </li>
           </Link>
           <Link

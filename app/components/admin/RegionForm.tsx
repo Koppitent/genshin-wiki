@@ -1,15 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import ImageUpload from "../ImageUpload";
+import TextAreaInput from "../TextAreaInput";
+import { createRegion, updateRegion } from "@/lib/regions/regionServiceClient";
+import { Region } from "@/app/generated/prisma/client";
 
 type Props = {
   mode: "create" | "edit";
-  region: {
-    id?: string;
-    name: string;
-    description: string;
-    imageUrl: string;
-  };
+  region: Region;
   onClose: () => void;
   onSuccess: () => void;
 };
@@ -22,41 +21,6 @@ export default function RegionForm({
 }: Props) {
   const [form, setForm] = useState(region);
   const [loading, setLoading] = useState(false);
-  const [uploading, setUploading] = useState(false);
-
-  function handleChange(
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) {
-    setForm((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  }
-
-  async function handleImageUpload(file: File) {
-    setUploading(true);
-    const formData = new FormData();
-    formData.append("file", file);
-
-    const res = await fetch("/api/upload", {
-      method: "POST",
-      body: formData,
-    });
-
-    if (!res.ok) {
-      alert("Upload failed");
-      setUploading(false);
-      return;
-    }
-
-    const data = await res.json();
-
-    setForm((prev) => ({
-      ...prev,
-      imageUrl: data.imageUrl,
-    }));
-    setUploading(false);
-  }
 
   async function handleSubmit(e: React.SyntheticEvent) {
 		e.preventDefault();
@@ -73,20 +37,15 @@ export default function RegionForm({
 
     setLoading(true);
 
-    const res = await fetch("/api/regions", {
-      method: mode === "create" ? "POST" : "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(form),
-    });
+
+		const res = (mode === "edit") ? await updateRegion(form) : await createRegion(form);
 
     setLoading(false);
 
     if (res.ok) {
       onSuccess();
     } else {
-      alert("Fehler beim Speichern");
+      alert("Fehler beim Speichern der Region!");
     }
   }
 
@@ -96,33 +55,22 @@ export default function RegionForm({
       <input
         name="name"
         value={form.name}
-        onChange={handleChange}
+        onChange={(e) => setForm((prev) => ({ ...prev, name: e.target.value }))}
         placeholder="Name"
         className="border p-2 rounded"
       />
 
       {/* DESCRIPTION */}
-      <textarea
-        name="description"
-        value={form.description}
-        onChange={handleChange}
-        placeholder="Beschreibung"
-        className="border p-2 rounded"
-      />
+			<TextAreaInput 
+			inputString={form.description}
+			onChange={(newDescription) => setForm((prev) => ({ ...prev, description: newDescription }))}
+			/>
 
       {/* IMAGE UPLOAD */}
-      <input
-        type="file"
-        accept="image/*"
-        onChange={(e) => {
-          const file = e.target.files?.[0];
-          if (file) handleImageUpload(file);
-        }}
-      />
-
-      {uploading && (
-        <p className="text-sm text-gray-400">Bild wird hochgeladen...</p>
-      )}
+			<ImageUpload 
+			imageUrl={form.imageUrl}
+			onImageUrlChange={(url) => setForm((prev) => ({ ...prev, imageUrl: url }))}
+			/>
 
       {/* PREVIEW */}
       {form.imageUrl && (
@@ -136,7 +84,7 @@ export default function RegionForm({
       {/* ACTIONS */}
       <button
         type="submit"
-        disabled={loading || uploading}
+        disabled={loading}
         className="bg-blue-500 text-white p-2 rounded"
       >
         {mode === "create" ? "Erstellen" : "Speichern"}

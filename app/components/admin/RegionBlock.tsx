@@ -3,26 +3,25 @@ import { useEffect, useState } from "react";
 import Modal from "../Modal";
 import RegionForm from "./RegionForm";
 import { PencilLine, Trash2 } from "lucide-react";
+import { deleteRegion, getRegions } from "@/lib/regions/regionServiceClient";
 
 type modalState =
-	| { open: false }
-	| { open: true; mode: "create" }
-	| { open: true; mode: "edit"; region: Region };
+  | { open: false }
+  | { open: true; mode: "create" }
+  | { open: true; mode: "edit"; region: Region };
 
 export default function RegionBlock() {
-	const [regions, setRegions] = useState<Region[]>([]);
-	const [modalState, setModalState] = useState<modalState>({ open: false });
+  const [regions, setRegions] = useState<Region[]>([]);
+  const [modalState, setModalState] = useState<modalState>({ open: false });
 
-	async function deleteRegion(id: string) {
-    const res = await fetch("/api/regions", {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ id }),
-    });
+  async function handleDelete(id: string) {
+    if (!confirm("Möchten Sie diese Region wirklich löschen?")) {
+      return;
+    }
 
-    if (res.ok) {
+    const res = await deleteRegion(id);
+
+    if (res.success) {
       setRegions((prev) => prev.filter((r) => r.id !== id));
     }
   }
@@ -35,17 +34,17 @@ export default function RegionBlock() {
     });
   }
 
-	async function loadRegions() {
-		const res = await fetch("/api/regions");
-		const data = await res.json();
-		setRegions(data);
-	}
+  async function loadRegions() {
+    getRegions().then((data) => {
+      setRegions(data);
+    });
+  }
 
-	useEffect(() => {
-		loadRegions();
-	}, []);
+  useEffect(() => {
+    loadRegions();
+  }, []);
 
-	return (
+  return (
     <div className="flex flex-col border rounded w-[20vw] bg-[var(--foreground)] p-2 min-h-[40vh]">
       <div className="mb-4 flex justify-between items-center gap-2">
         <h1 className="text-2xl font-bold mb-4">Regionen</h1>
@@ -71,7 +70,7 @@ export default function RegionBlock() {
 
           <Trash2
             className="cursor-pointer hover:text-red-500"
-            onClick={() => deleteRegion(region.id)}
+            onClick={() => handleDelete(region.id)}
           />
         </div>
       ))}
@@ -92,7 +91,7 @@ export default function RegionBlock() {
               modalState.mode === "edit"
                 ? modalState.region
                 : {
-                    id: undefined,
+                    id: "",
                     name: "",
                     description: "",
                     imageUrl: "",

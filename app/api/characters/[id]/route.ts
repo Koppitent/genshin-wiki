@@ -1,4 +1,4 @@
-import prisma from "@/lib/prisma";
+import { deleteCharacterService } from "@/lib/characters/charachterService";
 
 export async function DELETE(
   req: Request,
@@ -6,13 +6,5 @@ export async function DELETE(
 ) {
   const { id } = await params;
 
-  await prisma.character.delete({
-    where: {
-      id,
-    },
-  });
-
-  return Response.json({
-    success: true,
-  });
+  return deleteCharacterService(id);
 }

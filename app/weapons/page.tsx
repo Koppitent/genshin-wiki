@@ -1,19 +1,10 @@
-import { Weapon } from "../generated/prisma/client";
-import { WeaponClient, WeaponWithWeaponType } from "../components/weapons/WeaponClient";
-
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-
-async function getWeapons(): Promise<Weapon[]> {
-  const res = await fetch(`${baseUrl}/api/weapons`, {
-    cache: "no-store",
-  });
-
-  return res.json();
-}
+import { getWeaponsService } from "@/lib/weapons/weaponService";
+import { WeaponClient } from "../components/weapons/WeaponClient";
+import { WeaponFull } from "@/lib/weapons/weaponServiceClient";
 
 export default async function WeaponsPage() {
-  const weapons = await getWeapons();
+  const weapons = await getWeaponsService();
   return (
-    <WeaponClient weapons={weapons as WeaponWithWeaponType[]} />
+    <WeaponClient weapons={weapons as WeaponFull[]} />
   );
 }

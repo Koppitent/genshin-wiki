@@ -1,5 +1,6 @@
 "use client";
 
+import { getCharacters } from "@/lib/characters/charachterServiceClient";
 import { elementIcons } from "@/lib/elements";
 import { weaponIcons } from "@/lib/weapons";
 import { ChevronDown, MoveDown, MoveUp, Star } from "lucide-react";
@@ -77,13 +78,9 @@ export default function GenshindlePage() {
   const MAX_TRIES = 5;
 
   useEffect(() => {
-    async function load() {
-      const res = await fetch("/api/characters");
-      const data = await res.json();
-      setCharacters(data);
-    }
-
-    load();
+    getCharacters().then((chars) => {
+			setCharacters(chars);
+		});
   }, []);
 
   useEffect(() => {
@@ -308,8 +305,8 @@ export default function GenshindlePage() {
                   v{r.guess.releaseVersion ?? "?"}
                 </span>
 
-                {r.versionCorrect > 0 && <MoveUp size={16} />}
-                {r.versionCorrect < 0 && <MoveDown size={16} />}
+                {r.versionCorrect === 1 && <MoveDown size={16} />}
+                {r.versionCorrect === -1 && <MoveUp size={16} />}
               </div>
             </div>
           ))}

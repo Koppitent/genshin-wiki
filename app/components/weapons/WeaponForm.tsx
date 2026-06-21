@@ -2,218 +2,172 @@
 
 import { SyntheticEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { createWeapon, updateWeapon, WeaponFull } from "@/lib/weapons/weaponServiceClient";
+import ImageUpload from "../ImageUpload";
+import TextAreaInput from "../TextAreaInput";
+import { getWeaponTypes } from "@/lib/weapontypes/weapontypeServiceClient";
 
 type Props = {
-	mode: "create" | "edit";
-	weapon?: WeaponFormType;
-	onSuccess?: () => void;
-	onClose?: () => void;
+  mode: "create" | "edit";
+  weaponProp?: WeaponFull;
+  onSuccess?: () => void;
+  onClose?: () => void;
 };
 
-type WeaponFormType = {
-	id?: string;
-	name: string;
-	description: string;
-	rarity: number;
-	imageUrl: string;
-	weaponTypeId: string | null;
-	baseAttack: number;
+const weaponEmpty: WeaponFull = {
+  id: "",
+  name: "",
+  description: "",
+  imageUrl: "",
+  rarity: 5,
+  weaponTypeId: "",
+  weaponType: {
+    id: "",
+    name: "",
+  },
+  baseAttack: 0,
+  releaseVersion: 1.0,
 };
 
-export default function WeaponForm({ mode, weapon: weaponProp, onSuccess, onClose }: Props) {
-	const router = useRouter();
-	const [weaponTypes, setWeaponTypes] = useState<
-		{ id: string; name: string }[]
-	>([]);
-	const [uploading, setUploading] = useState(false);
+export default function WeaponForm({
+  mode,
+  weaponProp,
+  onSuccess,
+  onClose,
+}: Props) {
+  const router = useRouter();
+  const [weapon, setWeapon] = useState<WeaponFull>(weaponProp || weaponEmpty);
+  const [weaponTypes, setWeaponTypes] = useState<
+    { id: string; name: string }[]
+  >([]);
 
-	useEffect(() => {
-		loadWeaponTypes();
-	}, []);
+  useEffect(() => {
+    loadWeaponTypes();
+  }, []);
 
-	async function loadWeaponTypes() {
-		const res = await fetch("/api/weaponType");
+  async function loadWeaponTypes() {
+    const res = await getWeaponTypes();
 
-		if (!res.ok) {
-			throw new Error("Failed to load weapon types");
-		}
+    if (!res.ok) {
+      throw new Error("Failed to load weapon types");
+    }
 
-		const data = await res.json();
-		setWeaponTypes(data);
-	}
+    const data = await res.json();
+    setWeaponTypes(data);
+  }
 
-	async function createWeapon(weapon: WeaponFormType) {
-		console.log("Creating weapon", weapon);
-		
-		const res = await fetch("/api/weapons", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(weapon),
-		});
+  async function create() {
+    console.log("Creating weapon", weapon);
 
-		if (!res.ok) {
-			throw new Error("Failed to create weapon");
-		}
+    const res = await createWeapon(weapon);
 
-		return res.json();
-	}
+    if (!res.ok) {
+      throw new Error("Failed to create weapon");
+    }
 
-	async function updateWeapon(weapon: WeaponFormType) {
-		const res = await fetch("/api/weapons", {
-			method: "PUT",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(weapon),
-		});
+    return res.json();
+  }
 
-		if (!res.ok) {
-			throw new Error("Failed to update weapon");
-		}
+  async function update() {
+    const res = await updateWeapon(weapon);
 
-		return res.json();
-	}
-	
-	const [weapon, setWeapon] = useState<WeaponFormType>(
-		weaponProp!,
-	);
+    if (!res.ok) {
+      throw new Error("Failed to update weapon");
+    }
 
-	async function handleSubmit(e: SyntheticEvent) {
-		e.preventDefault();
+    return res.json();
+  }
 
-		if(weapon.name.trim() === "" || weapon.weaponTypeId === null) {
-			alert("Name und Waffenart sind erforderlich!");
-			return;
-		}
+  async function handleSubmit(e: SyntheticEvent) {
+    e.preventDefault();
 
-		if(weapon.rarity < 3 || weapon.rarity > 5) {
-			alert("Seltenheit muss zwischen 3 und 5 liegen!");
-			return;
-		}
+    if (weapon.name.trim() === "" || weapon.weaponTypeId.trim() === "") {
+      alert("Name und Waffenart sind erforderlich!");
+      return;
+    }
 
-		if (mode === "create") {
-			await createWeapon(weapon);
-		} else {
-			await updateWeapon(weapon);
-		}
+    if (weapon.rarity < 3 || weapon.rarity > 5) {
+      alert("Seltenheit muss zwischen 3 und 5 liegen!");
+      return;
+    }
 
-		onSuccess?.();
-		onClose?.();
-		router.refresh();
-		console.log("created successfully");	
-	}
+    if (mode === "create") {
+      await create();
+    } else {
+      await update();
+    }
 
-	async function handleImageUpload(file: File) {
-		setUploading(true);
-		const formData = new FormData();
-		formData.append("file", file);
+    onSuccess?.();
+    onClose?.();
+    router.refresh();
+    console.log("created successfully");
+  }
 
-		const res = await fetch("/api/upload", {
-			method: "POST",
-			body: formData,
-		});
+  return (
+    <div>
+      <h2 className="text-xl mb-4">Weapon erstellen</h2>
 
-		if (!res.ok) {
-			alert("Upload failed");
-			setUploading(false);
-			return;
-		}
+      <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+        <input
+          placeholder="Name"
+          className="border p-2"
+          value={weapon.name}
+          onChange={(e) => setWeapon({ ...weapon, name: e.target.value })}
+        />
 
-		const data = await res.json();
-
-		setWeapon((prev) => ({
-			...prev,
-			imageUrl: data.imageUrl,
-		}));
-		setUploading(false);
-	}
-
-	return (
-		<div>
-			<h2 className="text-xl mb-4">Weapon erstellen</h2>
-
-			<form onSubmit={handleSubmit} className="flex flex-col gap-2">
-				<input
-					placeholder="Name"
-					className="border p-2"
-					value={weapon.name}
-					onChange={(e) => setWeapon({ ...weapon, name: e.target.value })}
-				/>
-
-				<input
+        <TextAreaInput
+          inputString={weapon.description}
+          onChange={(value) => setWeapon({ ...weapon, description: value })}
 					placeholder="Description"
-					className="border p-2"
-					value={weapon.description}
-					onChange={(e) =>
-						setWeapon({ ...weapon, description: e.target.value })
-					}
-				/>
+        />
 
-				<select
-					className="border p-2"
-					value={weapon.weaponTypeId ?? ""}
-					onChange={(e) =>
-						setWeapon({
-							...weapon,
-							weaponTypeId: e.target.value || null,
-						})
-					}
-				>
-					<option value="">-- Waffenart auswählen --</option>
-					{weaponTypes.map((weaponType) => (
-						<option key={weaponType.id} value={weaponType.id}>
-							{weaponType.name}
-						</option>
-					))}
-				</select>
+        <select
+          className="border p-2"
+          value={weapon.weaponTypeId ?? ""}
+          onChange={(e) =>
+            setWeapon({
+              ...weapon,
+              weaponTypeId: e.target.value || "",
+            })
+          }
+        >
+          <option value="">-- Waffenart auswählen --</option>
+          {weaponTypes.map((weaponType) => (
+            <option key={weaponType.id} value={weaponType.id}>
+              {weaponType.name}
+            </option>
+          ))}
+        </select>
 
-				<div className="flex flex-col gap-2 border p-2">
-					<label className="text-sm">Weapon Image</label>
+        <ImageUpload
+          imageUrl={weapon.imageUrl}
+          onImageUrlChange={(imageUrl: string) => {
+            setWeapon({ ...weapon, imageUrl });
+          }}
+        />
 
-					<input
-						type="file"
-						accept="image/*"
-						onChange={(e) => {
-							const file = e.target.files?.[0];
-							if (file) handleImageUpload(file);
-						}}
-					/>
+        <select
+          className="border p-2"
+          value={weapon.rarity}
+          onChange={(e) =>
+            setWeapon({
+              ...weapon,
+              rarity: parseInt(e.target.value) || 5,
+            })
+          }
+        >
+          <option value="5">5</option>
+          <option value="4">4</option>
+          <option value="3">3</option>
+        </select>
 
-					{uploading && <p>Uploading...</p>}
-
-					{weapon.imageUrl && (
-						<img
-							src={weapon.imageUrl}
-							alt="Preview"
-							className="w-24 h-24 object-cover rounded-md border"
-						/>
-					)}
-				</div>
-
-				<select
-					className="border p-2"
-					value={weapon.rarity}
-					onChange={(e) =>
-						setWeapon({
-							...weapon,
-							rarity: parseInt(e.target.value) || 5,
-						})
-					}
-				>
-					<option value="5">5</option>
-					<option value="4">4</option>
-					<option value="3">3</option>
-				</select>
-
-				<button
-					type="submit"
-					className="bg-green-500 text-white p-2 rounded cursor-pointer hover:bg-green-600"
-				>
-					Speichern
-				</button>
-			</form>
-		</div>
-	);
+        <button
+          type="submit"
+          className="bg-green-500 text-white p-2 rounded cursor-pointer hover:bg-green-600"
+        >
+          Speichern
+        </button>
+      </form>
+    </div>
+  );
 }

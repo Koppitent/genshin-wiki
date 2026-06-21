@@ -1,16 +1,22 @@
 "use client";
 
 import { useState } from "react";
-import CharacterModal from "./CharacterModal";
-import { ChevronDown, Grip, LayoutGrid, LayoutList } from "lucide-react";
-import { Character, Prisma } from "../../generated/prisma/client";
+import { ChevronDown, LayoutGrid, LayoutList, Star } from "lucide-react";
 import CharacterListTable from "./CharacterListTable";
 import CharacterListIcons from "./CharacterListIcons";
 import Modal from "../Modal";
 import CharacterForm from "./CharacterForm";
+import { CharacterFull } from "@/lib/characters/charachterServiceClient";
+import IconList from "../IconList";
+import CharacterIcon from "./CharacterIcon";
+import TableList from "../TableList";
+import Image from "next/image";
+import { elementIcons } from "@/lib/elements";
+import { weaponIcons } from "@/lib/weapons";
+import CharacterActions from "./CharacterActions";
 
 type Props = {
-  characters: CharacterWithWeaponType[];
+  characters: CharacterFull[];
 };
 
 type TableState = "table" | "iconlist";
@@ -19,37 +25,32 @@ type Filters = {
   searchName: string;
   weaponTypeName: string;
   rarity?: number;
-	element?: string;
+  element?: string;
 };
 
-export type CharacterWithWeaponType = Prisma.CharacterGetPayload<{
-  include: {
-    weaponType: true;
-  };
-}>;
-
 type UIState =
-	| { open: false }
-	| { open: true; mode: "create" }
-	| { open: true; mode: "edit"; character: CharacterWithWeaponType };
+  | { open: false }
+  | { open: true; mode: "create" }
+  | { open: true; mode: "edit"; character: CharacterFull };
 
 export default function CharacterClient({ characters }: Props) {
-	const [tableState, setTableState] = useState<TableState>("iconlist");
-	const [uiState, setUiState] = useState<UIState>({ open: false });
-	const [filters, setFilters] = useState<Filters>({
-		searchName: "",
-		weaponTypeName: "",
-		rarity: undefined,
-		element: undefined,
-	});
+  const [tableState, setTableState] = useState<TableState>("iconlist");
+  const [uiState, setUiState] = useState<UIState>({ open: false });
+  const [filters, setFilters] = useState<Filters>({
+    searchName: "",
+    weaponTypeName: "",
+    rarity: undefined,
+    element: undefined,
+  });
 
-	const filteredCharacters = characters.filter((c) => {
+  const filteredCharacters = characters.filter((c) => {
     const matchesSearch = c.name
       .toLowerCase()
       .includes(filters.searchName.toLowerCase());
 
     const matchesWeapon =
-      !filters.weaponTypeName || c.weaponType?.name.toLowerCase() === filters.weaponTypeName.toLowerCase();
+      !filters.weaponTypeName ||
+      c.weaponType?.name.toLowerCase() === filters.weaponTypeName.toLowerCase();
 
     const matchesRarity = !filters.rarity || c.rarity === filters.rarity;
 
@@ -58,7 +59,7 @@ export default function CharacterClient({ characters }: Props) {
     return matchesSearch && matchesWeapon && matchesRarity && matchesElement;
   });
 
-	const toggleTableState = () => {
+  const toggleTableState = () => {
     setTableState((prev) => (prev === "table" ? "iconlist" : "table"));
   };
 
@@ -189,14 +190,91 @@ export default function CharacterClient({ characters }: Props) {
         ) : (
           <>
             {tableState === "table" ? (
-              <CharacterListTable
-                characters={filteredCharacters}
-                onOpenEditModal={(character) =>
-                  setUiState({ open: true, mode: "edit", character })
-                }
+              <TableList
+                items={filteredCharacters}
+                columns={[
+                  {
+                    name: "Name",
+                    render: (character) => (
+                      <div className="flex flex-col items-center gap-2">
+                        <CharacterIcon character={character} />
+                      </div>
+                    ),
+                    sizePercent: 20,
+                  },
+                  {
+                    name: "Element",
+                    render: (character) => (
+                      <div className="flex items-center gap-2">
+                        <Image
+                          src={
+                            elementIcons[
+                              character.element as keyof typeof elementIcons
+                            ]
+                          }
+                          alt={character.element}
+                          width={35}
+                          height={35}
+                        />
+                        {character.element.toUpperCase().substring(0, 1) +
+                          character.element.substring(1) || "Nicht verfügbar"}
+                      </div>
+                    ),
+										sizePercent: 20,
+                  },
+                  {
+                    name: "Waffe",
+                    render: (character) => (
+                      <div className="flex items-center gap-2">
+                        <Image
+                          src={
+                            weaponIcons[
+                              character.weaponType.name.toLowerCase() as keyof typeof weaponIcons
+                            ]
+                          }
+                          alt={character.weaponType.name}
+                          width={35}
+                          height={35}
+                          className="brightness-200"
+                        />
+                        {character.weaponType.name || "Nicht verfügbar"}
+                      </div>
+                    ),
+										sizePercent: 20,
+                  },
+                  {
+                    name: "Seltenheit",
+
+                    render: (character) => (
+                      <div className="flex items-center gap-1">
+                        {Array.from({ length: character.rarity }, (_, i) => (
+                          <span key={i}>
+                            <Star size={20} fill="#FFD700" color="#FFD700" />
+                          </span>
+                        ))}
+                      </div>
+                    ),
+										sizePercent: 20,
+                  },
+                  {
+                    name: "Aktionen",
+                    render: (character) => (
+                      <CharacterActions
+                        character={character}
+                        onOpenEditModal={(character) => {
+                          setUiState({ open: true, mode: "edit", character });
+                        }}
+                      />
+                    ),
+										sizePercent: 20,
+                  },
+                ]}
               />
             ) : (
-              <CharacterListIcons characters={filteredCharacters} />
+              <IconList
+                items={filteredCharacters}
+                render={(character) => <CharacterIcon character={character} />}
+              />
             )}
           </>
         )}
