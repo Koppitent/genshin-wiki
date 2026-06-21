@@ -69,6 +69,17 @@ export async function getCharactersService() {
   return characters;
 }
 
+export async function getCharacterService(id: string) {
+  const character = await prisma.character.findUnique({
+    where: { id },
+    include: {
+      weaponType: true,
+      region: true,
+    },
+  });
+  return character;
+}
+
 export async function deleteCharacterService(id: string) {
   await prisma.character.delete({
     where: {

@@ -2,11 +2,12 @@ import { elementIcons } from "@/lib/elements";
 import Image from "next/image";
 
 type Props = {
-  name: string;
+  name?: string;
   imageUrl: string;
   rarity?: number;
   showFullName?: boolean;
   element?: string;
+	size?: number;
 };
 
 export default function Icon({
@@ -15,10 +16,11 @@ export default function Icon({
   showFullName,
   element,
   rarity,
+	size,
 }: Props) {
   return (
     <div className="flex flex-col items-center justify-center cursor-pointer">
-      <div className="relative w-[5rem] h-[5rem] hover:scale-105 transition-transform duration-200">
+      <div className={`relative w-[${size ?? 5}rem] h-[${size ?? 5}rem] hover:scale-105 transition-transform duration-200`}>
         <img
           src={imageUrl}
           alt={name}
@@ -34,13 +36,15 @@ export default function Icon({
           />
         )}
       </div>
-      <p className="font-bold text-lg text-center mt-2">
-        {showFullName
-          ? name
-          : name.length > 10
-            ? name.slice(0, 7) + "..."
-            : name}
-      </p>
+      {name && (
+        <p className="font-bold text-lg text-center mt-2">
+          {showFullName
+            ? name
+            : name.length > 10
+              ? name.slice(0, 7) + "..."
+              : name}
+        </p>
+      )}
     </div>
   );
 }

@@ -18,6 +18,7 @@ import { elementIcons } from "@/lib/elements";
 import { weaponIcons } from "@/lib/weapons";
 import CharacterActions from "./CharacterActions";
 import Icon from "../Icon";
+import { useRouter } from "next/navigation";
 
 type Props = {
   characters: CharacterFull[];
@@ -39,6 +40,8 @@ type UIState =
   | { open: true; mode: "edit"; character: CharacterFull };
 
 export default function CharacterClient({ characters }: Props) {
+	const router = useRouter();
+
   const [tableState, setTableState] = useState<TableState>("iconlist");
   const [uiState, setUiState] = useState<UIState>({ open: false });
   const [filters, setFilters] = useState<Filters>({
@@ -305,6 +308,9 @@ export default function CharacterClient({ characters }: Props) {
                     showFullName={true}
                   />
                 )}
+								onItemClick={(character) => {
+									router.push(`/characters/${character.id}`);
+								}}
               />
             )}
           </>
