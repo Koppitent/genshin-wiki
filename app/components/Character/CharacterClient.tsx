@@ -1,19 +1,23 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown, LayoutGrid, LayoutList, Star } from "lucide-react";
-import CharacterListTable from "./CharacterListTable";
-import CharacterListIcons from "./CharacterListIcons";
+import {
+  ChevronDown,
+  LayoutGrid,
+  LayoutList,
+  ShieldCogCorner,
+  Star,
+} from "lucide-react";
 import Modal from "../Modal";
 import CharacterForm from "./CharacterForm";
 import { CharacterFull } from "@/lib/characters/charachterServiceClient";
 import IconList from "../IconList";
-import CharacterIcon from "./CharacterIcon";
 import TableList from "../TableList";
 import Image from "next/image";
 import { elementIcons } from "@/lib/elements";
 import { weaponIcons } from "@/lib/weapons";
 import CharacterActions from "./CharacterActions";
+import Icon from "../Icon";
 
 type Props = {
   characters: CharacterFull[];
@@ -26,6 +30,7 @@ type Filters = {
   weaponTypeName: string;
   rarity?: number;
   element?: string;
+  showAktionen: boolean;
 };
 
 type UIState =
@@ -41,6 +46,7 @@ export default function CharacterClient({ characters }: Props) {
     weaponTypeName: "",
     rarity: undefined,
     element: undefined,
+    showAktionen: false,
   });
 
   const filteredCharacters = characters.filter((c) => {
@@ -171,6 +177,17 @@ export default function CharacterClient({ characters }: Props) {
               Charakter erstellen
             </button>
             <button
+              onClick={() =>
+                setFilters((prev) => ({
+                  ...prev,
+                  showAktionen: !prev.showAktionen,
+                }))
+              }
+              className="hover:bg-gray-600 p-[0.5rem] rounded-2xl cursor-pointer"
+            >
+              <ShieldCogCorner size={20} />
+            </button>
+            <button
               onClick={toggleTableState}
               className="hover:bg-gray-600 p-[0.5rem] rounded-2xl cursor-pointer"
             >
@@ -197,7 +214,13 @@ export default function CharacterClient({ characters }: Props) {
                     name: "Name",
                     render: (character) => (
                       <div className="flex flex-col items-center gap-2">
-                        <CharacterIcon character={character} />
+                        <Icon
+                          name={character.name}
+                          imageUrl={character.imageUrl}
+                          rarity={character.rarity}
+                          element={character.element}
+													showFullName={true}
+                        />
                       </div>
                     ),
                     sizePercent: 20,
@@ -220,7 +243,7 @@ export default function CharacterClient({ characters }: Props) {
                           character.element.substring(1) || "Nicht verfügbar"}
                       </div>
                     ),
-										sizePercent: 20,
+                    sizePercent: 20,
                   },
                   {
                     name: "Waffe",
@@ -240,7 +263,7 @@ export default function CharacterClient({ characters }: Props) {
                         {character.weaponType.name || "Nicht verfügbar"}
                       </div>
                     ),
-										sizePercent: 20,
+                    sizePercent: 20,
                   },
                   {
                     name: "Seltenheit",
@@ -254,7 +277,7 @@ export default function CharacterClient({ characters }: Props) {
                         ))}
                       </div>
                     ),
-										sizePercent: 20,
+                    sizePercent: 20,
                   },
                   {
                     name: "Aktionen",
@@ -266,14 +289,22 @@ export default function CharacterClient({ characters }: Props) {
                         }}
                       />
                     ),
-										sizePercent: 20,
+                    disabled: !filters.showAktionen,
                   },
                 ]}
               />
             ) : (
               <IconList
                 items={filteredCharacters}
-                render={(character) => <CharacterIcon character={character} />}
+                render={(character) => (
+                  <Icon
+                    name={character.name}
+                    imageUrl={character.imageUrl}
+                    rarity={character.rarity}
+                    element={character.element}
+                    showFullName={true}
+                  />
+                )}
               />
             )}
           </>

@@ -12,9 +12,7 @@ export async function createCharacterService(body: any) {
           id: body.weaponTypeId,
         },
       },
-      region: body.regionId
-        ? { connect: { id: body.regionId } }
-        : { disconnect: true },
+      region: body.regionId ? { connect: { id: body.regionId } } : undefined,
       rarity: Number(body.rarity),
       baseAttack: Number(body.baseAttack),
       releaseVersion: body.releaseVersion,

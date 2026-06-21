@@ -1,10 +1,14 @@
 "use client";
 
-import { Prisma } from "@/app/generated/prisma/client";
-import { LayoutGrid, LayoutList, ChevronDown, Star } from "lucide-react";
+import {
+  LayoutGrid,
+  LayoutList,
+  ChevronDown,
+  Star,
+  ShieldCogCorner,
+} from "lucide-react";
 import { useState } from "react";
 import IconList from "../IconList";
-import WeaponIcon from "./WeaponIcon";
 import TableList from "../TableList";
 import Image from "next/image";
 import { weaponIcons } from "@/lib/weapons";
@@ -12,6 +16,7 @@ import WeaponActions from "./WeaponActions";
 import Modal from "../Modal";
 import WeaponForm from "./WeaponForm";
 import { WeaponFull } from "@/lib/weapons/weaponServiceClient";
+import Icon from "../Icon";
 
 type Props = {
   weapons: WeaponFull[];
@@ -23,6 +28,7 @@ type Filters = {
   searchName: string;
   weaponTypeName: string;
   rarity?: number;
+  showAktionen: boolean;
 };
 
 type UIState =
@@ -31,12 +37,13 @@ type UIState =
   | { open: true; mode: "edit"; weapon: WeaponFull };
 
 export function WeaponClient({ weapons }: Props) {
-  const [tableState, setTableState] = useState<TableState>("iconlist");
+  const [tableState, setTableState] = useState<TableState>("table");
   const [uiState, setUiState] = useState<UIState>({ open: false });
   const [filters, setFilters] = useState<Filters>({
     searchName: "",
     weaponTypeName: "",
     rarity: undefined,
+    showAktionen: false,
   });
 
   const filteredWeapons = weapons.filter((w) => {
@@ -140,6 +147,17 @@ export function WeaponClient({ weapons }: Props) {
               Waffe erstellen
             </button>
             <button
+              onClick={() =>
+                setFilters((prev) => ({
+                  ...prev,
+                  showAktionen: !prev.showAktionen,
+                }))
+              }
+              className="hover:bg-gray-600 p-[0.5rem] rounded-2xl cursor-pointer"
+            >
+              <ShieldCogCorner size={20} />
+            </button>
+            <button
               onClick={toggleTableState}
               className="hover:bg-gray-600 p-[0.5rem] rounded-2xl cursor-pointer"
             >
@@ -166,7 +184,12 @@ export function WeaponClient({ weapons }: Props) {
                     name: "Name",
                     render: (weapon) => (
                       <div className="flex flex-col items-center gap-2">
-                        <WeaponIcon weapon={weapon} />
+                        <Icon
+                          name={weapon.name}
+                          imageUrl={weapon.imageUrl}
+                          rarity={weapon.rarity}
+													showFullName={true}
+                        />
                       </div>
                     ),
                     sizePercent: 20,
@@ -221,14 +244,21 @@ export function WeaponClient({ weapons }: Props) {
                         }}
                       />
                     ),
-                    sizePercent: 20,
+                    disabled: !filters.showAktionen,
                   },
                 ]}
               />
             ) : (
               <IconList
                 items={filteredWeapons}
-                render={(weapon) => <WeaponIcon weapon={weapon} />}
+                render={(weapon) => (
+                  <Icon
+                    name={weapon.name}
+                    imageUrl={weapon.imageUrl}
+                    rarity={weapon.rarity}
+                    showFullName={true}
+                  />
+                )}
               />
             )}
           </>

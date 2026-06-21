@@ -30,21 +30,21 @@ const Navbar = () => {
             </li>
           </Link> */}
           <Link
-            href="/weapons"
-            className="hover:bg-[var(--hover-color)] transition-colors flex items-center"
-          >
-            <li className="flex items-center p-3 gap-1">
-              <Sword />
-              Waffen
-            </li>
-          </Link>
-          <Link
             href="/characters"
             className="hover:bg-[var(--hover-color)] transition-colors flex items-center"
           >
             <li className="flex items-center p-3 gap-1">
               <User />
               Figuren
+            </li>
+          </Link>
+          <Link
+            href="/weapons"
+            className="hover:bg-[var(--hover-color)] transition-colors flex items-center"
+          >
+            <li className="flex items-center p-3 gap-1">
+              <Sword />
+              Waffen
             </li>
           </Link>
           <Link

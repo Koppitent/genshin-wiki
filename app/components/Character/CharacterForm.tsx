@@ -2,14 +2,31 @@
 
 import { SyntheticEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { CharacterWithWeaponType } from "./CharacterClient";
 import { Region } from "@/app/generated/prisma/client";
+import { CharacterFull } from "@/lib/characters/charachterServiceClient";
 
 type Props = {
   mode: "create" | "edit";
-  character?: CharacterWithWeaponType;
+  character?: CharacterFull;
   onSuccess?: () => void;
   onClose?: () => void;
+};
+
+const emptyCharacter: CharacterFull = {
+	name: "",
+	description: "",
+	element: "pyro",	
+	imageUrl: "",
+	rarity: 5,
+	weaponTypeId: "",
+	baseAttack: 0,
+	regionId: "",
+	region: null,
+	weaponType: {
+		id: "",
+		name: "",
+	},
+	releaseVersion: 4.0,
 };
 
 export default function CharacterForm({ mode, character: characterProp, onSuccess, onClose }: Props) {
@@ -50,7 +67,7 @@ export default function CharacterForm({ mode, character: characterProp, onSucces
     setRegions(data);
   }
 
-  async function createCharacter(character: CharacterWithWeaponType) {
+  async function create() {
 		console.log("Cerating char", character);
 		
     const res = await fetch("/api/characters", {
@@ -68,7 +85,7 @@ export default function CharacterForm({ mode, character: characterProp, onSucces
     return res.json();
   }
 
-	async function updateCharacter(character: CharacterWithWeaponType) {
+	async function update() {
     const res = await fetch("/api/characters", {
       method: "PUT",
       headers: {
@@ -84,15 +101,8 @@ export default function CharacterForm({ mode, character: characterProp, onSucces
     return res.json();
   }
 	
-  const [character, setCharacter] = useState<CharacterWithWeaponType>(
-    characterProp || {
-			name: "",
-			description: "",
-			element: "",
-			imageUrl: "",
-			rarity: 5,
-			weaponTypeId: "",
-		} as CharacterWithWeaponType,
+  const [character, setCharacter] = useState<CharacterFull>(
+    characterProp || emptyCharacter
   );
 
   async function handleSubmit(e: SyntheticEvent) {
@@ -109,9 +119,9 @@ export default function CharacterForm({ mode, character: characterProp, onSucces
 		}
 
     if (mode === "create") {
-      await createCharacter(character);
+      await create();
     } else {
-      await updateCharacter(character);
+      await update();
     }
 
     onSuccess?.();
@@ -257,7 +267,7 @@ export default function CharacterForm({ mode, character: characterProp, onSucces
         </select>
 
 				<label htmlFor="releaseVersion" className="text-sm -mb-3">
-          Version: {character.releaseVersion.toFixed(1)}
+          Version: {character.releaseVersion ? character.releaseVersion.toFixed(1) : ""}
         </label>
         <input
           placeholder="Release Version"

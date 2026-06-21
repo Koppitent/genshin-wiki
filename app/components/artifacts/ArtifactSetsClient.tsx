@@ -1,16 +1,24 @@
 "use client";
 
-import { ChevronDown, LayoutGrid, LayoutList, Star } from "lucide-react";
+import {
+  ChevronDown,
+  LayoutGrid,
+  LayoutList,
+  PencilLine,
+  ShieldCogCorner,
+  Star,
+  Trash2,
+} from "lucide-react";
 import { useState } from "react";
 import Modal from "../Modal";
 import ArtifactsForm from "./ArtifactsForm";
 import IconList from "../IconList";
-import ArtifactIcon from "./ArtifactIcon";
 import TableList from "../TableList";
 import {
   ArtifactSetFull,
   deleteArtifactSet,
 } from "@/lib/artifactsets/artifactsetServiceClient";
+import Icon from "../Icon";
 
 type Props = {
   artifactSets: ArtifactSetFull[];
@@ -21,6 +29,7 @@ type TableState = "table" | "iconlist";
 type Filters = {
   searchName: string;
   rarity?: number;
+  showAktionen: boolean;
 };
 
 type UIState =
@@ -34,6 +43,7 @@ export default function ArtifactSetsClientPage({ artifactSets }: Props) {
   const [filters, setFilters] = useState<Filters>({
     searchName: "",
     rarity: undefined,
+    showAktionen: false,
   });
 
   const filteredArtifactSets = artifactSets.filter((set) => {
@@ -48,18 +58,18 @@ export default function ArtifactSetsClientPage({ artifactSets }: Props) {
     setTableState((prev) => (prev === "table" ? "iconlist" : "table"));
   };
 
-	async function handleDelete(id: string) {
-		if (!confirm("Bist du sicher, dass du dieses Artefakt löschen möchtest?")) {
-			return;
-		}
+  async function handleDelete(id: string) {
+    if (!confirm("Bist du sicher, dass du dieses Artefakt löschen möchtest?")) {
+      return;
+    }
 
-		const res = await deleteArtifactSet(id);
-		if (res.success) {
-			artifactSets = artifactSets.filter((set) => set.id !== id);			
-		}else {
-			alert("Fehler beim Löschen: " + res.message);
-		}
-	}
+    const res = await deleteArtifactSet(id);
+    if (res.success) {
+      artifactSets = artifactSets.filter((set) => set.id !== id);
+    } else {
+      alert("Fehler beim Löschen: " + res.message);
+    }
+  }
 
   return (
     <div className="w-[60%] mx-auto">
@@ -118,6 +128,17 @@ export default function ArtifactSetsClientPage({ artifactSets }: Props) {
               Artefakt erstellen
             </button>
             <button
+              onClick={() =>
+                setFilters((prev) => ({
+                  ...prev,
+                  showAktionen: !prev.showAktionen,
+                }))
+              }
+              className="hover:bg-gray-600 p-[0.5rem] rounded-2xl cursor-pointer"
+            >
+              <ShieldCogCorner size={20} />
+            </button>
+            <button
               onClick={toggleTableState}
               className="hover:bg-gray-600 p-[0.5rem] rounded-2xl cursor-pointer"
             >
@@ -144,7 +165,12 @@ export default function ArtifactSetsClientPage({ artifactSets }: Props) {
                     name: "Name",
                     render: (artifactSet) => (
                       <div className="flex flex-col items-center gap-2">
-                        <ArtifactIcon artifactSet={artifactSet} showFullName={true} />
+                        <Icon
+                          name={artifactSet.name}
+                          imageUrl={artifactSet.imageUrl}
+                          rarity={artifactSet.rarity}
+                          showFullName={true}
+                        />
                       </div>
                     ),
                     sizePercent: 20,
@@ -168,7 +194,13 @@ export default function ArtifactSetsClientPage({ artifactSets }: Props) {
                   {
                     name: "Aktionen",
                     render: (artifactSet) => (
-                      <div className="flex gap-2">
+                      <div className="flex gap-2 justify-center items-center">
+                        <button
+                          onClick={() => handleDelete(artifactSet.id)}
+                          className="text-white p-[1rem] rounded-2xl cursor-pointer hover:bg-gray-600"
+                        >
+                          <Trash2 size={20} />
+                        </button>
                         <button
                           onClick={() =>
                             setUiState({
@@ -177,18 +209,13 @@ export default function ArtifactSetsClientPage({ artifactSets }: Props) {
                               character: artifactSet,
                             })
                           }
-                          className="bg-green-500 text-white px-2 py-1 rounded cursor-pointer hover:bg-green-600"
+                          className="text-white p-[1rem] rounded-2xl cursor-pointer hover:bg-gray-600"
                         >
-                          Bearbeiten
-                        </button>
-                        <button
-                          onClick={() => handleDelete(artifactSet.id)}
-                          className="bg-red-500 text-white px-2 py-1 rounded cursor-pointer hover:bg-red-600"
-                        >
-                          Löschen
+                          <PencilLine size={20} />
                         </button>
                       </div>
                     ),
+                    disabled: !filters.showAktionen,
                   },
                 ]}
               />
@@ -196,7 +223,11 @@ export default function ArtifactSetsClientPage({ artifactSets }: Props) {
               <IconList
                 items={filteredArtifactSets}
                 render={(artifactSet) => (
-                  <ArtifactIcon artifactSet={artifactSet} />
+                  <Icon
+                    name={artifactSet.name}
+                    imageUrl={artifactSet.imageUrl}
+										rarity={artifactSet.rarity}
+                  />
                 )}
               />
             )}
