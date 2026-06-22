@@ -16,15 +16,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
 
     async session({ session, token }) {
-			console.log("TOKEN:", token);
-      console.log("SESSION:", session);
       const fullUser = await prisma.user.findUnique({
         where: { id: session.user.id },
         include: { roles: true },
       });
 
 			const roles = fullUser?.roles.map((r) => r.name) ?? [];
-			console.log("ROLLEN:", roles);
 			
       session.user.roles = roles;
 

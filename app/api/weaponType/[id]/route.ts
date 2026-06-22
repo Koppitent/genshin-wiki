@@ -1,15 +1,14 @@
 import { handleException } from "@/lib/api/errorHandler";
-import { deleteArtifactSetService } from "@/lib/artifactsets/artifactsetService";
+import { deleteWeaponTypeService } from "@/lib/weapontypes/weapontypeService";
 
-// DELETE
 export async function DELETE(
 	req: Request,
 	{ params }: { params: Promise<{ id: string }> },
 ) {
 	const { id } = await params;
 	try {
-		return Response.json(await deleteArtifactSetService(id));
+		return Response.json(await deleteWeaponTypeService(id));
 	} catch (e) {
-		handleException(e);
+		return await handleException(e);
 	}
 }

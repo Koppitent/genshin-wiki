@@ -1,3 +1,4 @@
+import { withErrorHandler } from "@/lib/api/errorHandler";
 import {
   getArtifactSetsService,
   createArtifactSetService,
@@ -6,45 +7,27 @@ import {
 } from "@/lib/artifactsets/artifactsetService";
 
 // GET
-export async function GET() {
-  const artifactSets = await getArtifactSetsService();
-  return Response.json(artifactSets);
-}
+export const GET = withErrorHandler(async function GET(req: Request) {
+  return Response.json(await getArtifactSetsService());
+});
 
 // POST
-export async function POST(req: Request) {
-  try {
-    const body = await req.json();
-    const result = await createArtifactSetService(body);
-    return Response.json(result);
-  } catch (error: any) {
-    return Response.json(
-      { error: error.message ?? "Unknown error" },
-      { status: 400 },
-    );
-  }
-}
+export const POST = withErrorHandler(async function POST(req: Request) {
+  const body = await req.json();
+  return Response.json(await createArtifactSetService(body));
+});
 
 // PUT
-export async function PUT(req: Request) {
-  try {
-    const body = await req.json();
-    const result = await updateArtifactSetService(body);
-    return Response.json(result);
-  } catch (error: any) {
-    return Response.json(
-      { error: error.message ?? "Unknown error" },
-      { status: 400 },
-    );
-  }
-}
+export const PUT = withErrorHandler(async function PUT(req: Request) {
+  const body = await req.json();
+  return Response.json(await updateArtifactSetService(body));
+});
 
 // DELETE
-export async function DELETE(req: Request) {
+export const DELETE = withErrorHandler(async function DELETE(req: Request) {
   const { id } = await req.json();
-	if (!id) {
+  if (!id) {
     return Response.json({ error: "Missing id" }, { status: 400 });
   }
-	const result = await deleteArtifactSetService(id);
-	return Response.json(result);
-};
+  return Response.json(await deleteArtifactSetService(id));
+});

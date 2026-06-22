@@ -7,7 +7,7 @@ export async function DELETE(
 ) {
   const { id } = await params;
 	try {
-		return await deleteCharacterService(id);
+		return Response.json(await deleteCharacterService(id));
 	} catch (e) {
 		return await handleException(e);
 	}
@@ -19,5 +19,5 @@ export async function GET(
 ) {
   const { id } = await params;
 
-  return getCharacterService(id);
+  return Response.json(await getCharacterService(id));
 }

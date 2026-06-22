@@ -1,17 +1,12 @@
-import prisma from "@/lib/prisma";
+import { withErrorHandler } from "@/lib/api/errorHandler";
+import { createRegionService, deleteRegionService, getRegionsService, updateRegionService } from "@/lib/regions/regionService";
 
 export async function GET() {
-  const regions = await prisma.region.findMany({
-    orderBy: {
-      name: "asc",
-    },
-  });
-  return Response.json(regions);
+  return Response.json(await getRegionsService());
 }
 
-export async function POST(req: Request) {
+export const POST = withErrorHandler(async (req: Request) => {
   const body = await req.json();
-
   if (!body.name) {
     return Response.json(
       {
@@ -22,21 +17,11 @@ export async function POST(req: Request) {
       },
     );
   }
+  return Response.json(await createRegionService(body));
+});
 
-  const region = await prisma.region.create({
-    data: {
-      name: body.name,
-			imageUrl: body.imageUrl,
-			description: body.description,
-    },
-  });
-
-  return Response.json(region);
-}
-
-export async function PUT(req: Request) {
+export const PUT = withErrorHandler(async (req: Request) => {
   const body = await req.json();
-
   if (!body.name || !body.imageUrl) {
     return Response.json(
       {
@@ -47,39 +32,15 @@ export async function PUT(req: Request) {
       },
     );
   }
-
   if (!body.id) {
-    throw new Error("Missing region id for update");
+    return Response.json(
+      {
+        error: "Missing id for update",
+      },
+      {
+        status: 400,
+      },
+    );
   }
-
-  const region = await prisma.region.update({
-    where: {
-      id: body.id,
-    },
-    data: {
-      name: body.name,
-      description: body.description,
-      imageUrl: body.imageUrl,
-    },
-  });
-
-  return Response.json(region);
-}
-
-export async function DELETE(req: Request) {
-  const body = await req.json();
-
-  if (!body.id) {
-    throw new Error("Missing region id for update");
-  }
-
-  await prisma.region.delete({
-    where: {
-      id: body.id,
-    },
-  });
-
-  return Response.json({
-    success: true,
-  });
-}
+  return Response.json(await updateRegionService(body));
+});

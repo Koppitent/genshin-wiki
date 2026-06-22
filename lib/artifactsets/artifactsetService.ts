@@ -1,4 +1,5 @@
 import prisma from "@/lib/prisma";
+import { requireAdmin } from "../auth/authService";
 
 export async function getArtifactSetsService() {
   return prisma.artifactSet.findMany({
@@ -12,6 +13,7 @@ export async function getArtifactSetsService() {
 }
 
 export async function createArtifactSetService(body: any) {
+	await requireAdmin();
   if (!body.name) {
     throw new Error("Name is required");
   }
@@ -59,6 +61,7 @@ export async function createArtifactSetService(body: any) {
 }
 
 export async function updateArtifactSetService(body: any) {
+	await requireAdmin();
   if (!body.name) {
     throw new Error("Name is required");
   }
@@ -94,6 +97,7 @@ export async function updateArtifactSetService(body: any) {
 }
 
 export async function deleteArtifactSetService(id: string) {
+  await requireAdmin();
   return prisma.artifactSet.delete({
     where: { id },
   });

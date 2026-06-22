@@ -1,15 +1,11 @@
-import prisma from "@/lib/prisma";
+import { withErrorHandler } from "@/lib/api/errorHandler";
+import { createWeaponTypeService, deleteWeaponTypeService, getWeaponTypesService, updateWeaponTypeService } from "@/lib/weapontypes/weapontypeService";
 
 export async function GET() {
-  const weaponTypes = await prisma.weaponType.findMany({
-    orderBy: {
-      name: "asc",
-    },
-  });
-  return Response.json(weaponTypes);
+  return Response.json(await getWeaponTypesService());
 }
 
-export async function POST(req: Request) {
+export const POST = withErrorHandler(async (req: Request) => {
   const body = await req.json();
 
   if (!body.name) {
@@ -22,17 +18,10 @@ export async function POST(req: Request) {
       },
     );
   }
+  return Response.json(await createWeaponTypeService(body));
+});
 
-  const weaponType = await prisma.weaponType.create({
-    data: {
-      name: body.name,
-    },
-  });
-
-  return Response.json(weaponType);
-}
-
-export async function PUT(req: Request) {
+export const PUT = withErrorHandler(async (req: Request) => {
   const body = await req.json();
 
   if (!body.name) {
@@ -45,37 +34,10 @@ export async function PUT(req: Request) {
       },
     );
   }
-
+	
 	if (!body.id) {
-    throw new Error("Missing character id for update");
+    throw new Error("Missing id for update");
   }
 
-  const weaponType = await prisma.weaponType.update({
-    where: {
-      id: body.id,
-    },
-    data: {
-      name: body.name,
-    },
-  });
-
-  return Response.json(weaponType);
-}
-
-export async function DELETE(req: Request) {
-	const body = await req.json();
-
-	if (!body.id) {
-    throw new Error("Missing character id for update");
-  }
-
-	await prisma.weaponType.delete({
-		where: {
-			id: body.id,
-		},
-	});
-
-	return Response.json({
-    success: true,
-  });
-}
+  return Response.json(await updateWeaponTypeService(body));
+});

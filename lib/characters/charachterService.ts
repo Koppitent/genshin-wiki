@@ -88,7 +88,7 @@ export async function deleteCharacterService(id: string) {
       id,
     },
   });
-  return Response.json({
+  return {
     success: true,
-  });
+  };
 }
