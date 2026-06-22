@@ -1,31 +1,26 @@
 "use client";
 
-import {
-  BadgeQuestionMark,
-  Feather,
-  Home,
-  LogOut,
-  Sword,
-  User,
-} from "lucide-react";
+import { BadgeQuestionMark, Feather, LogOut, Sword, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
 import { useState } from "react";
 import SignIn from "./SignInForm";
 import Modal from "./Modal";
+import { hasRole } from "@/lib/auth/authHelper";
 
 const Navbar = () => {
   const { data: session } = useSession();
-	const [signInModalOpen, setSignInModalOpen] = useState(false);
+  const [signInModalOpen, setSignInModalOpen] = useState(false);
 
   return (
-    <div className="">
-      <nav className="bg-[var(--foreground)] text-[var(--text-color)] border-b border-gray-300">
-        <ul className="flex text-lg font-semibold">
-          <li className="transition-colors p-2">
-            <Link href="/" className="flex items-center gap-1">
-              <div className="relative h-[1.5em] w-[1.5em] md:h-[2.5em] md:w-[2.5em]">
+    <div>
+      <nav className="bg-[var(--foreground)] text-[var(--text-color)] border-b border-gray-300 h-16">
+        <div className="flex justify-between h-full text-lg font-semibold">
+          {/* LEFT SIDE */}
+          <div className="flex h-full items-stretch">
+            <Link href="/" className="flex items-center px-4 h-full">
+              <div className="relative h-8 w-8 md:h-10 md:w-10">
                 <Image
                   src="/genshin-site-logo.svg"
                   alt="GIL"
@@ -35,100 +30,97 @@ const Navbar = () => {
                 />
               </div>
             </Link>
-          </li>
-          {/* <Link
-            href="/"
-            className="hover:bg-[var(--hover-color)] transition-colors flex gap-1 items-center"
-          >
-            <li className="flex items-center p-3">
-              <Home />
-              Home
-            </li>
-          </Link> */}
-          <Link
-            href="/characters"
-            className="hover:bg-[var(--hover-color)] transition-colors flex items-center"
-          >
-            <li className="flex items-center p-3 gap-1">
-              <User />
-              Figuren
-            </li>
-          </Link>
-          <Link
-            href="/weapons"
-            className="hover:bg-[var(--hover-color)] transition-colors flex items-center"
-          >
-            <li className="flex items-center p-3 gap-1">
-              <Sword />
-              Waffen
-            </li>
-          </Link>
-          <Link
-            href="/artifacts"
-            className="hover:bg-[var(--hover-color)] transition-colors flex items-center"
-          >
-            <li className="flex items-center p-3 gap-1">
-              <Feather />
-              Artefakte
-            </li>
-          </Link>
-          <Link
-            href="/genshindle"
-            className="hover:bg-[var(--hover-color)] transition-colors flex items-center"
-          >
-            <li className="flex items-center p-3 gap-1">
-              <BadgeQuestionMark />
-              Genshindle
-            </li>
-          </Link>
-          <Link
-            href="/admin"
-            className="hover:bg-[var(--hover-color)] text-[#D91B24] hover:text-[#761F21] transition-colors flex items-center ml-auto"
-          >
-            <li className="flex items-center p-3 gap-1">
-              <User />
-              Admin
-            </li>
-          </Link>
-          <li className="relative flex items-center p-3 gap-1 hover:bg-[var(--hover-color)] transition-colors group cursor-pointer">
-            {session ? (
-              <>
-                <div className="flex items-center gap-2 w-[10rem]">
-                  <img
-                    src={session.user?.image || "/default-avatar.png"}
-                    alt="User Avatar"
-                    className="w-8 h-8 rounded-full"
-                  />
-                  <p>{session.user?.name || "User"}</p>
-                </div>
 
-                {/* Dropdown */}
-                <div className="absolute top-full right-0 hidden group-hover:block bg-[var(--hover-color)] shadow-lg w-full z-50 cursor-pointer">
-                  <button
-                    onClick={() => signOut()}
-                    className="w-full text-left px-3 py-2 hover:bg-gray-500 rounded cursor-pointer flex items-center gap-1"
-                  >
-                    <LogOut />
-                    Logout
-                  </button>
-                </div>
-              </>
-            ) : (
-              <div className="flex items-center gap-2">
+            <Link
+              href="/characters"
+              className="flex items-center px-4 h-full hover:bg-[var(--hover-color)] transition-colors"
+            >
+              <User />
+              <span className="ml-2">Figuren</span>
+            </Link>
+
+            <Link
+              href="/weapons"
+              className="flex items-center px-4 h-full hover:bg-[var(--hover-color)] transition-colors"
+            >
+              <Sword />
+              <span className="ml-2">Waffen</span>
+            </Link>
+
+            <Link
+              href="/artifacts"
+              className="flex items-center px-4 h-full hover:bg-[var(--hover-color)] transition-colors"
+            >
+              <Feather />
+              <span className="ml-2">Artefakte</span>
+            </Link>
+
+            <Link
+              href="/genshindle"
+              className="flex items-center px-4 h-full hover:bg-[var(--hover-color)] transition-colors"
+            >
+              <BadgeQuestionMark />
+              <span className="ml-2">Genshindle</span>
+            </Link>
+          </div>
+
+          {/* RIGHT SIDE */}
+          <div className="flex h-full items-stretch">
+            {hasRole(session, "admin") && (
+              <Link
+                href="/admin"
+                className="flex items-center px-4 h-full text-[#D91B24] hover:text-[#761F21] hover:bg-[var(--hover-color)] transition-colors"
+              >
+                <User />
+                <span className="ml-2">Admin</span>
+              </Link>
+            )}
+
+            {/* USER AREA */}
+            <div className="relative flex items-center px-4 h-full hover:bg-[var(--hover-color)] group cursor-pointer">
+              {session ? (
+                <>
+                  <div className="flex items-center gap-2">
+                    <img
+                      src={session.user?.image || "/default-avatar.png"}
+                      alt="User Avatar"
+                      className="w-8 h-8 rounded-full"
+                    />
+                    <span>{session.user?.name || "User"}</span>
+                  </div>
+
+                  {/* Dropdown */}
+                  <div className="absolute right-0 top-full hidden group-hover:block bg-[var(--hover-color)] shadow-lg min-w-full z-50">
+                    <button
+                      onClick={() => signOut()}
+                      className="w-full flex items-center gap-2 px-4 py-2 hover:bg-gray-500"
+                    >
+                      <LogOut />
+                      Logout
+                    </button>
+                  </div>
+                </>
+              ) : (
                 <button
-                  className="bg-blue-500 hover:bg-blue-600 rounded text-white hover:text-blue-100 transition-colors p-2 cursor-pointer"
+                  className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded transition-colors"
                   onClick={() => setSignInModalOpen(true)}
                 >
                   Sign in
                 </button>
-              </div>
-            )}
-          </li>
-        </ul>
+              )}
+            </div>
+          </div>
+        </div>
       </nav>
-			<Modal open={signInModalOpen} onClose={() => setSignInModalOpen(false)} title="Sign In">
-				<SignIn />
-			</Modal>
+
+      {/* MODAL */}
+      <Modal
+        open={signInModalOpen}
+        onClose={() => setSignInModalOpen(false)}
+        title="Sign In"
+      >
+        <SignIn />
+      </Modal>
     </div>
   );
 };
