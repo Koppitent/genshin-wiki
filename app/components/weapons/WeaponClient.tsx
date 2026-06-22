@@ -189,6 +189,7 @@ export function WeaponClient({ weapons }: Props) {
                           imageUrl={weapon.imageUrl}
                           rarity={weapon.rarity}
 													showFullName={true}
+													size={6}
                         />
                       </div>
                     ),
@@ -257,6 +258,7 @@ export function WeaponClient({ weapons }: Props) {
                     imageUrl={weapon.imageUrl}
                     rarity={weapon.rarity}
                     showFullName={true}
+										size={6}
                   />
                 )}
               />

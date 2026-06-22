@@ -5,7 +5,7 @@ import { ArtifactSetFull } from "./ArtifactSetsClient";
 import { SyntheticEvent, useState } from "react";
 import ImageUpload from "../ImageUpload";
 import TextAreaInput from "../TextAreaInput";
-import { createArtifactSet } from "@/lib/artifactsets/artifactsetServiceClient";
+import { createArtifactSet, updateArtifactSet } from "@/lib/artifactsets/artifactsetServiceClient";
 
 type Props = {
 	mode: "create" | "edit";
@@ -40,13 +40,7 @@ export default function ArtifactsForm({ mode, artifactSetProp, onSuccess, onClos
 	}
 
 	async function update() {
-		const res = await fetch("/api/artifactset", {
-			method: "PUT",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(artifactSet),
-		});
+		const res = await updateArtifactSet(artifactSet);
 
 		if (!res.ok) {
 			throw new Error("Failed to update artifact set");

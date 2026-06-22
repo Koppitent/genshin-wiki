@@ -1,4 +1,4 @@
-import { PrismaClient, Prisma } from "../app/generated/prisma/client";
+import { PrismaClient } from "../app/generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import "dotenv/config";
 
@@ -10,24 +10,17 @@ const prisma = new PrismaClient({
   adapter,
 });
 
-const weaponsTypeData: Prisma.WeaponTypeCreateInput[] = [
-  {
-    name: "Sword",
-  },
-  {
-    name: "Bow",
-  },
-  {
-    name: "Polearm",
-  },
-];
+const adminUserId: string = "cmqojbcg60000lgfwtnenvkdz";
 
 export async function main() {
-  for (const weaponType of weaponsTypeData) {
-    await prisma.weaponType.create({
-      data: weaponType,
-    });
-  }
+    await prisma.role.create({
+			data: {
+				name: "admin",
+				users: {
+					connect: { id: adminUserId },
+				},
+			}
+		})
 }
 
 main();

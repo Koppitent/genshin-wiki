@@ -46,13 +46,7 @@ export default function WeaponForm({
   }, []);
 
   async function loadWeaponTypes() {
-    const res = await getWeaponTypes();
-
-    if (!res.ok) {
-      throw new Error("Failed to load weapon types");
-    }
-
-    const data = await res.json();
+    const data = await getWeaponTypes();
     setWeaponTypes(data);
   }
 

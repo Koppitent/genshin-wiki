@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Nunito, Nunito_Sans } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
+import { SessionProvider } from "next-auth/react";
 
 const nunito = Nunito({
   variable: "--font-nunito",
@@ -29,8 +30,10 @@ export default function RootLayout({
       className={`${nunito.variable} ${nunitoSans.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <Navbar />
-        {children}
+        <SessionProvider>
+					<Navbar />
+        	{children}
+				</SessionProvider>
       </body>
     </html>
   );

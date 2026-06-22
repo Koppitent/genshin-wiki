@@ -170,6 +170,7 @@ export default function ArtifactSetsClientPage({ artifactSets }: Props) {
                           imageUrl={artifactSet.imageUrl}
                           rarity={artifactSet.rarity}
                           showFullName={true}
+													size={6}
                         />
                       </div>
                     ),
@@ -227,6 +228,7 @@ export default function ArtifactSetsClientPage({ artifactSets }: Props) {
                     name={artifactSet.name}
                     imageUrl={artifactSet.imageUrl}
 										rarity={artifactSet.rarity}
+										size={6}
                   />
                 )}
               />

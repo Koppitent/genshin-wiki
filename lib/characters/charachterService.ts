@@ -1,7 +1,9 @@
 import prisma from "@/lib/prisma";
+import { requireAdmin, requireRole } from "../auth/authService";
 
 export async function createCharacterService(body: any) {
-  const character = await prisma.character.create({
+	await requireAdmin();
+  return await prisma.character.create({
     data: {
       name: body.name,
       description: body.description,
@@ -18,11 +20,10 @@ export async function createCharacterService(body: any) {
       releaseVersion: body.releaseVersion,
     },
   });
-
-  return character;
 }
 
 export async function updateCharacterService(body: any) {
+	await requireAdmin();
   if (!body.id) {
     throw new Error("Missing character id for update");
   }
@@ -81,6 +82,7 @@ export async function getCharacterService(id: string) {
 }
 
 export async function deleteCharacterService(id: string) {
+	await requireRole("asdasdsad")
   await prisma.character.delete({
     where: {
       id,

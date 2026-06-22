@@ -1,3 +1,4 @@
+import { handleException } from "@/lib/api/errorHandler";
 import { deleteCharacterService, getCharacterService } from "@/lib/characters/charachterService";
 
 export async function DELETE(
@@ -5,8 +6,11 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params;
-
-  return deleteCharacterService(id);
+	try {
+		return await deleteCharacterService(id);
+	} catch (e) {
+		return await handleException(e);
+	}
 }
 
 export async function GET(

@@ -2,11 +2,11 @@
 
 import { Trash2, PencilLine } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { CharacterWithWeaponType } from "./CharacterClient";
+import { CharacterFull, deleteCharacter } from "@/lib/characters/charachterServiceClient";
 
 type Props = {
-  character: CharacterWithWeaponType,
-	onOpenEditModal: (character: CharacterWithWeaponType) => void,
+  character: CharacterFull,
+	onOpenEditModal: (character: CharacterFull) => void,
 };
 
 export default function CharacterActions({ character, onOpenEditModal }: Props) {
@@ -16,14 +16,9 @@ export default function CharacterActions({ character, onOpenEditModal }: Props) 
 		if(!confirm(`Möchtest du ${character.name} wirklich löschen?`)) {
 			return;
 		}
-    const res = await fetch(
-      `/api/characters/${character.id}`,
-      {
-        method: "DELETE",
-      },
-    );
+    const res = await deleteCharacter(character.id);
 
-    if (!res.ok) {
+    if (!res.success) {
       alert("Löschen fehlgeschlagen");
       return;
     }

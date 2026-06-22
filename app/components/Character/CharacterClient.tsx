@@ -223,6 +223,7 @@ export default function CharacterClient({ characters }: Props) {
                           rarity={character.rarity}
                           element={character.element}
 													showFullName={true}
+													size={6}
                         />
                       </div>
                     ),
@@ -306,6 +307,7 @@ export default function CharacterClient({ characters }: Props) {
                     rarity={character.rarity}
                     element={character.element}
                     showFullName={true}
+										size={6}
                   />
                 )}
 								onItemClick={(character) => {

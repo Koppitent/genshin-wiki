@@ -1,14 +1,15 @@
+import { withErrorHandler } from "@/lib/api/errorHandler";
 import { createCharacterService, getCharactersService, updateCharacterService } from "@/lib/characters/charachterService";
 
-export async function POST(request: Request) {
+export const POST = withErrorHandler(async (request: Request) => {
   const body = await request.json();
-  return Response.json(await createCharacterService(body));
-}
+	return Response.json(await createCharacterService(body));
+});
 
-export async function PUT(request: Request) {
+export const PUT = withErrorHandler(async (request: Request) => {
   const body = await request.json();
 	return Response.json(await updateCharacterService(body));
-}
+});
 
 export async function GET() {
   return Response.json(await getCharactersService());

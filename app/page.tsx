@@ -1,10 +1,23 @@
-import Link from "next/link";
+import { auth } from "@/auth";
 
-export default function Home() {
-  return (
+export default async function Home() {
+	const session = await auth();
+
+	if (!session?.user) return (
     <div className="flex flex-col items-center justify-center gap-4 h-[80vh]">
       <h1 className="text-6xl font-bold">Genshin Impact Wiki</h1>
 			<h2 className="text-2xl">Eine Kollektion von Informationen über Genshin Impact</h2>
+    </div>
+  );
+
+	return (
+    <div className="flex flex-col items-center justify-center gap-4 h-[80vh]">
+      <h1 className="text-6xl font-bold">Genshin Impact Wiki</h1>
+      <h2 className="text-2xl">
+        Eine Kollektion von Informationen über Genshin Impact
+      </h2>
+      <p className="text-lg">Willkommen, {session.user.name}!</p>
+			<p>Deine Id ist "{session.user.id || "Unbekannt"}" und deine Rolle ist "{session.user.roles[0] || "Unbekannt"}"</p>
     </div>
   );
 }

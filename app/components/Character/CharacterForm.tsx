@@ -3,7 +3,14 @@
 import { SyntheticEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Region } from "@/app/generated/prisma/client";
-import { CharacterFull } from "@/lib/characters/charachterServiceClient";
+import {
+  CharacterFull,
+  createCharacter,
+  updateCharacter,
+} from "@/lib/characters/charachterServiceClient";
+import { getRegions } from "@/lib/regions/regionServiceClient";
+import { getWeaponTypes } from "@/lib/weapontypes/weapontypeServiceClient";
+import ImageUpload from "../ImageUpload";
 
 type Props = {
   mode: "create" | "edit";
@@ -13,110 +20,107 @@ type Props = {
 };
 
 const emptyCharacter: CharacterFull = {
-	name: "",
-	description: "",
-	element: "pyro",	
-	imageUrl: "",
-	rarity: 5,
-	weaponTypeId: "",
-	baseAttack: 0,
-	regionId: "",
-	region: null,
-	weaponType: {
-		id: "",
-		name: "",
-	},
-	releaseVersion: 4.0,
+  name: "",
+  description: "",
+  element: "pyro",
+  imageUrl: "",
+  rarity: 5,
+  weaponTypeId: "",
+  baseAttack: 0,
+  regionId: "",
+  region: null,
+  weaponType: {
+    id: "",
+    name: "",
+  },
+  releaseVersion: 4.0,
+  id: "",
 };
 
-export default function CharacterForm({ mode, character: characterProp, onSuccess, onClose }: Props) {
-
-	const router = useRouter();
-	const [weaponTypes, setWeaponTypes] = useState<
+export default function CharacterForm({
+  mode,
+  character: characterProp,
+  onSuccess,
+  onClose,
+}: Props) {
+  const router = useRouter();
+  const [weaponTypes, setWeaponTypes] = useState<
     { id: string; name: string }[]
   >([]);
-	const [regions, setRegions] = useState<
-    Region[]
-  >([]);
-	const [uploading, setUploading] = useState(false);
+  const [regions, setRegions] = useState<Region[]>([]);
 
-	useEffect(() => {
+  useEffect(() => {
     loadWeaponTypes();
     loadRegion();
   }, []);
 
-	async function loadWeaponTypes() {
-		const res = await fetch("/api/weaponType");
+  async function loadWeaponTypes() {
+    getWeaponTypes()
+      .then((data) => {
+        setWeaponTypes(data);
+      })
+      .catch((err) => {
+        console.error("Failed to load weapon types", err);
+      });
+  }
 
-		if (!res.ok) {
-			throw new Error("Failed to load weapon types");
-		}
-
-		const data = await res.json();
-		setWeaponTypes(data);
-	}
-
-	async function loadRegion() {
-    const res = await fetch("/api/regions");
-
-    if (!res.ok) {
-      throw new Error("Failed to load region");
-    }
-
-    const data = await res.json();
-    setRegions(data);
+  async function loadRegion() {
+    getRegions()
+      .then((data) => {
+        setRegions(data);
+      })
+      .catch((err) => {
+        console.error("Failed to load regions", err);
+      });
   }
 
   async function create() {
-		console.log("Cerating char", character);
-		
-    const res = await fetch("/api/characters", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(character),
-    });
+    console.log("Cerating char", character);
+
+    const res = await createCharacter(character);
+
+    if (res.status === 403 || res.status === 401) {
+      alert("Du hast keine Berechtigung, einen Charakter zu erstellen.");
+      return;
+    }
 
     if (!res.ok) {
-      throw new Error("Failed to create character");
+      console.error("Failed to create character", await res.text());
     }
 
     return res.json();
   }
 
-	async function update() {
-    const res = await fetch("/api/characters", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(character),
-    });
+  async function update() {
+    const res = await updateCharacter(character);
 
     if (!res.ok) {
-      throw new Error("Failed to create character");
+      console.error("Failed to update character", await res.text());
     }
 
     return res.json();
   }
-	
+
   const [character, setCharacter] = useState<CharacterFull>(
-    characterProp || emptyCharacter
+    characterProp || emptyCharacter,
   );
 
   async function handleSubmit(e: SyntheticEvent) {
     e.preventDefault();
 
-		if(character.name.trim() === "" || character.element.trim() === "" || character.weaponTypeId.trim() === "") {
-			alert("Name, Element und Waffenart sind erforderlich!");
-			return;
-		}
+    if (
+      character.name.trim() === "" ||
+      character.element.trim() === "" ||
+      character.weaponTypeId.trim() === ""
+    ) {
+      alert("Name, Element und Waffenart sind erforderlich!");
+      return;
+    }
 
-		if(character.rarity < 4 || character.rarity > 5) {
-			alert("Seltenheit muss zwischen 4 und 5 liegen!");
-			return;
-		}
+    if (character.rarity < 4 || character.rarity > 5) {
+      alert("Seltenheit muss zwischen 4 und 5 liegen!");
+      return;
+    }
 
     if (mode === "create") {
       await create();
@@ -127,32 +131,7 @@ export default function CharacterForm({ mode, character: characterProp, onSucces
     onSuccess?.();
     onClose?.();
     router.refresh();
-		console.log("created successfully");	
-  }
-
-	async function handleImageUpload(file: File) {
-		setUploading(true);
-    const formData = new FormData();
-    formData.append("file", file);
-
-    const res = await fetch("/api/upload", {
-      method: "POST",
-      body: formData,
-    });
-
-    if (!res.ok) {
-      alert("Upload failed");
-			setUploading(false);
-      return;
-    }
-
-    const data = await res.json();
-
-    setCharacter((prev) => ({
-      ...prev,
-      imageUrl: data.imageUrl,
-    }));
-		setUploading(false);
+    console.log("created successfully");
   }
 
   return (
@@ -229,28 +208,12 @@ export default function CharacterForm({ mode, character: characterProp, onSucces
           ))}
         </select>
 
-        <div className="flex flex-col gap-2 border p-2">
-          <label className="text-sm">Character Image</label>
-
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => {
-              const file = e.target.files?.[0];
-              if (file) handleImageUpload(file);
-            }}
-          />
-
-          {uploading && <p>Uploading...</p>}
-
-          {character.imageUrl && (
-            <img
-              src={character.imageUrl}
-              alt="Preview"
-              className="w-24 h-24 object-cover rounded-md border"
-            />
-          )}
-        </div>
+        <ImageUpload
+          imageUrl={character.imageUrl}
+          onImageUrlChange={(url) =>
+            setCharacter({ ...character, imageUrl: url })
+          }
+        />
 
         <select
           className="border p-2"
@@ -266,19 +229,23 @@ export default function CharacterForm({ mode, character: characterProp, onSucces
           <option value="4">4</option>
         </select>
 
-				<label htmlFor="releaseVersion" className="text-sm -mb-3">
-          Version: {character.releaseVersion ? character.releaseVersion.toFixed(1) : ""}
+        <label htmlFor="releaseVersion" className="text-sm -mb-3">
+          Version:{" "}
+          {character.releaseVersion ? character.releaseVersion.toFixed(1) : ""}
         </label>
         <input
           placeholder="Release Version"
           className="border mb-2"
-					type="range"
+          type="range"
           min="1.0"
           max="7.0"
           step="0.1"
           value={character.releaseVersion}
           onChange={(e) =>
-            setCharacter({ ...character, releaseVersion: parseFloat(e.target.value) || 1.0 })
+            setCharacter({
+              ...character,
+              releaseVersion: parseFloat(e.target.value) || 1.0,
+            })
           }
         />
 
