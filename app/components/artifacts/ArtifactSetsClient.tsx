@@ -19,6 +19,8 @@ import {
   deleteArtifactSet,
 } from "@/lib/artifactsets/artifactsetServiceClient";
 import Icon from "../Icon";
+import { useSession } from "next-auth/react";
+import { hasRole } from "@/lib/auth/authHelper";
 
 type Props = {
   artifactSets: ArtifactSetFull[];
@@ -38,6 +40,8 @@ type UIState =
   | { open: true; mode: "edit"; character: ArtifactSetFull };
 
 export default function ArtifactSetsClientPage({ artifactSets }: Props) {
+  const { data: session } = useSession();
+
   const [tableState, setTableState] = useState<TableState>("table");
   const [uiState, setUiState] = useState<UIState>({ open: false });
   const [filters, setFilters] = useState<Filters>({
@@ -127,17 +131,20 @@ export default function ArtifactSetsClientPage({ artifactSets }: Props) {
             >
               Artefakt erstellen
             </button>
-            <button
-              onClick={() =>
-                setFilters((prev) => ({
-                  ...prev,
-                  showAktionen: !prev.showAktionen,
-                }))
-              }
-              className="hover:bg-gray-600 p-[0.5rem] rounded-2xl cursor-pointer"
-            >
-              <ShieldCogCorner size={20} />
-            </button>
+
+            {hasRole(session, "admin") && (
+              <button
+                onClick={() =>
+                  setFilters((prev) => ({
+                    ...prev,
+                    showAktionen: !prev.showAktionen,
+                  }))
+                }
+                className="hover:bg-gray-600 p-[0.5rem] rounded-2xl cursor-pointer"
+              >
+                <ShieldCogCorner size={20} />
+              </button>
+            )}
             <button
               onClick={toggleTableState}
               className="hover:bg-gray-600 p-[0.5rem] rounded-2xl cursor-pointer"
@@ -170,7 +177,7 @@ export default function ArtifactSetsClientPage({ artifactSets }: Props) {
                           imageUrl={artifactSet.imageUrl}
                           rarity={artifactSet.rarity}
                           showFullName={true}
-													size={6}
+                          size={6}
                         />
                       </div>
                     ),
@@ -227,8 +234,8 @@ export default function ArtifactSetsClientPage({ artifactSets }: Props) {
                   <Icon
                     name={artifactSet.name}
                     imageUrl={artifactSet.imageUrl}
-										rarity={artifactSet.rarity}
-										size={6}
+                    rarity={artifactSet.rarity}
+                    size={6}
                   />
                 )}
               />

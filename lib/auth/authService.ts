@@ -28,3 +28,14 @@ export async function requireRole(role: string) {
 export async function requireAdmin() {
 	return requireRole("admin");
 }
+
+export async function requireOwner(id: string) {
+  const session = await requireAuth();
+	if (!session) {
+    throw new UnauthorizedError("Unauthorized");
+  }
+  if (session.user.id !== id) {
+    throw new ForbiddenError("Forbidden");
+  }
+  return session;
+}

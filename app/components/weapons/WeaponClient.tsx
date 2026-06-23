@@ -17,6 +17,8 @@ import Modal from "../Modal";
 import WeaponForm from "./WeaponForm";
 import { WeaponFull } from "@/lib/weapons/weaponServiceClient";
 import Icon from "../Icon";
+import { useSession } from "next-auth/react";
+import { hasRole } from "@/lib/auth/authHelper";
 
 type Props = {
   weapons: WeaponFull[];
@@ -37,6 +39,8 @@ type UIState =
   | { open: true; mode: "edit"; weapon: WeaponFull };
 
 export function WeaponClient({ weapons }: Props) {
+  const { data: session } = useSession();
+
   const [tableState, setTableState] = useState<TableState>("table");
   const [uiState, setUiState] = useState<UIState>({ open: false });
   const [filters, setFilters] = useState<Filters>({
@@ -146,17 +150,20 @@ export function WeaponClient({ weapons }: Props) {
             >
               Waffe erstellen
             </button>
-            <button
-              onClick={() =>
-                setFilters((prev) => ({
-                  ...prev,
-                  showAktionen: !prev.showAktionen,
-                }))
-              }
-              className="hover:bg-gray-600 p-[0.5rem] rounded-2xl cursor-pointer"
-            >
-              <ShieldCogCorner size={20} />
-            </button>
+            {hasRole(session, "admin") && (
+              <button
+                onClick={() =>
+                  setFilters((prev) => ({
+                    ...prev,
+                    showAktionen: !prev.showAktionen,
+                  }))
+                }
+                className="hover:bg-gray-600 p-[0.5rem] rounded-2xl cursor-pointer"
+              >
+                <ShieldCogCorner size={20} />
+              </button>
+            )}
+
             <button
               onClick={toggleTableState}
               className="hover:bg-gray-600 p-[0.5rem] rounded-2xl cursor-pointer"
@@ -188,8 +195,8 @@ export function WeaponClient({ weapons }: Props) {
                           name={weapon.name}
                           imageUrl={weapon.imageUrl}
                           rarity={weapon.rarity}
-													showFullName={true}
-													size={6}
+                          showFullName={true}
+                          size={6}
                         />
                       </div>
                     ),
@@ -258,7 +265,7 @@ export function WeaponClient({ weapons }: Props) {
                     imageUrl={weapon.imageUrl}
                     rarity={weapon.rarity}
                     showFullName={true}
-										size={6}
+                    size={6}
                   />
                 )}
               />

@@ -1,12 +1,8 @@
-import { ForbiddenError, UnauthorizedError } from "./errors";
+import { MyErrors } from "./errors";
 
 export function handleException(e: unknown): Response {
-  if (e instanceof ForbiddenError) {
-    return Response.json({ message: e.message }, { status: 403 });
-  }
-
-  if (e instanceof UnauthorizedError) {
-    return Response.json({ message: e.message }, { status: 401 });
+  if (e instanceof MyErrors) {
+    return Response.json({ message: e.message }, { status: e.status });
   }
 
   console.error("Unhandled error:", e);

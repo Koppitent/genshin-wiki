@@ -12,6 +12,13 @@ datasource db {
   provider = "postgresql"
 }
 
+enum TierListVisibility {
+  PUBLIC
+  PRIVATE
+  UNLISTED
+  OFFICIAL
+}
+
 model Weapon {
 	id          String   @id @default(cuid())
 
@@ -43,6 +50,8 @@ model Character {
 
 	weaponTypeId String
   weaponType   WeaponType @relation(fields: [weaponTypeId], references: [id])
+
+	tierListEntries TierListEntry[]
 
 	releaseVersion 	Float @default(1.0)
 	baseAttack  		Float
@@ -91,7 +100,11 @@ model Artifact {
 	imageUrl    String
 }
 
-// Authentication models for NextAuth.js
+
+//////////////////////////////////////////////////////
+// AUTH (NextAuth.js)
+//////////////////////////////////////////////////////
+
 model User {
   id            String          @id @default(cuid())
   name          String?
@@ -102,7 +115,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
 
-	roles         Role[]
+	profile       UserProfile? @relation
  
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -151,5 +164,62 @@ model Role {
   id    String @id @default(cuid())
   name  String @unique
 
-  users User[]
+  users UserProfile[]
+}
+
+///
+// User Profile
+
+model UserProfile {
+  id        		String @id @default(cuid())
+
+  userId    		String @unique
+  user      		User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  roles     		Role[]
+  tierLists 		TierList[]
+
+	tokenVersion 	Int @default(0) // increment this when changing the roles of a user to invalidate their JWTs
+
+  createdAt 		DateTime @default(now())
+  updatedAt 		DateTime @updatedAt
+}
+
+//////////////////////////////////////////////////////
+// TIER LIST SYSTEM
+//////////////////////////////////////////////////////
+
+model TierList {
+  id          String @id @default(cuid())
+
+  title       String
+  description String?
+
+  visibility  TierListVisibility @default(PRIVATE)
+
+  profileId   String?
+  profile     UserProfile? @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  entries     TierListEntry[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model TierListEntry {
+  id          String @id @default(cuid())
+
+  tierListId  String
+  tierList    TierList @relation(fields: [tierListId], references: [id], onDelete: Cascade)
+
+  characterId String
+  character   Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+
+  tier        String // SS, S, A, B, C, D
+  position    Int    // order inside tier
+
+  note        String?
+
+  @@unique([tierListId, characterId])
+  @@index([tierListId, tier])
 }

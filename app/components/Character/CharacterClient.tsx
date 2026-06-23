@@ -19,6 +19,8 @@ import { weaponIcons } from "@/lib/weapons";
 import CharacterActions from "./CharacterActions";
 import Icon from "../Icon";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { hasRole } from "@/lib/auth/authHelper";
 
 type Props = {
   characters: CharacterFull[];
@@ -40,7 +42,8 @@ type UIState =
   | { open: true; mode: "edit"; character: CharacterFull };
 
 export default function CharacterClient({ characters }: Props) {
-	const router = useRouter();
+  const router = useRouter();
+  const { data: session } = useSession();
 
   const [tableState, setTableState] = useState<TableState>("iconlist");
   const [uiState, setUiState] = useState<UIState>({ open: false });
@@ -179,17 +182,19 @@ export default function CharacterClient({ characters }: Props) {
             >
               Charakter erstellen
             </button>
-            <button
-              onClick={() =>
-                setFilters((prev) => ({
-                  ...prev,
-                  showAktionen: !prev.showAktionen,
-                }))
-              }
-              className="hover:bg-gray-600 p-[0.5rem] rounded-2xl cursor-pointer"
-            >
-              <ShieldCogCorner size={20} />
-            </button>
+            {hasRole(session, "admin") && (
+              <button
+                onClick={() =>
+                  setFilters((prev) => ({
+                    ...prev,
+                    showAktionen: !prev.showAktionen,
+                  }))
+                }
+                className="hover:bg-gray-600 p-[0.5rem] rounded-2xl cursor-pointer"
+              >
+                <ShieldCogCorner size={20} />
+              </button>
+            )}
             <button
               onClick={toggleTableState}
               className="hover:bg-gray-600 p-[0.5rem] rounded-2xl cursor-pointer"
@@ -222,8 +227,8 @@ export default function CharacterClient({ characters }: Props) {
                           imageUrl={character.imageUrl}
                           rarity={character.rarity}
                           element={character.element}
-													showFullName={true}
-													size={6}
+                          showFullName={true}
+                          size={6}
                         />
                       </div>
                     ),
@@ -307,12 +312,12 @@ export default function CharacterClient({ characters }: Props) {
                     rarity={character.rarity}
                     element={character.element}
                     showFullName={true}
-										size={6}
+                    size={6}
                   />
                 )}
-								onItemClick={(character) => {
-									router.push(`/characters/${character.id}`);
-								}}
+                onItemClick={(character) => {
+                  router.push(`/characters/${character.id}`);
+                }}
               />
             )}
           </>

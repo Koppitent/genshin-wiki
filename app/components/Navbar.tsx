@@ -1,6 +1,6 @@
 "use client";
 
-import { BadgeQuestionMark, Feather, LogOut, Sword, User } from "lucide-react";
+import { BadgeQuestionMark, Feather, List, LogOut, Sword, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
@@ -61,6 +61,13 @@ const Navbar = () => {
             >
               <BadgeQuestionMark />
               <span className="ml-2">Genshindle</span>
+            </Link>
+            <Link
+              href="/tier-lists"
+              className="flex items-center px-4 h-full hover:bg-[var(--hover-color)] transition-colors"
+            >
+              <List />
+              <span className="ml-2">Tier Lists</span>
             </Link>
           </div>
 

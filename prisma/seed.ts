@@ -13,14 +13,10 @@ const prisma = new PrismaClient({
 const adminUserId: string = "cmqojbcg60000lgfwtnenvkdz";
 
 export async function main() {
-    await prisma.role.create({
-			data: {
-				name: "admin",
-				users: {
-					connect: { id: adminUserId },
-				},
-			}
-		})
+    await prisma.role.createMany({
+      data: [{ name: "USER" }, { name: "ADMIN" }],
+      skipDuplicates: true,
+    });
 }
 
 main();

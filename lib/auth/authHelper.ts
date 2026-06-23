@@ -1,5 +1,7 @@
 import { Session } from "next-auth";
 
 export function hasRole(session: Session | null, role: string) {
-  return !!session?.user?.roles?.includes(role);
+  if (!session?.user?.roles) return false;
+  const target = role.toUpperCase();
+  return session.user.roles.some((r) => r === target);
 }

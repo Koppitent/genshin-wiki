@@ -1,7 +1,27 @@
-export class ForbiddenError extends Error {
-  status = 403;
+export class MyErrors extends Error {
+  status = 500;
+
+  constructor(message: string, status = 500) {
+    super(message);
+    this.status = status;
+    this.name = this.constructor.name;
+  }
 }
 
-export class UnauthorizedError extends Error {
-  status = 401;
+export class ForbiddenError extends MyErrors {
+  constructor(message = "Forbidden") {
+    super(message, 403);
+  }
+}
+
+export class UnauthorizedError extends MyErrors {
+  constructor(message = "Unauthorized") {
+    super(message, 401);
+  }
+}
+
+export class NotFoundError extends MyErrors {
+  constructor(message = "Not Found") {
+    super(message, 404);
+  }
 }
