@@ -1,4 +1,4 @@
-import { PrismaClient } from "../app/generated/prisma/client";
+import { PrismaClient } from "../../app/generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import "dotenv/config";
 import { readFileSync } from "fs";
@@ -33,40 +33,52 @@ const weaponMap = Object.fromEntries(weaponTypes.map((w) => [w.name, w.id]));
 const regionMap = Object.fromEntries(regions.map((r) => [r.name, r.id]));
 
 const raw: any[] = JSON.parse(
-  readFileSync("./seed-data/characters.json", "utf-8"),
+  readFileSync("./seed-data/character_data.json", "utf-8"),
 );
 
-function safeDate(input?: string) {
-  if (!input) return new Date("2000-01-01");
-
-  if (input.startsWith("0000")) {
-    return new Date("2000" + input.slice(4));
+function safeBirthday(mmdd?: string): Date {
+  if (!mmdd) {
+    return new Date(Date.UTC(2000, 0, 1));
   }
 
-  const d = new Date(input);
+  const [month, day] = mmdd.split("/").map(Number);
 
-  if (isNaN(d.getTime())) {
-    return new Date("2000-01-01");
+  if (
+    !Number.isInteger(month) ||
+    !Number.isInteger(day) ||
+    month < 1 ||
+    month > 12 ||
+    day < 1 ||
+    day > 31
+  ) {
+    return new Date(Date.UTC(2000, 0, 1));
   }
 
-  return d;
+  return new Date(Date.UTC(2000, month - 1, day));
 }
 
 export async function main() {
   for (const c of raw) {
-    await prisma.character.create({
-      data: {
-        name: c.name,
-        element: (c.vision as string).toLowerCase(),
-        regionId: regionMap[c.nation],
-        weaponTypeId: weaponMap[c.weapon],
-        releaseVersion: c.releaseVersion,
-        rarity: c.rarity,
-        imageUrl: "https://sunderarmor.com/GENSHIN/Characters/1/Citlali.png",
-        description: c.description,
-        gender: c.gender || "Unknown",
-        releaseDate: safeDate(c.release),
-        birthday: safeDate(c.birthday),
+    await prisma.character.upsert({
+      where: {
+        name: c.data.name,
+      },
+      update: {
+        releaseVersion: parseFloat(c.data.version),
+      },
+      create: {
+        name: c.data.name,
+        element: (c.data.elementText as string).toLowerCase(),
+        regionId: regionMap[c.data.region],
+        weaponTypeId: weaponMap[c.data.weaponText],
+        releaseVersion: parseFloat(c.data.version),
+        rarity: c.data.rarity,
+        imageUrl:
+          "https://i.pinimg.com/736x/6c/c7/44/6cc7444ea5e7628b57486c5e5d7d8040.jpg",
+        description: c.data.description,
+        gender: c.data.gender || "Unknown",
+        releaseDate: new Date(),
+        birthday: safeBirthday(c.data.birthdaymmdd),
       },
     });
   }

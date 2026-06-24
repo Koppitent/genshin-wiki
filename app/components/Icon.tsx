@@ -1,4 +1,4 @@
-import { elementIcons } from "@/lib/elements";
+import { elementIcons, getElementIcon } from "@/lib/elements";
 import Image from "next/image";
 
 type Props = {
@@ -7,7 +7,7 @@ type Props = {
   rarity?: number;
   showFullName?: boolean;
   element?: string;
-	size?: number;
+  size?: number;
 };
 
 export default function Icon({
@@ -16,11 +16,13 @@ export default function Icon({
   showFullName,
   element,
   rarity,
-	size,
+  size,
 }: Props) {
   return (
     <div className="flex flex-col items-center justify-center cursor-pointer">
-      <div className={`relative w-[${size ?? 5}rem] h-[${size ?? 5}rem] hover:scale-105 transition-transform duration-200`}>
+      <div
+        className={`relative w-[${size ?? 5}rem] h-[${size ?? 5}rem] hover:scale-105 transition-transform duration-200`}
+      >
         <img
           src={imageUrl}
           alt={name}
@@ -28,7 +30,7 @@ export default function Icon({
         />
         {element && (
           <Image
-            src={elementIcons[element as keyof typeof elementIcons]}
+            src={getElementIcon(element)}
             alt={element ?? "none"}
             width={24}
             height={24}

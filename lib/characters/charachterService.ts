@@ -86,7 +86,7 @@ export async function getCharacterService(id: string) {
 }
 
 export async function deleteCharacterService(id: string) {
-	await requireRole("asdasdsad")
+	await requireRole("ADMIN");
   await prisma.character.delete({
     where: {
       id,
