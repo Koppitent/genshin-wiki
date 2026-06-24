@@ -18,7 +18,7 @@ export async function requireRole(role: string) {
     throw new UnauthorizedError("Unauthorized");
   }
 
-  if (!session.user.roles.includes(role)) {
+  if (!session.user.roles.includes(role.toLocaleUpperCase())) {
     throw new ForbiddenError("Forbidden");
   }
 
@@ -26,7 +26,7 @@ export async function requireRole(role: string) {
 }
 
 export async function requireAdmin() {
-	return requireRole("admin");
+	return requireRole("ADMIN");
 }
 
 export async function requireOwner(id: string) {

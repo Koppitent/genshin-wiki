@@ -1,3 +1,4 @@
+import { NextRequest } from "next/server";
 import { MyErrors } from "./errors";
 
 export function handleException(e: unknown): Response {
@@ -10,8 +11,9 @@ export function handleException(e: unknown): Response {
   return Response.json({ message: "Internal Server Error" }, { status: 500 });
 }
 
-export function withErrorHandler(handler: (req: Request) => Promise<Response>) {
-  return async (req: Request) => {
+type AnyRequest = Request | NextRequest;
+export function withErrorHandler<T extends AnyRequest>(handler: (req: T) => Promise<Response>) {
+  return async (req: T) => {
     try {
       return await handler(req);
     } catch (e) {

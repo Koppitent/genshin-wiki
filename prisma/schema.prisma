@@ -38,10 +38,11 @@ model Weapon {
 model Character {
 	id          String   @id @default(cuid())
 
-	name        String
+	name        String	 @unique
 	description String
 	rarity      Int				//1-5 stars
 	element     String 		//Anemo, Geo, Electro, Dendro, Hydro, Pyro, Cryo
+	gender			String
 
 	regionId    String?
 	region 			Region? @relation(fields: [regionId], references: [id])
@@ -54,7 +55,8 @@ model Character {
 	tierListEntries TierListEntry[]
 
 	releaseVersion 	Float @default(1.0)
-	baseAttack  		Float
+	releaseDate		 	DateTime
+	birthday     		DateTime
 }
 
 model Region {

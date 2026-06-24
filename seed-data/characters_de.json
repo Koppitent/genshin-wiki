@@ -1,0 +1,1199 @@
+[
+  {
+    "weapon": "Bogen",
+    "gender": "Weiblich",
+    "affiliation": "Ordo Favonius",
+    "release": "2020-09-28",
+    "description": "Das lebhafte und offenherzige Mädchen ist die einzige Kundschafterin aus Mondstadt. Sie beherrscht den Gleiter wie kein Zweiter! Denn sie hat drei Jahre in Folge die \"Flugmeisterschaften\" von Mondstadt gewonnen. Als neuer Stern des Ordo Favonius ist Amber ganz vorn mit dabei.",
+    "id": "amber"
+  },
+  {
+    "name": "Xiangling",
+    "vision": "Pyro",
+    "weapon": "Stangenwaffe",
+    "nation": "Liyue",
+    "affiliation": "Restaurant Wanmin",
+    "rarity": 4,
+    "release": "2020-09-28",
+    "constellation": "Große Kelle",
+    "birthday": "0000-11-02",
+    "description": "Eine recht bekannte Köchin aus Liyue, die Gerichte mit Leidenschaft zubereitet. Ihre Techniken sind feurig genug, um ihren Gegnern den Appetit zu verderben.",
+    "skillTalents": [
+      {
+        "name": "Gebäckgefecht",
+        "unlock": "Standardangriff",
+        "description": "Standardangriff\nFührt bis zu 5 Lanzenstiche hintereinander aus.\n\nHeftiger Schlag\nVerbraucht eine gewisse Menge Ausdauer, sticht geschwind nach vorn und fügt den Gegnern in der Bahn Schaden zu.\n\nAngriff aus dem Fall\nSchlägt beim Fallen aus der Luft auf den Boden, greift alle Gegner in der Bahn an und verursacht beim Aufkommen Flächenschaden.",
+        "upgrades": [
+          {
+            "name": "SCH Phase 1",
+            "value": "42.1%"
+          },
+          {
+            "name": "SCH Phase 2",
+            "value": "42.1%"
+          },
+          {
+            "name": "SCH Phase 3",
+            "value": "26.1% + 26.1%"
+          },
+          {
+            "name": "SCH Phase 4",
+            "value": "14.1% x 4"
+          },
+          {
+            "name": "SCH Phase 5",
+            "value": "71%"
+          },
+          {
+            "name": "SCH heftiger Schläge",
+            "value": "122%"
+          },
+          {
+            "name": "Ausdauserverbrauch heftiger Schläge",
+            "value": "25"
+          },
+          {
+            "name": "SCH beim Fallen",
+            "value": "63.9%"
+          },
+          {
+            "name": "SCH beim Fallen aus niedriger / großer Höhe",
+            "value": "128% / 160%"
+          }
+        ],
+        "type": "NORMAL_ATTACK"
+      },
+      {
+        "name": "Guoba, erscheine!",
+        "unlock": "Elementarangriff",
+        "description": "Ruft den Feuer spuckenden Guoba herbei, der Gegner vor ihm während der Wirkungsdauer immer wieder mit Feuer bespuckt und Pyro-Flächenschaden verursacht.",
+        "upgrades": [
+          {
+            "name": "Feuer-SCH",
+            "value": "111%"
+          },
+          {
+            "name": "Abklingzeit",
+            "value": "12s"
+          }
+        ],
+        "type": "ELEMENTAL_SKILL"
+      },
+      {
+        "name": "Feuerrad",
+        "unlock": "Spezialangriff",
+        "description": "Erschafft aufgrund ihrer Fähigkeit, Feuer zu kontrollieren, und ihrer Fertigkeit im Umgang mit dem Speer ein Feuerrad, das mit hoher Geschwindigkeit um sie kreist.\nDas Feuerrad bewegt sich während der Wirkungsdauer mit Xiangling und fügt allen Gegnern in seiner Bahn Pyro-Schaden zu.",
+        "upgrades": [
+          {
+            "name": "Wirbel-SCH Phase 1",
+            "value": "72%"
+          },
+          {
+            "name": "Wirbel-SCH Phase 2",
+            "value": "88%"
+          },
+          {
+            "name": "Wirbel-SCH Phase 3",
+            "value": "110%"
+          },
+          {
+            "name": "Feuerrad SCH",
+            "value": "112%"
+          },
+          {
+            "name": "Dauer",
+            "value": "10s"
+          },
+          {
+            "name": "Abklingzeit",
+            "value": "20s"
+          },
+          {
+            "name": "Elementarenergie",
+            "value": "80"
+          }
+        ],
+        "type": "ELEMENTAL_BURST"
+      }
+    ],
+    "passiveTalents": [
+      {
+        "name": "Kreuzfeuer",
+        "unlock": "Ab Figurenaufstiegsstufe 1 freigeschaltet",
+        "description": "Erhöht die Reichweite des Feuers von Guoba um 20%.",
+        "level": 1
+      },
+      {
+        "name": "Scharfes Teil!",
+        "unlock": "Ab Figurenaufstiegsstufe 4 freigeschaltet",
+        "description": "Guoba hinterlässt nach dem Ende des Effekts von Guoba, erscheine! eine Peperoni, die den ANG beim Einsammeln 10s lang um 10% erhöht.",
+        "level": 4
+      },
+      {
+        "name": "Chefköchin des Restaurants Wanmin",
+        "unlock": "Automatisch freigeschaltet",
+        "description": "Stellt bei der perfekten Zubereitung eines Gerichts mit offensiver Funktion mit einer Wahrscheinlichkeit von 12% den 2-fachen Ertrag her."
+      }
+    ],
+    "constellations": [
+      {
+        "name": "Außen knusprig, innen zart",
+        "unlock": "Sternbild Stufe 1",
+        "description": "Verringert den Pyro-WDS der von Guoba getroffenen Gegner 6s lang um 15%.",
+        "level": 1
+      },
+      {
+        "name": "Öl auf Feuer",
+        "unlock": "Sternbild Stufe 2",
+        "description": "Fügt Gegnern mit dem letzten Schlag des Standardangriffs 2 s lang den Effekt \"Implosion\" zu. Die Implosion tritt am Ende der Wirkungsdauer in Kraft und verursacht Pyro-Flächenschaden in Höhe von 75% ANG.",
+        "level": 2
+      },
+      {
+        "name": "Scharf angebraten",
+        "unlock": "Sternbild Stufe 3",
+        "description": "Erhöht die Stufe der Fähigkeit Feuerrad um 3.\nHöchststufe 15.",
+        "level": 3
+      },
+      {
+        "name": "Langsam gegart",
+        "unlock": "Sternbild Stufe 4",
+        "description": "Verlängert die Dauer von Feuerrad um 40%.",
+        "level": 4
+      },
+      {
+        "name": "Guoba sauer",
+        "unlock": "Sternbild Stufe 5",
+        "description": "Erhöht die Stufe der Fähigkeit Guoba, erscheine! um 3.\nHöchststufe 15.",
+        "level": 5
+      },
+      {
+        "name": "Feuertornado",
+        "unlock": "Sternbild Stufe 6",
+        "description": "Erhöht den Pyro-Schaden aller Truppenmitglieder während der Wirkungsdauer von Feuerrad um 15%.",
+        "level": 6
+      }
+    ],
+    "vision_key": "PYRO",
+    "weapon_type": "POLEARM",
+    "id": "xiangling"
+  },
+  {
+    "name": "Xiao",
+    "vision": "Anemo",
+    "weapon": "Stangenwaffe",
+    "nation": "Liyue",
+    "affiliation": "Adept von Liyue",
+    "rarity": 5,
+    "release": "2021-02-03",
+    "constellation": "Alatus Nemeseos",
+    "birthday": "0000-04-17",
+    "description": "Ein Yaksha, ein Adept, der Liyue beschützt. Er wird als großer \"Dämonenbändiger\" und \"Schützender Yaksha\" bezeichnet.",
+    "skillTalents": [
+      {
+        "name": "Aufgewirbelter Staub",
+        "unlock": "Standardangriff",
+        "description": "Standardangriff\nFührt bis zu 6 Lanzenstiche hintereinander aus.\n\nHeftiger Schlag\nVerbraucht eine gewisse Menge Ausdauer und führt einen nach oben gerichteten Angriff aus.\n\nAngriff aus dem Fall\nSchlägt beim Fallen aus der Luft auf den Boden, greift alle Gegner in der Bahn an und verursacht beim Aufkommen Flächenschaden.\nXiao erleidet bei Angriffen aus dem Fall keinen Schaden durch den Fall.",
+        "upgrades": [
+          {
+            "name": "SCH Phase 1",
+            "value": "24% + 24%"
+          },
+          {
+            "name": "SCH Phase 2",
+            "value": "50%"
+          },
+          {
+            "name": "SCH Phase 3",
+            "value": "60%"
+          },
+          {
+            "name": "SCH Phase 4",
+            "value": "33% + 33%"
+          },
+          {
+            "name": "SCH Phase 5",
+            "value": "63%"
+          },
+          {
+            "name": "SCH Phase 6",
+            "value": "84%"
+          },
+          {
+            "name": "SCH heftiger Schläge",
+            "value": "65%"
+          },
+          {
+            "name": "SCH beim Fallen",
+            "value": "81,8%"
+          },
+          {
+            "name": "SCH beim Fallen aus niedriger / großer Höhe",
+            "value": "130% / 195%"
+          }
+        ],
+        "type": "NORMAL_ATTACK"
+      },
+      {
+        "name": "Doppeltes Windrad",
+        "unlock": "Elementarangriff",
+        "description": "Sticht mit hoher Geschwindigkeit nach vorn und fügt den Gegnern in der Bahn Anemo-Schaden zu.\nKann in der Luft angewendet werden.\nKann anfänglich 2-mal angewendet werden.",
+        "upgrades": [
+          {
+            "name": "Fähigkeit-SCH",
+            "value": "229%"
+          },
+          {
+            "name": "Abklingzeit",
+            "value": "10s"
+          }
+        ],
+        "type": "ELEMENTAL_SKILL"
+      },
+      {
+        "name": "Geistervertreibung",
+        "unlock": "Spezialangriff",
+        "description": "Setzt die Yaksha-Maske auf, die Götter und Monster schon vor Jahrtausenden gleichermaßen in Angst und Schrecken versetzt hat.\n\nYaksha-Maske\n - Erhöht Xiaos Sprungkraft enorm.\n - Vergrößert den Angriffsradius und erhöht den verursachten Schaden.\n - Wandelt den verursachten Schaden in Anemo-Schaden um. Diese Elementarumwandlung kann nicht von anderen Elementen überdeckt werden.\nXiao verbraucht in diesem Zustand fortlaufend LP.\nEffekt erlischt, wenn Xiao ausgewechselt wird.",
+        "upgrades": [
+          {
+            "name": "Bonus für Standardangriffe, heftige Schläge und Angriffe aus dem Fall",
+            "value": "68.8%"
+          },
+          {
+            "name": "LP Verlust",
+            "value": "3% HP/s"
+          },
+          {
+            "name": "Dauer",
+            "value": "15s"
+          },
+          {
+            "name": "Abklingzeit",
+            "value": "15s"
+          },
+          {
+            "name": "Elementarenergie",
+            "value": "60"
+          }
+        ],
+        "type": "ELEMENTAL_BURST"
+      }
+    ],
+    "passiveTalents": [
+      {
+        "name": "Eroberung – Dämonenbändiger",
+        "unlock": "Ab Figurenaufstiegsstufe 1 freigeschaltet",
+        "description": "Erhöht Xiaos gesamten Schaden im Zustand Geistervertreibung um 5% und danach während der Dauer der Fähigkeit alle 3s um zusätzliche 5%.\nErhöht den Schaden dabei um bis zu 25%.",
+        "level": 1
+      },
+      {
+        "name": "Untergang – Zermalmtes Land",
+        "unlock": "Ab Figurenaufstiegsstufe 4 freigeschaltet",
+        "description": "Erhöht den mit Doppeltes Windrad verursachten Schaden bei erneuter Anwendung von Doppeltes Windrad innerhalb von 7s um 15%.\nHält 7s, 3-fach stapelbar, aktualisiert die Dauer beim Stapeln.",
+        "level": 4
+      },
+      {
+        "name": "Transzendenz – Schwerelosigkeit",
+        "unlock": "Automatisch freigeschaltet",
+        "description": "Verringert die beim Klettern verbrauchte Ausdauer aller eigenen Truppenmitglieder um 20%.\nNicht mit passiven Talenten mit völlig gleichen Effekten stapelbar."
+      }
+    ],
+    "constellations": [
+      {
+        "name": "Untergang – Zerstörung der Welten",
+        "unlock": "Sternbild Stufe 1",
+        "description": "Ermöglicht 1 weitere Anwendung von Doppeltes Windrad.",
+        "level": 1
+      },
+      {
+        "name": "Vernichtung – Ausweitung der Leere",
+        "unlock": "Sternbild Stufe 2",
+        "description": "Erhöht Xiaos Aufladerate, wenn er inaktiv in der Truppe ist, um 25%.",
+        "level": 2
+      },
+      {
+        "name": "Eroberung – Ausdruck des Zorns",
+        "unlock": "Sternbild Stufe 3",
+        "description": "Erhöht die Stufe der Fähigkeit Doppeltes Windrad um 3.\nHöchststufe 15.",
+        "level": 3
+      },
+      {
+        "name": "Transzendenz – Auslöschung des Leids",
+        "unlock": "Sternbild Stufe 4",
+        "description": "Erhöht Xiaos VTD bei weniger als 50% LP um 100%.",
+        "level": 4
+      },
+      {
+        "name": "Evolution – Ausbreitung der Unwissenheit",
+        "unlock": "Sternbild Stufe 5",
+        "description": "Erhöht die Stufe der Fähigkeit Geistervertreibung um 3.\nHöchststufe 15.",
+        "level": 5
+      },
+      {
+        "name": "Eroberung – Schutz des Yaksha",
+        "unlock": "Sternbild Stufe 6",
+        "description": "Ermöglicht beim Treffen von mindestens 2 Gegnern mit einem Angriff aus dem Fall unter Anwendung von Geistervertreibung sofort 1 Anwendung von Doppeltes Windrad, das innerhalb der folgenden s trotz Abklingzeit angewendet werden kann.",
+        "level": 6
+      }
+    ],
+    "vision_key": "ANEMO",
+    "weapon_type": "POLEARM",
+    "id": "xiao"
+  },
+  {
+    "name": "Xingqiu",
+    "vision": "Hydro",
+    "weapon": "Einhänder",
+    "nation": "Liyue",
+    "affiliation": "Händlergilde Feiyun",
+    "rarity": 4,
+    "release": "2020-09-28",
+    "constellation": "Fabulae Textile",
+    "birthday": "0000-10-09",
+    "description": "Ein junger Mann, der häufig in der Nähe von Bücherständen gesehen werden kann. In der Hand trägt er ein Langschwert, in seiner Brust ein Herz für die Schwachen.",
+    "skillTalents": [
+      {
+        "name": "Guhua-Stil",
+        "unlock": "Standardangriff",
+        "description": "Standardangriff\nFührt bis zu 5 Schwerthiebe hintereinander aus.\n\nHeftiger Schlag\nVerbraucht eine gewisse Menge Ausdauer und schwingt das Schwert zweimal schnell nach vorn.\n\nAngriff aus dem Fall\nSchlägt beim Fallen aus der Luft auf den Boden, greift alle Gegner in der Bahn an und verursacht beim Aufkommen Flächenschaden.",
+        "upgrades": [
+          {
+            "name": "SCH Phase 1",
+            "value": "46.6%"
+          },
+          {
+            "name": "SCH Phase 2",
+            "value": "47.6%"
+          },
+          {
+            "name": "SCH Phase 3",
+            "value": "28.6% + 28.6%"
+          },
+          {
+            "name": "SCH Phase 4",
+            "value": "56%"
+          },
+          {
+            "name": "SCH Phase 5",
+            "value": "35.9% + 35.9%"
+          },
+          {
+            "name": "SCH heftiger Schläge",
+            "value": "47.3% + 56.2%"
+          },
+          {
+            "name": "Ausdauerverbrauch heftiger Schläge",
+            "value": "20"
+          },
+          {
+            "name": "SCH beim Fallen",
+            "value": "63.9%"
+          },
+          {
+            "name": "SCH beim Fallen aus niedriger / großer Höhe",
+            "value": "128% / 160%"
+          }
+        ],
+        "type": "NORMAL_ATTACK"
+      },
+      {
+        "name": "Guhua-Schwert – Wolkenbruch",
+        "unlock": "Elementarangriff",
+        "description": "Greift zweimal mit dem Schwert an und fügt gegenüberstehenden Gegnern Hydro-Schaden zu. Erstellt die Höchstzahl an Regenschwertern, die die aktuelle eigene Figur umkreisen.\nMerkmale:\n - Wird bei Erleiden von Schaden zerstört und verringert den erlittenen Schaden.\n - Erhöht den Unterbrechungs-WDS der Figur.\n20% von Xingqius Hydro-SCH-Bonus werden zusätzlich zu Schadensminderung der Regenschwerter umgewandelt.\nBis zu 24% zusätzliche Schadensminderung auf diese Weise möglich.\nAnfänglich bis zu 3 Regenschwerter möglich.\nVerleiht der Figur bei Anwendung den Zustand Nass .",
+        "upgrades": [
+          {
+            "name": "Fähigkeits-SCH",
+            "value": "168% + 191%"
+          },
+          {
+            "name": "SCH-Minderungsrate",
+            "value": "20%"
+          },
+          {
+            "name": "Dauer",
+            "value": "15s"
+          },
+          {
+            "name": "Abklingzeit",
+            "value": "21s"
+          }
+        ],
+        "type": "ELEMENTAL_SKILL"
+      },
+      {
+        "name": "Guhua-Schwert – Regen und Bogen",
+        "unlock": "Spezialangriff",
+        "description": "Wendet \"Regenbogentechnik\" an, um mit Illusionsschwertern zu kämpfen, und erstellt die Höchstzahl an Regenschwertern.\n\nRegenbogentechnik\n - Standardangriffe der aktuellen eigenen Figur lösen aufeinanderfolgende Schwertregenangriffe aus, die Hydro-Schaden verursachen.\n - Die Anzahl der Regenschwerter bleibt unverändert auf der höchsten Anzahl.",
+        "upgrades": [
+          {
+            "name": "Schwertregen-SCH",
+            "value": "54.3%"
+          },
+          {
+            "name": "Dauer",
+            "value": "15s"
+          },
+          {
+            "name": "Abklingzeit",
+            "value": "20s"
+          },
+          {
+            "name": "Elementarenergie",
+            "value": "80"
+          }
+        ],
+        "type": "ELEMENTAL_BURST"
+      }
+    ],
+    "passiveTalents": [
+      {
+        "name": "Hydropathic",
+        "unlock": "Ab Figurenaufstiegsstufe 1 freigeschaltet",
+        "description": "Stellt der aktuellen Figur bei Zerstörung eines Regenschwerts durch einen Angriff oder nach Ablauf der Wirkungsdauer LP in Höhe von 6% der max. LP von Xingqiu wieder her.",
+        "level": 1
+      },
+      {
+        "name": "Realistischer Schreibstil",
+        "unlock": "Ab Figurenaufstiegsstufe 4 freigeschaltet",
+        "description": "Erhöht Xingqius Hydro-Schaden um 20%.",
+        "level": 4
+      },
+      {
+        "name": "Gedankenblitz",
+        "unlock": "Automatisch freigeschaltet",
+        "description": "Gibt beim Zusammensetzen von Material für Figurentalente mit einer Wahrscheinlichkeit von 25% einen Teil der Materialien zurück."
+      }
+    ],
+    "constellations": [
+      {
+        "name": "Nachgeschmack",
+        "unlock": "Sternbild Stufe 1",
+        "description": "Erhöht die Höchstmenge an Regenschwertern um 1.",
+        "level": 1
+      },
+      {
+        "name": "Klarer Himmel",
+        "unlock": "Sternbild Stufe 2",
+        "description": "Verlängert die Dauer von Guhua-Schwert – Regen und Bogen um 3s.\nVerringert außerdem den Hydro-WDS von mit Schwertregen angegriffenen Gegnern 4s lang um 15%.",
+        "level": 2
+      },
+      {
+        "name": "Reimemacher",
+        "unlock": "Sternbild Stufe 3",
+        "description": "Erhöht die Stufe der Fähigkeit Guhua-Schwert – Regen und Bogen um 3.\nHöchststufe 15.",
+        "level": 3
+      },
+      {
+        "name": "Vernichter des Bösen",
+        "unlock": "Sternbild Stufe 4",
+        "description": "Erhöht den mit Guhua-Schwert – Wolkenbruch verursachten Schaden während der Wirkungsdauer von Guhua-Schwert – Regen und Bogen um 50%.",
+        "level": 4
+      },
+      {
+        "name": "Tanz im Regen",
+        "unlock": "Sternbild Stufe 5",
+        "description": "Erhöht die Stufe der Fähigkeit Guhua-Schwert – Wolkenbruchn um 3.\nHöchststufe 15.",
+        "level": 5
+      },
+      {
+        "name": "Gesammelte Werke",
+        "unlock": "Sternbild Stufe 6",
+        "description": "Verstärkt jeden dritten Schwertregenangriff von Guhua-Schwert – Regen und Bogen enorm und stellt Xingqiu bei einem Treffer damit 3 Punkte Elementarenergie wieder her.",
+        "level": 6
+      }
+    ],
+    "vision_key": "HYDRO",
+    "weapon_type": "SWORD",
+    "id": "xingqiu"
+  },
+  {
+    "name": "Xinyan",
+    "vision": "Pyro",
+    "weapon": "Zweihänder",
+    "nation": "Liyue",
+    "affiliation": "Liyue",
+    "rarity": 4,
+    "release": "2020-12-01",
+    "constellation": "Fila Ignium",
+    "birthday": "0000-10-16",
+    "description": "Das Mädchen mit dem stürmischsten Musikgeschmack in ganz Liyue. Mit ihrer Musik und ihrem leidenschaftlichen Gesang lehnt sie sich gegen die vorgefassten Meinungen auf.",
+    "skillTalents": [
+      {
+        "name": "Tanz der Flammen",
+        "unlock": "Standardangriff",
+        "description": "Standardangriff\nFührt bis zu 4 Schwünge mit dem Schwert hintereinander aus.\nnHeftiger Schlag\nVerbraucht fortlaufend Ausdauer, wirbelt das Großschwert und greift Gegner in der Umgebung an.\nSchwingt das Schwert am Ende mit besonders großer Wucht.\nnAngriff aus dem Fall\nSchlägt beim Fallen aus der Luft auf den Boden, greift alle Gegner in der Bahn an und verursacht beim Aufkommen Flächenschaden.",
+        "type": "NORMAL_ATTACK"
+      },
+      {
+        "name": "Schlag in die Saiten",
+        "unlock": "Elementarangriff",
+        "description": "Xinyan streicht ihr Instrument, fügt Gegnern in der Umgebung Pyro-Schaden zu und erschafft aus der Leidenschaft ihrer Zuschauer einen Schild.\nDie Schildstärke hängt von Xinyans VTD und der Anzahl getroffener Gegner ab.\n - Kein bis ein getroffener Gegner: Schild Stufe 1 - Einstimmen.\n - Zwei getroffene Gegner: Schild Stufe 2 - Aufdrehen.\n - Drei oder mehr getroffene Gegner: Schild Stufe 3 - Abfeiern. Hält Schaden ab und fügt Gegnern in der Umgebung stoßweise Pyro-Schaden zu.\nMerkmale des Schildes:\n - Verleiht Xinyan beim Auslösen das Pyro-Attribut.\n - Hält bei Pyro-Schaden 250 % ab.",
+        "type": "ELEMENTAL_SKILL"
+      },
+      {
+        "name": "Refrain der Rebellion",
+        "unlock": "Spezialangriff",
+        "description": "Spielt harte Töne und erschafft Schallwellen, die Gegner zurückstoßen und Gegner in der Umgebung physischen Schaden zufügen, um Euphorie in der Menge auszulösen.\nBricht in Flammen aus, weil die Darbietung einfach zu heiß ist, und fügt Gegnern in der Umgebung fortlaufend Pyro-Schaden zu.",
+        "type": "ELEMENTAL_BURST"
+      }
+    ],
+    "passiveTalents": [
+      {
+        "name": "\"Es geht auch ohne Publikum ...\"",
+        "unlock": "Ab Figurenaufstiegsstufe 1 freigeschaltet",
+        "description": "Verringert die für den Schild von Schlag in die Saiten benötigte Trefferzahl:\n - Schild Stufe 2 – Aufdrehen: Ein getroffener Gegner.\n - Schild Stufe 3 – Abfeiern: Zwei oder mehr getroffene Gegner.",
+        "level": 1
+      },
+      {
+        "name": "\"...Now That's Rock 'N' Roll!\"",
+        "unlock": "Ab Figurenaufstiegsstufe 4 freigeschaltet",
+        "description": "Erhöht den von Figuren im Schutz eines Schilds von Schlag in die Saiten verursachten physischen Schaden um 15 %.",
+        "level": 4
+      },
+      {
+        "name": "Rezept für Rock 'n' Roll",
+        "unlock": "Automatisch freigeschaltet",
+        "description": "Stellt bei der perfekten Zubereitung eines Gerichts mit defensiver Funktion mit einer Wahrscheinlichkeit von 12 % den 2-fachen Ertrag her."
+      }
+    ],
+    "constellations": [
+      {
+        "name": "Tödliche Beschleunigung",
+        "unlock": "Sternbild Stufe 1",
+        "description": "Erhöht die Angriffs-GSW von Standardangriffen und heftigen Schlägen nach kritischen Treffern von Xinyan 5 s lang um 12 %.\n5 s Abklingzeit.",
+        "level": 1
+      },
+      {
+        "name": "Explosive Stimmung",
+        "unlock": "Sternbild Stufe 2",
+        "description": "Erhöht die KT von mit Refrain der Rebellion verursachtem physischen Schaden um 100 % und erstellt beim Auslösen Schild Stufe 3 – Abfeiern.",
+        "level": 2
+      },
+      {
+        "name": "Doppelgriff",
+        "unlock": "Sternbild Stufe 3",
+        "description": "Erhöht die Stufe der Fähigkeit Schlag in die Saiten um 3.\nHöchststufe 15.",
+        "level": 3
+      },
+      {
+        "name": "Ansteckender Rhythmus",
+        "unlock": "Sternbild Stufe 4",
+        "description": "Der Schwungschaden von Schlag in die Saiten verringert den physischen WDS von Gegnern 12 s lang um 15 %.",
+        "level": 4
+      },
+      {
+        "name": "Euphorisches Publikum",
+        "unlock": "Sternbild Stufe 5",
+        "description": "Erhöht die Stufe der Fähigkeit Refrain der Rebellion um 3.\nHöchststufe 15.",
+        "level": 5
+      },
+      {
+        "name": "Tanz in der Hölle",
+        "unlock": "Sternbild Stufe 6",
+        "description": "Verringert den Ausdauerverbrauch von Xinyan bei heftigen Schlägen um 30 % und erhöht bei heftigen Schlägen den ANG um 50 % VTD.",
+        "level": 6
+      }
+    ],
+    "vision_key": "PYRO",
+    "weapon_type": "CLAYMORE",
+    "id": "xinyan"
+  },
+  {
+    "name": "Yanfei",
+    "vision": "Pyro",
+    "weapon": "Katalysator",
+    "nation": "Liyue",
+    "affiliation": "Liyue",
+    "rarity": 4,
+    "release": "2021-04-28",
+    "constellation": "Bestia Iustitia",
+    "birthday": "0000-07-28",
+    "description": "Eine sehr bekannte Rechtsberaterin in Liyue und ein gescheites Mädchen mit dem Blut einer göttlichen Bestie in ihren Adern.",
+    "skillTalents": [
+      {
+        "name": "Flammendes Siegel",
+        "unlock": "Standardangriff",
+        "description": "Standardangriff\nSchießt mehrere Feuerbälle nacheinander ab und verursacht bis zu dreimal Pyro-Schaden.\nJeder Treffer gibt Yanfei ein flammendes Siegel. Kann anfänglich bis zu drei flammende Siegel besitzen. Bei jedem Auslösen wird die Dauer der vorhandenen flammenden Siegel aktualisiert.\nJedes flammende Siegel verringert Yanfeis Ausdauerverbrauch und verschwindet, wenn sie ausgewechselt wird.\nVerbraucht Ausdauer sowie nach kurzem Aufladen alle flammenden Siegel und verursacht vor sich Pyro-Flächenschaden.\nVerstärkt basierend auf der Anzahl der verbrauchten flammenden Siegel die Reichweite und den Schaden des heftigen Schlags.\n\nAngriff aus dem Fall\nKonzentriert die Kraft des Feuers, schlägt beim Fallen aus der Luft auf den Boden, greift alle Gegner in der Bahn an und verursacht beim Aufkommen Pyro-Flächenschaden.",
+        "upgrades": [
+          {
+            "name": "SCH Phase 1",
+            "value": "58.3%"
+          },
+          {
+            "name": "SCH Phase 2",
+            "value": "52.1%"
+          },
+          {
+            "name": "SCH Phase 3",
+            "value": "76%"
+          },
+          {
+            "name": "SCH heftiger Schläge",
+            "value": "98.2% / 115.6% / 132.9% / 150.2% / 167.6%"
+          },
+          {
+            "name": "Ausdauerverbrauch heftiger Schläge",
+            "value": "50"
+          },
+          {
+            "name": "Verringerung des Ausdauerverbrauchs für flammende Siegel",
+            "value": "15%"
+          },
+          {
+            "name": "Dauer der flammenden Siegel",
+            "value": "10"
+          },
+          {
+            "name": "SCH beim Fallen",
+            "value": "56.8%"
+          },
+          {
+            "name": "SCH beim Fallen aus niedriger / großer Höhe",
+            "value": "113.6% / 141.9%"
+          }
+        ],
+        "type": "NORMAL_ATTACK"
+      },
+      {
+        "name": "Pakt des Feuers",
+        "unlock": "Elementarangriff",
+        "description": "Beschwört lodernde Flammen und verursacht Pyro-Flächenschaden.\nBekommt beim Treffen von Gegnern die Höchstzahl an flammenden Siegeln.",
+        "upgrades": [
+          {
+            "name": "Fähigkeits-SCH",
+            "value": "169.6%"
+          },
+          {
+            "name": "Abklingzeit",
+            "value": "9s"
+          }
+        ],
+        "type": "ELEMENTAL_SKILL"
+      },
+      {
+        "name": "Pakt des flammenden Infernos",
+        "unlock": "Spezialangriff",
+        "description": "Beschwört Flammen des Infernos, greift Gegner in der Umgebung an und verursacht Pyro-Flächenschaden. Gibt dabei Yanfei die Höchstzahl an flammenden Siegeln und den Effekt Sengende Hitze.\n\nSengende Hitze\nLöst folgende Effekte aus:\n - Gibt Yanfei in gleichen zeitlichen Abständen je ein flammendes Siegel.\n - Erhöht den Schaden heftiger Schläge.\nEndet, wenn Yanfei ausgewechselt wird.",
+        "upgrades": [
+          {
+            "name": "Fähigkeits-SCH",
+            "value": "182%"
+          },
+          {
+            "name": "Intervall der flammenden Siegel",
+            "value": "1s"
+          },
+          {
+            "name": "SCH-Bonus für heftige Schläge",
+            "value": "33%"
+          },
+          {
+            "name": "Dauer",
+            "value": "15s"
+          },
+          {
+            "name": "Abklingzeit",
+            "value": "20s"
+          },
+          {
+            "name": "Elementarenergie",
+            "value": "80"
+          }
+        ],
+        "type": "ELEMENTAL_BURST"
+      }
+    ],
+    "passiveTalents": [
+      {
+        "name": "Koppelungsklausel",
+        "unlock": "Ab Figurenaufstiegsstufe 1 freigeschaltet",
+        "description": "Erhöht mit jedem verbrauchten flammenden Siegel durch heftige Schläge den Pyro-Schadensbonus 6 s lang um 5 %. Falls die Figur innerhalb der Wirkungsdauer des Effekts nochmals heftige Schläge anwendet, wird der vorige Effekt zuerst entfernt.",
+        "level": 1
+      },
+      {
+        "name": "Wachsame Argusaugen",
+        "unlock": "Ab Figurenaufstiegsstufe 4 freigeschaltet",
+        "description": "Verursacht einmal zusätzlichen Pyro-Flächenschaden in Höhe von 80 % ANG, wenn Yanfeis heftige Schläge KT bei Gegnern verursachen. Der Flächenschaden wird als Schaden von heftigen Schlägen betrachtet.",
+        "level": 4
+      },
+      {
+        "name": "Gelehrsamkeit",
+        "unlock": "Automatisch freigeschaltet",
+        "description": "Zeigt alle Besonderheiten Liyues in der Nähe auf der Minikarte an."
+      }
+    ],
+    "constellations": [
+      {
+        "name": "Rechthaberei",
+        "unlock": "Sternbild Stufe 1",
+        "description": "Erhöht mit jedem flammenden Siegel Yanfeis Unterbrechungs-WDS beim Aufladen, wenn sie einen heftigen Schlag ausführt, und verringert den Ausdauerverbrauch bei dem heftigen Schlag.",
+        "level": 1
+      },
+      {
+        "name": "Endgültige Auslegung vorbehalten",
+        "unlock": "Sternbild Stufe 2",
+        "description": "Erhöht die KT bei Yanfeis heftigen Schlägen gegenüber Gegnern mit weniger als 50% LP um 20%.",
+        "level": 2
+      },
+      {
+        "name": "Siegel in lodernder Flamme",
+        "unlock": "Sternbild Stufe 3",
+        "description": "Erhöht die Stufe der Fähigkeit Pakt des Feuers um 3.\nHöchststufe 15.",
+        "level": 3
+      },
+      {
+        "name": "Eiserner Pakt",
+        "unlock": "Sternbild Stufe 4",
+        "description": "Effekte bei Anwendung von Pakt des flammenden Infernos:\nErstellt einen Schutzschild, der Schaden in Höhe von 45% der max. LP abhält, hält 15s.\nHält bei Pyro-Schaden 250% ab.",
+        "level": 4
+      },
+      {
+        "name": "Eidesstattliche Versicherung",
+        "unlock": "Sternbild Stufe 5",
+        "description": "Erhöht die Stufe der Fähigkeit Pakt des flammenden Infernos um 3.\nHöchststufe 15.",
+        "level": 5
+      },
+      {
+        "name": "Extraklausel",
+        "unlock": "Sternbild Stufe 6",
+        "description": "Erhöht die Höchstmenge an flammenden Siegeln um 1.",
+        "level": 6
+      }
+    ],
+    "vision_key": "PYRO",
+    "weapon_type": "CATALYST",
+    "id": "yanfei"
+  },
+  {
+    "name": "Yoimiya",
+    "vision": "Pyro",
+    "weapon": "Bogen",
+    "nation": "Inazuma",
+    "affiliation": "Naganoharas Feuerwerksartikel",
+    "rarity": 5,
+    "release": "2021-08-10",
+    "constellation": "Carassius Auratus",
+    "birthday": "0000-06-21",
+    "description": "Besitzerin von \"Naganoharas Feuerwerksartikel\" und bekannt als die Königin des Sommerfests. Sie ist eine gelernte Handwerkerin, die die Wünsche der Menschen mit Feuerwerkskörpern ausdrückt.",
+    "skillTalents": [
+      {
+        "name": "Aufbrausendes Feuerwerk",
+        "unlock": "Standardangriff",
+        "description": "Standardangriff:\nFührt bis zu 5 Pfeilschüsse hintereinander aus.\n\nHeftiger Schlag\nFührt einen gezielten Schuss mit höherem Schaden und höherer Genauigkeit aus.\nKonzentriert die Flammen während des Zielens an der Pfeilspitze und verursacht je nach Länge des Aufladens unterschiedliche Effekte:\n - Phase 1: Schießt einen brennenden Pfeil ab und verursacht Pyro-Schaden.\n - Phase 2: Erschafft je nach Länge des Aufladens bis zu 3 Prandpfeile, die zusammen mit diesem gezielten Schuss abgefeuert werden. Brandpfeile suchen automatisch nach Gegnern in der Nähe und verursachen bei Treffern Pyro-Schaden.\n\nAngriff aus dem Fall\nSchießt in der Luft einen Pfeilregen ab, trifft schnell auf dem Boden auf und verursacht dort Flächenschaden.",
+        "upgrades": [
+          {
+            "name": "SCH Phase 1",
+            "value": "35.64% + 35.64%"
+          },
+          {
+            "name": "SCH Phase 2",
+            "value": "68.38%"
+          },
+          {
+            "name": "SCH Phase 3",
+            "value": "88.89%"
+          },
+          {
+            "name": "SCH Phase 4",
+            "value": "46.42% + 46.42%"
+          },
+          {
+            "name": "SCH Phase 5",
+            "value": "105.86%"
+          },
+          {
+            "name": "Gezielte Schüsse",
+            "value": "43.86%"
+          },
+          {
+            "name": "Voll aufgeladene gezielte Schüsse",
+            "value": "124%"
+          },
+          {
+            "name": "SCH beim Fallen",
+            "value": "56.8%"
+          },
+          {
+            "name": "SCH beim Fallen aus niedriger / großer Höhe",
+            "value": "114% / 142%"
+          }
+        ],
+        "type": "NORMAL_ATTACK"
+      },
+      {
+        "name": "Niwabi-Feuertanz",
+        "unlock": "Elementarangriff",
+        "description": "Ein Stapelring umkreist Yoimiya im Tanz eines duftenden Feuerwerks.\n\nNiwabi Enshou\nEntzündet die während der Wirkungsdauer von Yoimiya mit ihrem Standardangriff abgeschossenen Pfeile, wandelt den damit verursachten Schaden in Pyro-Schaden um und erhöht den mit Standardangriffen verursachten Schaden. Verhindert, dass während der Wirkungsdauer bei Phase 2 von \"Standardangriff: Aufbrausendes Feuerwerk\" Brandpfeile erschaffen werden.",
+        "upgrades": [
+          {
+            "name": "SCH entzündeter Pfeile",
+            "value": "137.91%"
+          },
+          {
+            "name": "Dauer",
+            "value": "10s"
+          },
+          {
+            "name": "Abklingzeit",
+            "value": "18s"
+          }
+        ],
+        "type": "ELEMENTAL_SKILL"
+      },
+      {
+        "name": "Ryuukin-Steinbrech",
+        "unlock": "Spezialangriff",
+        "description": "Yoimiya springt mit dem \"Ryuukin-Steinbrech\", den sie selbst geschaffen hat, in die Luft, feuert brennende Pfeile voller Überraschungen nach vorn, verursacht Pyro-Flächenschaden und fügt einem der damit getroffenen Gegner \"Ryuukin-Lohe\" zu.\n\nRyuukin-Lohe\nLöst beim Treffen von Tyuukin-Lohe betroffener Gegner mit Standardangriffen, heftigen Schlägen, Angriffen aus dem Fall, Elementarfähigkeiten und Spezailfähigkeiten von allen Truppenmitgliedern außer Yoimiya selbst eine Explosion aus, die Pyro-Flächenschaden verursacht.\nWird ein von Ryuukin-Lohe betroffener Gegner während der Wirkungsdauer des Effekts besiegt, springt der Effekt mitsamt der verbleibenden Wirkungsdauer auf einen anderen Gegner in der Nähe über.\n\n2s Abklingzeit für Explosionen durch Ryuukin-Lohe. Beendet den Effekt von Ryuukin-Lohe, der durch Yoimiya selbst ausgelöst wurde, wenn Yoimiya besiegt wird.",
+        "upgrades": [
+          {
+            "name": "Fähigkeits-SCH",
+            "value": "127.2%"
+          },
+          {
+            "name": "Explosions-SCH der Ryuukin-Lohe",
+            "value": "122%"
+          },
+          {
+            "name": "Dauer",
+            "value": "10s"
+          },
+          {
+            "name": "Abklingzeit",
+            "value": "15s"
+          },
+          {
+            "name": "Elementarenergie",
+            "value": "60"
+          }
+        ],
+        "type": "ELEMENTAL_BURST"
+      }
+    ],
+    "passiveTalents": [
+      {
+        "name": "Unruhestifter",
+        "unlock": "Ab Figurenaufstiegsstufe 1 freigeschaltet",
+        "description": "Erhöht bei Treffern mit Yoimiyas Standardangriffen während der Wirkungsdauer von Niwabi-Feuertanz Yoimiyas Pyro-Schaden um 2%. Hält 3s, 10-fach stapelbar.",
+        "level": 1
+      },
+      {
+        "name": "Sommerhitze",
+        "unlock": "Ab Figurenaufstiegsstufe 4 freigeschaltet",
+        "description": "Erhöht nach Anwendung von Ryuukin-Steinbrech den ANG aller Truppenmitglieder in der Nähe außer Yoimiya selbst 15s lang um 10%.\nErhöht den ANG für jede Stapelung des passiven Talents \"Unruhestifter\" zum Zeitpunkt der Anwendung von Ryuukin-Steinbrech durch Yoimiya selbst zusätzlich um 1%.",
+        "level": 4
+      },
+      {
+        "name": "Entzündliche Abstimmung",
+        "unlock": "Automatisch freigeschaltet",
+        "description": "Erhält beim Herstellen von Verzierungen, Zierrat und Landschaftsdekorationen mit einer Wahrscheinlichkeit von 100% einen Teil der verbrauchten Materialien zurück."
+      }
+    ],
+    "constellations": [
+      {
+        "name": "Ryuukin in Rot",
+        "unlock": "Sternbild Stufe 1",
+        "description": "Verlängert die Wirkungsdauer der Ryuukin-Lohe von Ryuukin-Steinbrech um 4s.\nErhöht beim Besiegen von Yoimiyas eigener Ryuukin-Lohe betroffener Gegner Während der Wirkungsdauer der Ryuukin-Lohe Yoimiyas ANG 20s lang um 20%.",
+        "level": 1
+      },
+      {
+        "name": "Feuernder Umzug",
+        "unlock": "Sternbild Stufe 2",
+        "description": "Erhöht beim Verursachen von KT mit Yoimiyas Pyro-Schaden Yoimiyas Pyro-Schaden 6s lang um 25%.\nDer Effekt bleibt auch bestehen, wenn Yoimiya ausgewechselt wird.",
+        "level": 2
+      },
+      {
+        "name": "Unruhiges Flackern",
+        "unlock": "Sternbild Stufe 3",
+        "description": "Erhöht die Stufe der Fähigkeit Niwabi-Feuertanz um 3.\nHöchststufe 15.",
+        "level": 3
+      },
+      {
+        "name": "Versierte Pyrotechnik",
+        "unlock": "Sternbild Stufe 4",
+        "description": "Verkürzt beim Explodieren der von Yoimiya selbst erschaffenen Ryuukin-Lohe die Abklingzeit von Niwabi-Feuertanz um 1.2s.",
+        "level": 4
+      },
+      {
+        "name": "Sommerlicher Festabend",
+        "unlock": "Sternbild Stufe 5",
+        "description": "Erhöht die Stufe der Fähigkeit Ryuukin-Steinbrech um 3.\nHöchststufe 15.",
+        "level": 5
+      },
+      {
+        "name": "Naganohara-Meteorstrom",
+        "unlock": "Sternbild Stufe 6",
+        "description": "Schließt bei aktiver Anwendung von Yoimiyas Standardangriffen während der Wirkungsdauer von Niwabi-Feuertanz mit einer Wahrscheinlichkeit von 50% einen zusätzlichen entzündeten Pfeil ab und verursacht damit 60% des eigentlichen Schadens. Dieser Schaden gilt als Standardangriffsschaden.",
+        "level": 6
+      }
+    ],
+    "vision_key": "PYRO",
+    "weapon_type": "BOW",
+    "id": "yoimiya"
+  },
+  {
+    "name": "Yun Jin",
+    "vision": "Geo",
+    "weapon": "Stangenwaffe",
+    "gender": "Weiblich",
+    "nation": "Liyue",
+    "affiliation": "Yun-Han-Operntruppe",
+    "rarity": 4,
+    "release": "2022-01-05",
+    "constellation": "Opera Grandis",
+    "birthday": "0000-05-21",
+    "description": "Eine berühmte Opernsängerin in Liyue, die sowohl im Schreiben als auch im Gesang erfahren ist. Ihr Stil ist einzigartig, exquisit und sanft, genauso wie sie selbst.",
+    "skillTalents": [
+      {
+        "name": "Wolkenfetzer",
+        "unlock": "Standardangriff",
+        "description": "Standardangriff\nFührt bis zu 5 Lanzenstiche hintereinander aus.\nHeftiger Schlag\nVerbraucht eine gewisse Menge Ausdauer, sticht geschwind nach vorn und fügt Gegnern in der Bahn Schaden zu.\nAngriff aus dem Fall\nSchlägt beim Fallen aus der Luft auf den Boden, greift alle Gegner in der Bahn an und verursacht beim Aufkommen Flächenschaden.",
+        "upgrades": [
+          {
+            "name": "SCH Phase 1",
+            "value": "40.5%"
+          },
+          {
+            "name": "SCH Phase 2",
+            "value": "40.2%"
+          },
+          {
+            "name": "SCH Phase 3",
+            "value": "23.0%+27.5%"
+          },
+          {
+            "name": "SCH Phase 4",
+            "value": "24.0%+28.8%"
+          },
+          {
+            "name": "SCH Phase 5",
+            "value": "67.3%"
+          },
+          {
+            "name": "SCH heftiger Schläge",
+            "value": "121.7%"
+          },
+          {
+            "name": "Ausdauerverbrauch heftiger Schläge",
+            "value": "25"
+          },
+          {
+            "name": "SCH beim Fallen",
+            "value": "63.9%"
+          },
+          {
+            "name": "SCH beim Fallen aus niedriger / großer Höhe",
+            "value": "128% / 160%"
+          }
+        ],
+        "type": "NORMAL_ATTACK"
+      },
+      {
+        "name": "Wolkenöffnung",
+        "unlock": "Elementarangriff",
+        "description": "Drücken\nVerursacht mit dem Speertanz des Wolkenzupfens Geo-Schaden.\nGedrückt halten\nNimmt die Stellung der Wolkenöffnung ein, lädt auf und erschafft einen Schutzschild, der Schaden basierend auf Yun Jins max. LP und bei elementarem sowie physischem Schaden 150% abhält. Der Schutzschild hält bis zum Ende der Elementarfähigkeit.\nYun Jin wirbelt beim Loslassen der Taste, beim Ende der Wirkungsdauer oder dann, wenn der Schild zerstört wird, ihre Stangenwaffe mit der aufgeladenen Kraft und verursacht Geo-Schaden.\nErhält beim Auslösen je nach Zeit der Aufladung den Zustand von Aufladung Phase 1 oder Phase 2.",
+        "upgrades": [
+          {
+            "name": "SCH bei Drücken",
+            "value": "149.1%"
+          },
+          {
+            "name": "SCH bei Aufladung (Phase 1)",
+            "value": "261%"
+          },
+          {
+            "name": "SCH bei Aufladung (Phase 2)",
+            "value": "372.8%"
+          },
+          {
+            "name": "Schildstärke",
+            "value": "12% Max HP+1,155"
+          },
+          {
+            "name": "Abklingzeit",
+            "value": "9s"
+          }
+        ],
+        "type": "ELEMENTAL_SKILL"
+      },
+      {
+        "name": "Banner der brechenden Klippen",
+        "unlock": "Spezialangriff",
+        "description": "Verursacht Geo-Flächenschaden und verleiht allen Truppenmitgliedern in der Nähe die \"Formation der Fliegenden Wolken\"\n\nFormation der fliegenden Wolken\nErhöht, wenn Gergnern mit Standardangriffen Schaden zugefügt wird, den verursachten Schaden basierend auf Yun Jins eigener VTF.\n\nDer Effekt \"Formation der fliegenden Wolken\" erlischt am Ende der Wirkungszeit oder nach dem Inkrafttreten einer bestimmten Menge an Stapelungen.\nVerbraucht beim Treffen mehrerer Gegner mit einem einzelnen Standardangriff eine der Anzahl der getroffenen Gegner entsprechende Menge an wirksamen Stapelungen. Die wirksamen Stapelungen jedes Truppenmitglieds mit dem Effekt Formation der fliegenden Wolken werden unabhängig voneinander berechnet.",
+        "upgrades": [
+          {
+            "name": "Fähigkeits-SCH",
+            "value": "244%"
+          },
+          {
+            "name": "SCH-Bonus",
+            "value": "32% DEF"
+          },
+          {
+            "name": "Dauer",
+            "value": "12s"
+          },
+          {
+            "name": "Abklingzeit",
+            "value": "15s"
+          },
+          {
+            "name": "Elementarenergie",
+            "value": "60"
+          }
+        ],
+        "type": "ELEMENTAL_BURST"
+      }
+    ],
+    "passiveTalents": [
+      {
+        "name": "Selbstsicherheit",
+        "unlock": "Ab Figurenaufstiegsstufe 1 freigeschaltet",
+        "description": "Löst Wolkenöffnung bei Anwendung im Augenblick des Erleidens eines Angriffs wie beim Gedrückthalten für Aufladung Phase 2 aus.",
+        "level": 1
+      },
+      {
+        "name": "Nieder mit den alten Werten",
+        "unlock": "Ab Figurenaufstiegsstufe 4 freigeschaltet",
+        "description": "Erhöht den Schadensbonus für Standardangriffe von Formation der Fliegenden Wolken bei Truppenmitgliedern mit 1/2/3/4 verschiedenen Elementartypen zusätzlich um 2,5/5/7,5/11,5 % von Yun Jins VTD.",
+        "level": 4
+      },
+      {
+        "name": "Leichte Nahrung",
+        "unlock": "Automatisch freigeschaltet",
+        "description": "Stellt bei der perfekten Zubereitung eines Gerichts mit Abenteuer-Funktion mit einer Wahrscheinlichkeit von 12% den 2-fachen Ertrag her."
+      }
+    ],
+    "constellations": [
+      {
+        "name": "Fliegender Gallopp",
+        "unlock": "Sternbild Stufe 1",
+        "description": "Verkürzt die Abklingzeit von Wolkenöffnung um 18%.",
+        "level": 1
+      },
+      {
+        "name": "Unzählige Requisiten",
+        "unlock": "Sternbild Stufe 2",
+        "description": "Erhöht nach dem Auslösen von Banner der brechenden Klippen den mit Standardangriffen aller Truppenmitglieder verursachten Schaden 12s lang um 15%.",
+        "level": 2
+      },
+      {
+        "name": "Flagge auf dem Mast",
+        "unlock": "Sternbild Stufe 3",
+        "description": "Erhöht die Stufe der Fähigkeit Banner der brechenden Klippen um 3.\nHöchststufe 15.",
+        "level": 3
+      },
+      {
+        "name": "Auf in die Wolken",
+        "unlock": "Sternbild Stufe 4",
+        "description": "Erhöht nach dem Auslösen der Reaktion Kristallisation durch Yun Jin die VTD 12s lang um 20%.",
+        "level": 4
+      },
+      {
+        "name": "Überall bekannt",
+        "unlock": "Sternbild Stufe 5",
+        "description": "Erhöht die Stufe der Fähigkeit Wolkenöffnung um 3.\nHöchststufe 15.",
+        "level": 5
+      },
+      {
+        "name": "Gemeinsame Unternehmung",
+        "unlock": "Sternbild Stufe 6",
+        "description": "Erhöht die Angriffs-GSW mit Standardangriffen von Figuren im Zustand Formation der Fliegenden Wolken um 12%.",
+        "level": 6
+      }
+    ],
+    "vision_key": "GEO",
+    "weapon_type": "POLEARM",
+    "id": "yun-jin"
+  },
+  {
+    "name": "Zhongli",
+    "vision": "Geo",
+    "weapon": "Stangenwaffe",
+    "nation": "Liyue",
+    "affiliation": "Liyue Harbor",
+    "rarity": 5,
+    "release": "2020-12-01",
+    "constellation": "Lapis Dei",
+    "birthday": "0000-12-31",
+    "description": "Ein geheimnisvoller Gast beim Bestattungsunternehmen Wangsheng, der eine unglaubliche Menge Wissen angehäuft hat.",
+    "skillTalents": [
+      {
+        "name": "Steinhagel",
+        "unlock": "Standardangriff",
+        "description": "Standardangriff\nFührt bis zu 6 Lanzenstiche hintereinander aus.\nHeftiger Schlag\nVerbraucht eine gewisse Menge Ausdauer, läuft geschwind nach vorn und lässt steinerne Lanzen von Anfang bis Ende auf die Bahn der Bewegung fallen.\nAngriff aus dem Fall\nSchlägt beim Fallen aus der Luft auf den Boden, greift alle Gegner in der Bahn an und verusrsacht beim Aufkommen Flächenschaden.",
+        "type": "NORMAL_ATTACK"
+      },
+      {
+        "name": "Dominus Lapidis",
+        "unlock": "Elementarangriff",
+        "description": "Drücken\nKonzentriert die überall auf der Erde vorhandene Geo-Kraft zu einem Hügelkamm\n\nGedrückt halten\nLässt Geo-Objekte in der Nähe explodieren und verursacht folgende Effekte:\n - Erstellt, solange die Höchstmenge nicht erreicht ist, einen Hügelkamm.\n - Erstellt einen Jadeblock, der Schaden basierend auf Zhonglis max. LP abhält.\n - Verursacht Geo-Flächenschaden.\n - Verbraucht bei Anwesenheit von Zielen mit Geo-Kraft die Geo-Kraft von bis zu zwei dieser Ziele. Dieser Effekt verursacht keinen Schaden.\n\nHügelkamm\nVerursacht beim Entstehen Geo-Flächenschaden.\nVerursacht während der Wirkungsdauer eine Schwingung in Einklang mit anderen Geo-Objekten in der Umgebung, die Gegnern in der Umgebung Geo-Schaden zufügt.\nDer Hügelkamm gilt als Geo-Objekt, blockiert Angriffe und kann erklommen werden.\nStandardmäßig kann zu einem Zeitpunkt nur ein von Zhongli selbst erstellter Hügelkamm existieren.\n\nJadeblock-Schild\nHält bei elementarem sowie physischen Schaden 150% ab. Verringert den WDS gegen alle Elemente sowie den physischen WDS von Gegnern in der Nähe von Jadeblöcken geschützter Figuren mit geringer Reichweite um 20%, nicht stapelbar.",
+        "type": "ELEMENTAL_SKILL"
+      },
+      {
+        "name": "Einstürzender Himmel",
+        "unlock": "Spezialangriff",
+        "description": "Ein riesiger Meteorit fällt aus dem Himmel und fügt den Gegnern im Wirkungsbereich des Einschlags enormen Geo-Schaden sowie Versteinert zu.\nVersteinert\nGegner im Zustand Versteinert können sich nicht bewegen.",
+        "type": "ELEMENTAL_BURST"
+      }
+    ],
+    "passiveTalents": [
+      {
+        "name": "Wellenartige Ausbreitung",
+        "unlock": "Ab Figurenaufstiegsstufe 1 freigeschaltet",
+        "description": "Löst den Effekt beständige Wand aus, wenn ein Jadeblock Schaden erleidet:\n - Erhöht die Schildeffizienz der Figuren im Schutz eines Jadeblocks um 5%.\n - 5-fach stapelbar, hält bis zum Verschwinden des Jadeblocks.",
+        "level": 1
+      },
+      {
+        "name": "Dominance of Earth",
+        "unlock": "Ab Figurenaufstiegsstufe 4 freigeschaltet",
+        "description": "Erhöht den mit den folgenden Angriffen von Zhongli verursachten Schaden basierend auf seinen max. LP:\n - Erhöht den Schaden von Standardangriffen heftigen Schlägen und Angriffen aus dem Fall um 1,39% der max. LP.\n - Erhöht den Schaden des Hügelkamms von Dominus Lapidis, den des Einklangs und den beim Gedrückthalten um 1,9% der max. LO.\n - Erhöht den Schaden von Einstürzender Himmel um 33% der max. LP.",
+        "level": 4
+      },
+      {
+        "name": "Verhängnis der Kristalle",
+        "unlock": "Automatisch freigeschaltet",
+        "description": "Gibt beim Schmieden von Stangenwaffen 15% des verbrauchten Erzes zurück."
+      }
+    ],
+    "constellations": [
+      {
+        "name": "Skelett der Erde",
+        "unlock": "Sternbild Stufe 1",
+        "description": "Bis zu 2 Hügelkämme von Dominus Lapidis können gleichzeitig existieren.",
+        "level": 1
+      },
+      {
+        "name": "Heimat der Jade",
+        "unlock": "Sternbild Stufe 2",
+        "description": "Einstürzender Himmel gibt aktuellen Figuren in der Nähe des Sturzes einen Jadeblock zum Schutz.",
+        "level": 2
+      },
+      {
+        "name": "Funkelnd und doch dunkel",
+        "unlock": "Sternbild Stufe 3",
+        "description": "Erhöht die Stufe der Fähigkeit Dominus Lapidis um 3.\nHöchststufe 15.",
+        "level": 3
+      },
+      {
+        "name": "Gebrochen und doch hart",
+        "unlock": "Sternbild Stufe 4",
+        "description": "Vergrößert den Wirkungsbereich von Einstürzender Himmel um 20%.\nVerlängert den Effekt der Versteinerung von Einstürzender Himmel um 2s.",
+        "level": 4
+      },
+      {
+        "name": "Verkündung der Ordnung",
+        "unlock": "Sternbild Stufe 5",
+        "description": "Erhöht die Stufe der Fähigkeit Einstürzender Himmel um 3.\nHöchststufe 15.",
+        "level": 5
+      },
+      {
+        "name": "Geschenk des Bodens",
+        "unlock": "Sternbild Stufe 6",
+        "description": "Stellt der aktuellen Figur LÜ in Höhe von 40% des Schadens wieder her, wenn der Jadeblock Schaden erleidet.\nDie bei jeder Heilung wiederhergestellten LP können 8% der max. LP der Figur nicht übersteigen.",
+        "level": 6
+      }
+    ],
+    "vision_key": "GEO",
+    "weapon_type": "POLEARM",
+    "id": "zhongli"
+  }
+]

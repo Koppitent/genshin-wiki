@@ -26,7 +26,6 @@ const emptyCharacter: CharacterFull = {
   imageUrl: "",
   rarity: 5,
   weaponTypeId: "",
-  baseAttack: 0,
   regionId: "",
   region: null,
   weaponType: {
@@ -35,6 +34,9 @@ const emptyCharacter: CharacterFull = {
   },
   releaseVersion: 4.0,
   id: "",
+	birthday: new Date(),
+	releaseDate: new Date(),
+	gender: 'Female',
 };
 
 export default function CharacterForm({

@@ -1,11 +1,10 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { ArtifactSetFull } from "./ArtifactSetsClient";
 import { SyntheticEvent, useState } from "react";
 import ImageUpload from "../ImageUpload";
 import TextAreaInput from "../TextAreaInput";
-import { createArtifactSet, updateArtifactSet } from "@/lib/artifactsets/artifactsetServiceClient";
+import { ArtifactSetFull, createArtifactSet, updateArtifactSet } from "@/lib/artifactsets/artifactsetServiceClient";
 
 type Props = {
 	mode: "create" | "edit";
@@ -110,6 +109,7 @@ export default function ArtifactsForm({ mode, artifactSetProp, onSuccess, onClos
           onImageUrlChange={(url) =>
             setArtifactSet({ ...artifactSet, imageUrl: url })
           }
+					bucket="artifacts"
         />
 
         <select

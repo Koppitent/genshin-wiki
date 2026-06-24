@@ -14,7 +14,7 @@ export async function getCharacter(id: string) {
 	return res.json();
 }
 
-export async function getCharacters() {
+export async function getCharacters(): Promise<CharacterFull[]> {
 	const res = await fetch("/api/characters", {
 		method: "GET",
 	});

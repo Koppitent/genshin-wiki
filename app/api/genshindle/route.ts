@@ -49,7 +49,7 @@ export async function POST(request: Request) {
 		elementCorrect: chosenCharacter.element === dailyCharacter.element,
 		weaponTypeCorrect: chosenCharacter.weaponTypeId === dailyCharacter.weaponTypeId,
 		rarityCorrect: chosenCharacter.rarity === dailyCharacter.rarity,
-		versionCorrect: chosenCharacter.releaseVersion === dailyCharacter.releaseVersion ? 0 : (chosenCharacter.releaseVersion > dailyCharacter.releaseVersion ? 1 : -1),
+		versionCorrect: chosenCharacter.releaseDate === dailyCharacter.releaseDate ? 0 : (chosenCharacter.releaseDate > dailyCharacter.releaseDate ? 1 : -1),
 		guess: {
 			region: chosenCharacter.region ? chosenCharacter.region.name : null,
 			element: chosenCharacter.element,

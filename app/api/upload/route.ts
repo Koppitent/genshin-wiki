@@ -1,39 +1,70 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { randomUUID } from "crypto";
 import { minioClient } from "@/lib/minio";
 import { withErrorHandler } from "@/lib/api/errorHandler";
 import { requireAdmin } from "@/lib/auth/authService";
+import {
+  BucketType,
+  deleteFromBucket,
+  listBucketFiles,
+  uploadToBucket,
+} from "@/lib/images/minioService";
 
-export const POST = withErrorHandler(async (request: Request) => {
+export const POST = withErrorHandler(async (request: NextRequest) => {
   await requireAdmin();
+  const BUCKET: BucketType =
+    (request.nextUrl.searchParams.get("bucket") as BucketType) ?? "characters";
 
   const formData = await request.formData();
-
   const file = formData.get("file") as File;
 
   if (!file) {
     return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
   }
 
-  const fileBuffer = Buffer.from(await file.arrayBuffer());
-
+  const buffer = Buffer.from(await file.arrayBuffer());
   const fileName = `${randomUUID()}-${file.name}`;
 
-  await minioClient.putObject(
-    process.env.MINIO_BUCKET!,
+  const result = await uploadToBucket(
+    BUCKET,
     fileName,
-    fileBuffer,
+    buffer,
     file.size,
-    {
-      "Content-Type": file.type,
-    },
+    file.type,
   );
 
-  const bucket = process.env.MINIO_BUCKET!;
-  const endpoint = process.env.MINIO_ENDPOINT || "localhost";
-  const port = process.env.MINIO_PORT || 9000;
+  return NextResponse.json({
+    fileName,
+    imageUrl: result.url,
+  });
+});
 
-  const imageUrl = `http://${endpoint}:${port}/${bucket}/${fileName}`;
+export const GET = withErrorHandler(async (request: NextRequest) => {
+  await requireAdmin();
+  const BUCKET: BucketType =
+    (request.nextUrl.searchParams.get("bucket") as BucketType) ?? "characters";
 
-  return NextResponse.json({ fileName, imageUrl });
+  const images = await listBucketFiles(BUCKET);
+
+  return NextResponse.json({ images });
+});
+
+export const DELETE = withErrorHandler(async (request: NextRequest) => {
+  await requireAdmin();
+
+  const bucket: BucketType =
+    (request.nextUrl.searchParams.get("bucket") as BucketType) ?? "characters";
+
+  const fileName = request.nextUrl.searchParams.get("file");
+
+  if (!fileName) {
+    return NextResponse.json({ error: "Missing file name" }, { status: 400 });
+  }
+
+  await deleteFromBucket(bucket, fileName);
+
+  return NextResponse.json({
+    success: true,
+    fileName,
+  });
 });

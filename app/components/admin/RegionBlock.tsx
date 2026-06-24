@@ -36,6 +36,7 @@ export default function RegionBlock() {
 
   async function loadRegions() {
     getRegions().then((data) => {
+			console.log("regiondata", data);
       setRegions(data);
     });
   }

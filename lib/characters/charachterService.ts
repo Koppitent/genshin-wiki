@@ -16,8 +16,10 @@ export async function createCharacterService(body: any) {
       },
       region: body.regionId ? { connect: { id: body.regionId } } : undefined,
       rarity: Number(body.rarity),
-      baseAttack: Number(body.baseAttack),
       releaseVersion: body.releaseVersion,
+      releaseDate: body.releaseDate,
+      birthday: body.birthday,
+			gender: body.gender,
     },
   });
 }
@@ -35,7 +37,9 @@ export async function updateCharacterService(body: any) {
       description: body.description,
       element: body.element,
       rarity: Number(body.rarity),
-      baseAttack: Number(body.baseAttack),
+      releaseDate: body.releaseDate,
+      birthday: body.birthday,
+      gender: body.gender,
       imageUrl: body.imageUrl,
       weaponType: {
         connect: {

@@ -10,7 +10,10 @@ export default function WeaponBlock() {
 
   useEffect(() => {
 		getWeaponTypes()
-      .then(setItems);
+      .then((data) => {
+				console.log("weapontypedata", data);
+				setItems(data);
+      });
   }, []);
 
   function handleSubmit(name: string) {

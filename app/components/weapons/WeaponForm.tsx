@@ -138,6 +138,7 @@ export default function WeaponForm({
           onImageUrlChange={(imageUrl: string) => {
             setWeapon({ ...weapon, imageUrl });
           }}
+					bucket="weapons"
         />
 
         <select
