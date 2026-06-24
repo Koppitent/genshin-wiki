@@ -13,37 +13,21 @@ import {
   createTierList,
   updateTierList,
 } from "@/lib/tierlists/tierlistServiceClient";
-import {
-  DndContext,
-  DragEndEvent,
-  useDraggable,
-  useDroppable,
-} from "@dnd-kit/core";
+import { DndContext, DragEndEvent, useDroppable } from "@dnd-kit/core";
 import { useEffect, useState } from "react";
-import Icon from "../Icon";
 import DraggableCharacter from "./DraggableCharacter";
 
 type Props = {
-  mode: "create" | "edit";
+  mode: "create" | "edit" | "display";
   tierList?: TierListDto;
 };
 
-const TIERS_SHOWN = [
-	{ tier: "SS",
-		color: "bg-red-500"
-	 },
-	{ tier: "S",
-		color: "bg-orange-500"
-	 },
-	{ tier: "A",
-		color: "bg-yellow-500"
-	 },
-	{ tier: "B",
-		color: "bg-green-500"
-	 },
-	{ tier: "C",
-		color: "bg-blue-500"
-	 }
+export const TIERS_SHOWN = [
+  { tier: "SS", color: "bg-red-500" },
+  { tier: "S", color: "bg-orange-500" },
+  { tier: "A", color: "bg-yellow-500" },
+  { tier: "B", color: "bg-green-500" },
+  { tier: "C", color: "bg-blue-500" },
 ] as const;
 
 type ValidTier = "SS" | "S" | "A" | "B" | "C" | "D" | "E" | "F";
@@ -51,7 +35,7 @@ type ValidTier = "SS" | "S" | "A" | "B" | "C" | "D" | "E" | "F";
 type TierListForm = {
   id?: string;
   title: string;
-  visibility: "PUBLIC" | "PRIVATE" | "UNLISTED";
+  visibility: "PUBLIC" | "PRIVATE" | "UNLISTED" | "OFFICIAL";
   entries: {
     characterId: string;
     tier: ValidTier;
@@ -65,22 +49,26 @@ export default function TierListCreator({ mode, tierList }: Props) {
     visibility: "PRIVATE",
     entries: [],
   };
-  const [usingTierList, setUsingTierList] = useState<TierListForm>(
-    tierList
-      ? {
-          id: tierList.id,
-          title: tierList.title,
-          visibility: tierList.visibility,
-          entries: tierList.entries,
-        }
-      : emptyTierList,
-  );
+  const [usingTierList, setUsingTierList] =
+    useState<TierListForm>(emptyTierList);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [allcharacters, setAllcharacters] = useState<CharacterFull[]>([]);
-	const characterPool = allcharacters.filter(
+  const characterPool = allcharacters.filter(
     (c) => !usingTierList.entries.some((e) => e.characterId === c.id),
   );
+
+  useEffect(() => {
+    if (!tierList) return;
+
+    setUsingTierList({
+      id: tierList.id,
+      title: tierList.title,
+      visibility: tierList.visibility,
+      entries: tierList.entries ?? [],
+    });
+  }, [tierList]);
+
   useEffect(() => {
     getCharacters()
       .then((data) => {
@@ -94,7 +82,7 @@ export default function TierListCreator({ mode, tierList }: Props) {
 
   function toCreateTierListInput(form: TierListForm): CreateTierListInput {
     return {
-      title: form.title,
+      title: form.title?.trim() || "Untitled",
       visibility: form.visibility,
       entries: form.entries.map((e) => ({
         characterId: e.characterId,
@@ -119,11 +107,23 @@ export default function TierListCreator({ mode, tierList }: Props) {
     };
   }
 
-  async function submitTierList() {
+  async function submitTierListOfficial() {
+    if (mode === "display") return;
+    await submitTierList({ overrideVisibility: "OFFICIAL" });
+  }
+
+  async function submitTierList(opts?: { overrideVisibility?: "PUBLIC" | "PRIVATE" | "UNLISTED" | "OFFICIAL" }) {
+    if (mode === "display") return;
     setIsSubmitting(true);
-    if (mode == "create") {
-      const tierListInput = toCreateTierListInput(usingTierList);
-      createTierList(tierListInput)
+    console.log("Submitting this: ", usingTierList);
+		const form: TierListForm = {
+      ...usingTierList,
+      visibility: opts?.overrideVisibility ?? usingTierList.visibility,
+    };
+    if (mode === "create") {
+      const tierListInput = toCreateTierListInput(form);
+      console.log("Sending this: ", tierListInput);
+      await createTierList(tierListInput)
         .then((created) => {
           console.debug("Created tier list: ", created);
           //TODO update characterPool
@@ -135,8 +135,8 @@ export default function TierListCreator({ mode, tierList }: Props) {
           console.error("Error creating tier list:", error);
         });
     } else {
-      const tierListInput = toUpdateTierListInput(usingTierList);
-      updateTierList(tierListInput)
+      const tierListInput = toUpdateTierListInput(form);
+      await updateTierList(tierListInput)
         .then((updated) => {
           console.debug("Updated tier list: ", updated);
           //TODO update characterPool
@@ -191,18 +191,39 @@ export default function TierListCreator({ mode, tierList }: Props) {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center gap-4 w-[60vw]">
+    <div className="flex flex-col items-center justify-center gap-4">
+      <button
+        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mt-4"
+        onClick={() => {
+          console.log("Current Tier List JSON: ", usingTierList);
+        }}
+      >
+        Debug print current Tier list
+      </button>
+      {mode !== "display" ? (
+        <>
+          <div className="flex flex-row items-center justify-between w-full">
+            <div className="flex flex-col mt-5">
+              <h1 className="text-2xl font-bold">Tier List Creator</h1>
+              <p className="text-gray-400">Erstelle deine eigene Tierlist</p>
+            </div>
+            <button
+              onClick={submitTierListOfficial}
+              className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded cursor-pointer"
+            >
+              Submit OFFICIAL
+            </button>
+          </div>
+        </>
+      ) : (
+        <></>
+      )}
       {isSubmitting ? (
         <p className="text-gray-600">Submitting...</p>
       ) : (
         <>
           <DndContext onDragEnd={handleDragEnd}>
             <form action="" className="w-[90vw] flex flex-col gap-4">
-              <div className="flex flex-col mt-5">
-                <h1 className="text-2xl font-bold">Tier List Creator</h1>
-                <p className="text-gray-400">Erstelle deine eigene Tierlist</p>
-              </div>
-
               <div className="flex flex-col w-full bg-black/40 rounded-lg border border-gray-600 tierlist-container overflow-hidden">
                 {TIERS_SHOWN.map((tier) => (
                   <TierRow key={tier.tier} tier={tier.tier} color={tier.color}>
@@ -227,25 +248,34 @@ export default function TierListCreator({ mode, tierList }: Props) {
                   </TierRow>
                 ))}
               </div>
-              <button
-                onClick={submitTierList}
-                className="bg-blue-500 text-white py-2 px-4 rounded"
-              >
-                Submit
-              </button>
-              {characterPool.length === 0 ? (
-                <p className="text-gray-600">Loading characters...</p>
+              {mode !== "display" ? (
+                <>
+                  <button
+                    onClick={submitTierList}
+                    className="bg-blue-500 text-white py-2 px-4 rounded"
+                  >
+                    Submit
+                  </button>
+                  {characterPool.length === 0 ? (
+                    <p className="text-gray-600">Loading characters...</p>
+                  ) : (
+                    <div
+                      ref={setPoolRef}
+                      className="flex flex-wrap gap-3 h-[20vh]"
+                    >
+                      <div className="flex flex-wrap gap-3">
+                        {characterPool.map((character) => (
+                          <DraggableCharacter
+                            character={character}
+                            key={character.id}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </>
               ) : (
-                <div ref={setPoolRef} className="flex flex-wrap gap-3 h-[20vh]">
-                  <div className="flex flex-wrap gap-3">
-                    {characterPool.map((character) => (
-                      <DraggableCharacter
-                        character={character}
-                        key={character.id}
-                      />
-                    ))}
-                  </div>
-                </div>
+                <></>
               )}
             </form>
           </DndContext>

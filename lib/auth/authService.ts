@@ -11,8 +11,10 @@ export async function requireAuth() {
   return session;
 }
 
-export async function requireRole(role: string) {
-  const session = await auth();
+export async function requireRole(role: string, session?: Awaited<ReturnType<typeof requireAuth>>) {
+  if (!session) {
+    session = await requireAuth();
+  }
 
   if (!session) {
     throw new UnauthorizedError("Unauthorized");
@@ -25,8 +27,8 @@ export async function requireRole(role: string) {
   return session;
 }
 
-export async function requireAdmin() {
-	return requireRole("ADMIN");
+export async function requireAdmin(session?: Awaited<ReturnType<typeof requireAuth>>) {
+	return requireRole("ADMIN", session);
 }
 
 export async function requireOwner(id: string) {

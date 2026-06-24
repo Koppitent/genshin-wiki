@@ -25,3 +25,9 @@ export class NotFoundError extends MyErrors {
     super(message, 404);
   }
 }
+
+export class BadRequestError extends MyErrors {
+	constructor(message = "Bad Request") {
+		super(message, 400);
+	}
+}

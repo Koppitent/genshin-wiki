@@ -17,6 +17,21 @@ export async function getTierLists(): Promise<TierListDto[]> {
   return z.array(TierListDtoSchema).parse(json);
 }
 
+export async function getTierListOfficial(): Promise<TierListDto> {
+  const res = await fetch("/api/tierlists/official");
+
+  const json = await res.json().catch(() => null);
+
+  if (!res.ok) {
+    throw new ApiError(
+      res.status,
+      json?.message ?? "Failed to fetch tier lists",
+    );
+  }
+
+  return TierListDtoSchema.parse(json);
+}
+
 export async function createTierList(tierList: CreateTierListInput): Promise<TierListDto> {
   const res = await fetch("/api/tierlists", {
     method: "POST",
