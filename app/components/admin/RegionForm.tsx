@@ -70,6 +70,7 @@ export default function RegionForm({
 			<ImageUpload 
 			imageUrl={form.imageUrl}
 			onImageUrlChange={(url) => setForm((prev) => ({ ...prev, imageUrl: url }))}
+			bucket="regions"
 			/>
 
       {/* PREVIEW */}

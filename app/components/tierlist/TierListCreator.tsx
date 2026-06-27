@@ -191,15 +191,7 @@ export default function TierListCreator({ mode, tierList }: Props) {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center gap-4">
-      <button
-        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mt-4"
-        onClick={() => {
-          console.log("Current Tier List JSON: ", usingTierList);
-        }}
-      >
-        Debug print current Tier list
-      </button>
+    <div className="flex flex-col items-center justify-center gap-4 mt-[5vh]">
       {mode !== "display" ? (
         <>
           <div className="flex flex-row items-center justify-between w-full">
@@ -251,7 +243,7 @@ export default function TierListCreator({ mode, tierList }: Props) {
               {mode !== "display" ? (
                 <>
                   <button
-                    onClick={submitTierList}
+                    onClick={() => submitTierList()}
                     className="bg-blue-500 text-white py-2 px-4 rounded"
                   >
                     Submit

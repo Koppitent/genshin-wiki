@@ -23,6 +23,10 @@ export default function ImageUpload({
   async function loadImages() {
     const res = await fetch(`/api/upload?bucket=${bucket}`);
     const data = await res.json();
+		if(!data.images) {
+			setImages([]);
+			return;
+		}
     setImages(data.images);
   }
 
@@ -97,7 +101,7 @@ export default function ImageUpload({
           />
 
           {/* Scrollable grid */}
-          <div className="grid grid-cols-4 gap-2 max-h-64 overflow-y-auto">
+          <div className="flex flex-wrap gap-2 max-h-64 overflow-y-auto">
             {filteredImages.map((img) => (
               <img
                 key={img}

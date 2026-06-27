@@ -84,6 +84,7 @@ export default function RegionBlock() {
             : "Region erstellen"
         }
         onClose={() => setModalState({ open: false })}
+				width={40}
       >
         {modalState.open && (
           <RegionForm

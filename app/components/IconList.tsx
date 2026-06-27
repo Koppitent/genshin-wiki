@@ -6,7 +6,7 @@ type Props<T> = {
 
 export default function IconList<T>({ items, render, onItemClick }: Props<T>) {
   return (
-    <div className="grid grid-cols-10 gap-4 p-4 bg-[#4C5454]">
+    <div className="grid grid-cols-10 gap-4 p-4 bg-[#4C5454] mb-[10vh]">
       {items.map((item, index) => (
         <div key={index} onClick={() => onItemClick?.(item)}>
           {render(item)}

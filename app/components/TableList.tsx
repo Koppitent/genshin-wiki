@@ -33,7 +33,7 @@ export default function TableList<T>({ items, columns }: Props<T>) {
 
   return (
     <div>
-      <table className="w-full">
+      <table className="w-full mb-[10vh]">
         <thead>
           <tr className="text-left bg-[var(--foreground)] text-white">
             {finalColumns.map((column) => (

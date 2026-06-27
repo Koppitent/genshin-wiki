@@ -8,7 +8,6 @@ import {
 import { useEffect, useState } from "react";
 import TableList from "../TableList";
 import TierListCreator from "./TierListCreator";
-import OfficialTierList from "./OfficialTierList";
 
 type Mode = "official" | "list" | "create" | "edit";
 
